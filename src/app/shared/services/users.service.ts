@@ -5,12 +5,8 @@ import { User } from '../models/user.model';
 
 @Injectable()
 export class UsersService {
-  constructor(private http: Http) {
-  }
 
-  checkUserByEmail(email: string): Observable<boolean> {
-    return this.http.get(`http://localhost:9092/api/v1/users?email=${email}`)
-      .map((response: Response) => response.status === 202);
+  constructor(private http: Http) {
   }
 
   createNewUser(user: User): Observable<User> {
@@ -19,8 +15,15 @@ export class UsersService {
   }
 
   getUserByEmail(email: string): Observable<User> {
-    return this.http.get(`ttp://localhost:9092/api/v1/users?email=${email}`)
+    return this.http.get(`http://localhost:9092/api/v1/users/email?email=${email}`)
       .map((response: Response) => response.json())
       .map((user: User[]) => user[0] ? user[0] : undefined);
   }
+
+  getUserByEmailAndPassword(email: string, password: string): Observable<User> {
+    return this.http.get(`http://localhost:9092/api/v1/users/login?email=${email}&password=${password}`)
+      .map((response: Response) => response.json())
+      .map((user: User[]) => user[0] ? user[0] : undefined);
+  }
+
 }

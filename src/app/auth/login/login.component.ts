@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {UsersService} from '../../shared/services/users.service';
-import {User} from '../../shared/models/user.model';
-import {Message} from '../../shared/models/message.models';
-import {AuthService} from '../../shared/services/auth.service';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import { UsersService } from '../../shared/services/users.service';
+import { Message } from '../../shared/models/message.models';
+import { AuthService } from '../../shared/services/auth.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'wfm-login',
@@ -51,15 +51,15 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     const formData = this.form.value;
 
-    this.usersService.getUserByEmail(formData.email)
+    this.usersService.getUserByEmailAndPassword(formData.email, this.hashString(formData.password))
       .subscribe((user: User) => {
           if (user) {
-            if (user.password === formData.password) {
+            if (user.password === this.hashString(formData.password) && user.email === formData.email) {
               this.message.text = '';
               window.localStorage.setItem('user', JSON.stringify(user));
               this.authService.login();
             } else {
-              this.showMessage({text: 'Пароль не верный', type: 'danger'});
+              this.showMessage({text: 'Проверьте введенный логин и пароль', type: 'danger'});
             }
           } else {
             this.showMessage({text: 'Такого пользователя не существует', type: 'danger'});
@@ -67,4 +67,12 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  private hashString(str: string): string {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash += Math.pow(str.charCodeAt(i) * 31, str.length - i);
+      hash = hash & hash;
+    }
+    return hash.toString();
+  }
 }
