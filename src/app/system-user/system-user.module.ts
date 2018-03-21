@@ -10,6 +10,8 @@ import {SidebarComponent} from './shared/components/sidebar/sidebar.component';
 import {SystemUserComponent} from './system-user.component';
 import { HeaderComponent } from './shared/header/header.component';
 import {DropdownDirective} from './shared/directives/dropdown.directives';
+import { FindPanelComponent } from './bill-page/find-panel/find-panel.component';
+import { ResultPanelComponent } from './bill-page/result-panel/result-panel.component';
 
 @NgModule({
   imports: [
@@ -25,7 +27,9 @@ import {DropdownDirective} from './shared/directives/dropdown.directives';
     RecordsPageComponent,
     SidebarComponent,
     HeaderComponent,
-    DropdownDirective
+    DropdownDirective,
+    FindPanelComponent,
+    ResultPanelComponent
   ]
 })
 export class SystemUserModule {}
