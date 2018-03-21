@@ -58,7 +58,13 @@ export class LoginComponent implements OnInit {
               this.message.text = '';
               window.localStorage.setItem('user', JSON.stringify(user));
               this.authService.login();
-              this.router.navigate(['/system', 'bill']);
+              console.log(user.role);
+              if (user.role === 'user') {
+                console.log('navigate-to-user');
+                this.router.navigate(['/system-user', 'bill']);
+              } else {
+                this.router.navigate(['/system', 'bill']);
+              }
             } else {
               this.showMessage({text: 'Проверьте введенный логин и пароль', type: 'danger'});
             }
