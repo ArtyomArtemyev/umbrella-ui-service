@@ -1,0 +1,73 @@
+<div class="card">
+  <div class="card-block">
+    <div class="title-block">
+      <h4 class="title">Информация об отеле</h4>
+    </div>
+    <div class="row row-sm stats-container">
+      <table class="table table-hover">
+        <tbody>
+        <tr>
+          <td><label class="control-label" for="nameInput">Название</label></td>
+          <td>
+            <input name="nameInput" id="nameInput" placeholder="Введите название" class="form-control" required>
+          </td>
+        <tr>
+          <td><label class="control-label" for="cityInput">Город</label></td>
+          <td>
+            <input name="cityInput" id="cityInput" placeholder="Введите город" class="form-control">
+          </td>
+        </tr>
+        <tr>
+          <td><label class="control-label" for="addressInput">Адрес</label></td>
+          <td>
+            <input name="addressInput" id="addressInput" placeholder="Введите адрес" class="form-control">
+          </td>
+        </tr>
+        <tr>
+          <td><label class="control-label" for="countOfStarsInput">Количество звёзд</label></td>
+          <td>
+            <input name="countOfStarsInput" id="countOfStarsInput" placeholder="Введите количество звёзд" class="form-control">
+          </td>
+        </tr>
+        <tr>
+          <td><label for="descriptionInput">Описание отеля</label></td>
+          <td>
+            <input name="descriptionInput" id="descriptionInput" placeholder="Введите описание" class="form-control">
+          </td>
+        </tr>
+        <tr>
+          <td><label class="control-label">Выберите фотографию</label></td>
+          <td>
+            <button class="btn btn-success">Загрузить</button>
+          </td>
+        </tr>
+      </table>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Количество<br>кроватей в номере</th>
+          <th>Количество<br>мест на кровате</th>
+          <th>Количество<br>детских кроватей</th>
+          <th>Стоимость<br>детской кровати</th>
+          <th>Стоимость<br>номера в сутки</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users">
+          <th scope="row">{{user.id}}</th>
+          <td>{{user.firstName}}</td>
+          <td>{{user.lastName}}</td>
+          <td>{{user.email}}</td>
+          <td>
+            <button type="button" class="btn btn-success" (click)="editUserPage(user)">Edit</button>
+            <button type="button" class="btn btn-danger" (click)="deleteUser(user)">Delete</button>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

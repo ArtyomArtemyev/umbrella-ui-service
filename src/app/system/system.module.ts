@@ -10,6 +10,8 @@ import { SystemComponent } from './system.component';
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/header/header.component';
 import {DropdownDirective} from './shared/directives/dropdown.directives';
+import { AddInformationCardComponent } from './bill-page/add-information-card/add-information-card.component';
+import {AddRoomCardComponent} from './bill-page/add-room-card/add-room-card.component';
 
 @NgModule({
   imports: [
@@ -25,7 +27,9 @@ import {DropdownDirective} from './shared/directives/dropdown.directives';
     RecordsPageComponent,
     SidebarComponent,
     HeaderComponent,
-    DropdownDirective
+    DropdownDirective,
+    AddInformationCardComponent,
+    AddRoomCardComponent
   ]
 })
 export class SystemModule {}

@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'wfm-bill-page',
   templateUrl: './bill-page.component.html',
   styleUrls: ['./bill-page.component.scss']
 })
-export class BillPageComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class BillPageComponent {}
