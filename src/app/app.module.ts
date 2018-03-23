@@ -9,6 +9,8 @@ import { UsersService } from './shared/services/users.service';
 import { AuthService } from './shared/services/auth.service';
 import { SystemModule } from './system/system.module';
 import {SystemUserModule} from './system-user/system-user.module';
+import {UploadFileService} from './shared/services/upload-file.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,10 @@ import {SystemUserModule} from './system-user/system-user.module';
     AuthModule,
     AppRoutingModule,
     SystemModule,
-    SystemUserModule
+    SystemUserModule,
+    HttpClientModule
   ],
-  providers: [UsersService, AuthService],
+  providers: [UsersService, AuthService, UploadFileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

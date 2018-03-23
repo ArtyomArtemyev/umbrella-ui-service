@@ -1,8 +1,37 @@
 <section class="section">
   <div class="col col-xs-12 col-sm-12 col-md-6 col-xl-7 history-col">
-    <wfm-add-information-card></wfm-add-information-card>
+    <wfm-add-information-card (onAddMainInformation)="updateMainInformation($event)"></wfm-add-information-card>
+    <wfm-add-photo (onAddPhoto)="updatePhotoName($event)"></wfm-add-photo>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Количество<br>кроватей в номере</th>
+        <th>Количество<br>мест на кровате</th>
+        <th>Количество<br>детских кроватей</th>
+        <th>Стоимость<br>детской кровати</th>
+        <th>Стоимость<br>номера в сутки</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let room of rooms">
+        <td>{{room.countOfBed}}</td>
+        <td>{{room.typeOfBed}}</td>
+        <td>{{room.countOfChildBed}}</td>
+        <td>{{room.priceForChildBed}}</td>
+        <td>{{room.price}}</td>
+        <td>
+          <button type="button" class="btn btn-success" (click)="editRoom(room)">Изменить</button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="deleteRoom(room)">Удалить</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
   <div class="col col-xs-12 col-sm-12 col-md-6 col-xl-7 history-col">
-  <wfm-add-room-card></wfm-add-room-card>
+  <wfm-add-room-card (onAddRoom)="updateRoomList($event)"></wfm-add-room-card>
   </div>
+  <button type="button" class="btn btn-success" (click)="addHotel()">Удалить</button>
 </section>

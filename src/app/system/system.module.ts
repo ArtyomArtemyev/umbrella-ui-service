@@ -12,6 +12,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import {DropdownDirective} from './shared/directives/dropdown.directives';
 import { AddInformationCardComponent } from './bill-page/add-information-card/add-information-card.component';
 import {AddRoomCardComponent} from './bill-page/add-room-card/add-room-card.component';
+import { AddPhotoComponent } from './bill-page/add-photo/add-photo.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import {AddRoomCardComponent} from './bill-page/add-room-card/add-room-card.comp
     HeaderComponent,
     DropdownDirective,
     AddInformationCardComponent,
-    AddRoomCardComponent
+    AddRoomCardComponent,
+    AddPhotoComponent
   ]
 })
 export class SystemModule {}

@@ -9,36 +9,36 @@
         <tr>
           <td><label class="control-label" for="countOfBedInput">Количество кроватей в номере</label></td>
           <td>
-            <input type="number" name="countOfBedInput" id="countOfBedInput" placeholder="Введите число" class="form-control" required>
+            <input #countOfBedInput type="number" name="countOfBedInput" id="countOfBedInput" placeholder="Введите число" class="form-control" required>
           </td>
         <tr>
           <td><label class="control-label" for="typeOfBedInput">Количество мест на кровате</label></td>
           <td>
-            <input type="number" name="typeOfBedInput" id="typeOfBedInput" placeholder="Введите число" class="form-control">
+            <input #typeOfBedInput type="number" name="typeOfBedInput" id="typeOfBedInput" placeholder="Введите число" class="form-control">
           </td>
         </tr>
         <tr>
           <td><label class="control-label" for="countOfChildBedInput">Количество дополнительных детских кроватей</label></td>
           <td>
-            <input type="number" name="countOfChildBedInput" id="countOfChildBedInput" placeholder="Введите число" class="form-control">
+            <input #countOfChildBedInput type="number" name="countOfChildBedInput" id="countOfChildBedInput" placeholder="Введите число" class="form-control">
           </td>
         </tr>
         <tr>
           <td><label class="control-label" for="priceForChildBed">Стоимость одной дополнительной детской кровати</label></td>
           <td>
-            <input type="number" name="priceForChildBed" id="priceForChildBed" placeholder="Введите число" class="form-control">
+            <input #priceForChildBed type="number" name="priceForChildBed" id="priceForChildBed" placeholder="Введите число" class="form-control">
           </td>
         </tr>
         <tr>
-          <td><label for="price">Стоимость номера в сутки</label></td>
+          <td><label for="priceInput">Стоимость номера в сутки</label></td>
           <td>
-            <input type="number" name="price" id="price" placeholder="Введите число" class="form-control">
+            <input #priceInput type="number" name="priceInput" id="priceInput" placeholder="Введите число" class="form-control">
           </td>
         </tr>
         <tr>
           <td><label class="control-label">Добавить к номерам отеля</label></td>
           <td>
-            <button class="btn btn-success">Добавить</button>
+            <button class="btn btn-success" (click)="addRoom(countOfBedInput, typeOfBedInput, countOfChildBedInput, priceForChildBed, priceInput)" >Добавить</button>
           </td>
         </tr>
       </table>
