@@ -1,0 +1,165 @@
+<div class="card">
+  <div class="card-block">
+    <div style="text-align: center;" class="title-block">
+      <span>Заполнение информации о типх номерах отеля</span>
+    </div>
+
+    <div class="row row-sm stats-container">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <table class="table table-hover">
+          <tbody>
+
+          <tr
+            class="form-group"
+            [ngClass]="{'has-error': countOfBedInput.invalid && countOfBedInput.touched}">
+          </tr>
+          <tr>
+            <td><label class="control-label" for="countOfBedInput">Количество кроватей в номере</label></td>
+            <td>
+              <input
+                type="number"
+                name="countOfBedInput"
+                id="countOfBedInput"
+                placeholder="Введите число"
+                class="form-control"
+                required
+                ngModel
+                #countOfBedInput="ngModel"
+                >
+            </td>
+          </tr>
+          <tr
+            *ngIf="countOfBedInput.invalid && countOfBedInput.touched"
+            class="text-center form-help-text"
+          ><td colspan="3" style="background: #c40000; color: white">Количество кроватей не может быть пустым</td>
+          </tr>
+
+          <tr>
+            <td><label class="control-label" for="typeOfBedInput">Тип кроватей в номере</label></td>
+            <td>
+              <select
+                ngModel
+                required
+                #typeOfBedInput="ngModel"
+                class="form-control"
+                name="typeOfBedInput"
+                id="typeOfBedInput">
+                <option>Односпальная</option>
+                <option>Двуспальная</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td><label class="control-label" for="childBedInRoom">Детские кровати в номере</label></td>
+            <td>
+              <div class="form-group">
+                <label class="checkbox-inline checbox-switch switch-success">
+                  <input
+                    required
+                    #childBedInRoom
+                    type="checkbox"
+                    name="childBedInRoom"
+                    id="childBedInRoom"
+                    [checked]="existChildBedInRoom"
+                    (change)="existChildBedInRoom = !existChildBedInRoom"
+                  />
+                  <span></span>
+                  Есть
+                </label>
+              </div>
+            </td>
+          </tr>
+
+          <tr
+            *ngIf="existChildBedInRoom"
+            class="form-group"
+            [ngClass]="{'has-error': countOfChildBedInput?.invalid.invalid && countOfChildBedInput?.touched}">
+          </tr>
+          <tr *ngIf="existChildBedInRoom">
+            <td><label class="control-label" for="countOfChildBedInput">Количество дополнительных детских кроватей</label></td>
+            <td>
+              <input
+                type="number"
+                name="countOfChildBedInput"
+                id="countOfChildBedInput"
+                placeholder="Введите число"
+                class="form-control"
+                required
+                ngModel
+                #countOfChildBedInput="ngModel"
+              >
+            </td>
+          </tr>
+          <tr
+            *ngIf="countOfChildBedInput?.invalid && countOfChildBedInput?.touched"
+            class="text-center form-help-text"
+          ><td colspan="3" style="background: #c40000; color: white">Количество детских кроватей в номере не может быть пустым</td>
+          </tr>
+
+          <tr
+            *ngIf="existChildBedInRoom"
+            class="form-group"
+            [ngClass]="{'has-error': priceForChildBed?.invalid && priceForChildBed?.touched}">
+          </tr>
+          <tr *ngIf="existChildBedInRoom">
+            <td><label class="control-label" for="priceForChildBed">Стоимость одной дополнительной детской кровати</label></td>
+            <td>
+              <input
+                type="number"
+                name="priceForChildBed"
+                id="priceForChildBed"
+                placeholder="Введите число"
+                class="form-control"
+                required
+                ngModel
+                #priceForChildBed="ngModel"
+              >
+            </td>
+          </tr>
+          <tr
+            *ngIf="priceForChildBed?.invalid && priceForChildBed?.touched"
+            class="text-center form-help-text"
+          ><td colspan="3" style="background: #c40000; color: white">Стоимость одной дополнительной детской кровати не может быть пустым</td>
+          </tr>
+
+          <tr
+            class="form-group"
+            [ngClass]="{'has-error': priceInput.invalid && priceInput.touched}">
+          </tr>
+          <tr>
+            <td><label for="priceInput">Стоимость номера в сутки</label></td>
+            <td>
+              <input
+                type="number"
+                name="priceInput"
+                id="priceInput"
+                placeholder="Введите число"
+                class="form-control"
+                required
+                ngModel
+                #priceInput="ngModel"
+              >
+            </td>
+          </tr>
+          <tr
+            *ngIf="priceInput.invalid && priceInput.touched"
+            class="text-center form-help-text"
+          ><td colspan="3" style="background: #c40000; color: white">Стоимость номера не может быть пустым</td>
+          </tr>
+
+          <tr style="background: #d7dde4;">
+            <td><label class="control-label">Действие</label></td>
+            <td>
+              <button
+                class="btn btn-success pull-right"
+                [disabled]="f.invalid"
+              >Добавить номер</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+
+  </div>
+</div>

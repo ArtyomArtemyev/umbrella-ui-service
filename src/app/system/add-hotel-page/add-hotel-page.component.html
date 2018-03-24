@@ -1,0 +1,159 @@
+<section class="section">
+  <div class="col col-xs-12 col-sm-12 col-md-6 col-xl-7 history-col">
+    <div #addMainInformationMessageBlock class="alert alert-info" *ngIf="!isMainInformationAdded">Заполните информацию об отеле</div>
+    <wfm-main-information-card (onAddPhoto)="updatePhotoName($event)" (onAddMainInformation)="updateMainInformation($event)"></wfm-main-information-card>
+  </div>
+  <div class="col col-xs-12 col-sm-12 col-md-6 col-xl-7 history-col">
+    <div #addRoomInformationMessageBlock class="alert alert-info" *ngIf="!isRoomsAdded">Заполните информацию о номерах отеля</div>
+    <wfm-room-information-card (onAddRoom)="updateRoomList($event)"></wfm-room-information-card>
+  </div>
+  <div class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">
+
+    <div class="card">
+      <div class="card-block">
+        <div style="text-align: center;" class="title-block">
+          <span>Данный отель будет добавлен в систему</span>
+        </div>
+      </div>
+
+      <!-- CONTENT-->
+      <table class="table table-hover">
+       <tbody>
+          <tr>
+            <!-- MAIN INFORMATION CONTENT-->
+            <td width="45%">
+              <table class="table table-hover">
+                <tbody>
+                <tr>
+                  <td><label class="control-label" for="addPage-nameInput">Название</label></td>
+                  <td>
+                    <input
+                      #addPagenameInput
+                      disabled
+                      name="addPage-nameInput"
+                      id="addPage-nameInput"
+                      class="form-control"
+                    >
+                  </td>
+                <tr>
+                  <td><label class="control-label" for="addPage-cityInput">Город</label></td>
+                  <td>
+                    <input
+                      #addPagecityInput
+                      disabled
+                      name="addPage-cityInput"
+                      id="addPage-cityInput"
+                      class="form-control"
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td><label class="control-label" for="addPage-addressInput">Адрес</label></td>
+                  <td>
+                    <input
+                      #addPageaddressInput
+                      disabled
+                      name="addPage-addressInput"
+                      id="addPage-addressInput"
+                      class="form-control">
+                  </td>
+                </tr>
+                <tr>
+                  <td><label class="control-label" for="addPage-countOfStarsInput">Количество звёзд</label></td>
+                  <td>
+                    <input
+                      #addPagecountOfStarsInput
+                      disabled
+                      name="addPage-countOfStarsInput"
+                      id="addPage-countOfStarsInput"
+                      class="form-control"
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td><label class="control-label" for="addPage-descriptionInput">Описание отеля</label></td>
+                  <td>
+                    <textarea
+                      #addPagedescriptionInput
+                      disabled
+                      rows="8"
+                      name="addPage-descriptionInput"
+                      id="addPage-descriptionInput"
+                      class="form-control"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label class="control-label" for="uploadPhotoCheckbox">Фотография отеля</label></td>
+                  <td>
+                    <div class="form-group">
+                      <label class="checkbox-inline checbox-switch switch-success">
+                        <input
+                          #uploadPhotoCheckbox
+                          type="checkbox"
+                          name="uploadPhotoCheckbox"
+                          id="uploadPhotoCheckbox"
+                          [checked]="isPhotoLoaded"
+                          disabled
+                        />
+                        <span></span>
+                        Загружена
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+            <!-- ROOM INFORMATION CONTENT-->
+            <td width="55%">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>Количество<br>кроватей в номере</th>
+                  <th>Количество<br>мест на кровате</th>
+                  <th>Количество<br>детских кроватей</th>
+                  <th>Стоимость<br>детской кровати</th>
+                  <th>Стоимость<br>номера в сутки</th>
+                  <th>Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let room of rooms">
+                  <td>{{room.countOfBed}}</td>
+                  <td>{{room.typeOfBed}}</td>
+                  <td>{{room.countOfChildBed}}</td>
+                  <td>{{room.priceForChildBed}}</td>
+                  <td>{{room.price}}</td>
+                  <td>
+                    <button type="button" class="btn btn-danger" (click)="deleteRoom(room)">Удалить</button>
+                  </td>
+                </tr>
+                <tr *ngIf="!isRoomsAdded" class="text-center">
+                  <td colspan="6" style="background: #c40000; color: white">Список типов номеров отеля пуст</td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+          <!--ADD HOTEL ACTION-->
+
+          <tr style="background: #d7dde4;">
+            <td><label for="addHotelButton">Действие</label></td>
+            <td colspan="2">
+              <button
+                id="addHotelButton"
+                class="btn btn-success pull-right"
+                (click)="addHotel()"
+              >Добавить отель</button>
+            </td>
+          </tr>
+
+       </tbody>
+      </table>
+      <!-- CONTENT-->
+
+    </div>
+
+  </div>
+</section>

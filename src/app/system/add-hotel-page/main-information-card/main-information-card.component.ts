@@ -1,16 +1,16 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {UploadFileService} from '../../../shared/services/upload-file.service';
-import {HttpEventType, HttpResponse, HttpClient} from '@angular/common/http';
-import {Room} from '../../shared/models/room.model';
+import {NgForm} from '@angular/forms';
 
 @Component({
-  selector: 'wfm-add-photo',
-  templateUrl: './add-photo.component.html',
-  styleUrls: ['./add-photo.component.scss']
+  selector: 'wfm-main-information-card',
+  templateUrl: './main-information-card.component.html',
+  styleUrls: ['./main-information-card.component.scss']
 })
-export class AddPhotoComponent implements OnInit {
-
+export class MainInformationCardComponent implements OnInit {
   @Output('onAddPhoto') photoEmitter = new EventEmitter<String>();
+  @Output('onAddMainInformation') informationEmitter = new EventEmitter<{name: string, city: string, address: string, countOfStars: number, description: string}>();
 
   selectedFiles: FileList;
   currentFileUpload: File;
@@ -49,5 +49,9 @@ export class AddPhotoComponent implements OnInit {
 
     this.selectedFiles = undefined;
   }
-}
 
+  onSubmit(form: NgForm) {
+    let {addressInput, cityInput, countOfStarsInput, descriptionInput, nameInput} = form.value;
+    this.informationEmitter.emit({name: nameInput, city: cityInput, address: addressInput, countOfStars: +countOfStarsInput, description: descriptionInput});
+  }
+}
