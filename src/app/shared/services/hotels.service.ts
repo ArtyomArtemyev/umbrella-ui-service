@@ -13,4 +13,14 @@ export class HotelsService {
       .map((response: Response) => response.json());
   }
 
+  getHotels(): Observable<Hotel[]> {
+    return this.http.get('http://localhost:9094/api/v1/hotels')
+      .map((response: Response) => response.json());
+  }
+
+  deleteHotel(hotel: Hotel): Observable<any> {
+    return this.http.delete(`http://localhost:9094/api/v1/hotels/${hotel.id}`)
+        .map((response: Response) => response.json());
+  }
+
 }

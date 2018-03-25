@@ -1,6 +1,6 @@
 <section class="section">
   <div class="col col-xs-12 col-sm-12 col-md-6 col-xl-7 history-col">
-    <div #addMainInformationMessageBlock class="alert alert-info" *ngIf="!isMainInformationAdded">Заполните информацию об отеле</div>
+    <div #addMainInformationMessageBlock class="alert alert-info" *ngIf="!isMainInformationAdded">Заполните основную информацию об отеле</div>
     <wfm-main-information-card (onAddPhoto)="updatePhotoName($event)" (onAddMainInformation)="updateMainInformation($event)"></wfm-main-information-card>
   </div>
   <div class="col col-xs-12 col-sm-12 col-md-6 col-xl-7 history-col">
@@ -129,7 +129,7 @@
                   </td>
                 </tr>
                 <tr *ngIf="!isRoomsAdded" class="text-center">
-                  <td colspan="6" style="background: #c40000; color: white">Список типов номеров отеля пуст</td>
+                  <td colspan="6" style="background: #40b726; color: white">Список типов номеров отеля пуст</td>
                 </tr>
                 </tbody>
               </table>

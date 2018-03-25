@@ -4,6 +4,8 @@ export class Room {
     public typeOfBed: number,
     public countOfChildBed: number,
     public priceForChildBed: number,
-    public price: number
+    public price: number,
+    public hotelId?: string,
+    public id?: string
   ) {}
 }

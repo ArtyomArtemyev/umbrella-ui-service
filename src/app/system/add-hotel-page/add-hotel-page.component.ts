@@ -66,9 +66,7 @@ export class AddHotelPageComponent implements OnInit {
     if (this.isRoomsAdded === true && this.isMainInformationAdded === true && this.isPhotoLoaded === true) {
       const hotel = new Hotel(this.name, this.city, this.address, this.countOfStars, this.description, this.rooms, this.photoName);
       this.hotelService.createNewHotel(hotel)
-        .subscribe((hotel: Hotel) => {
-          console.log('Add');
-          });
+        .subscribe((hotel: Hotel) => {});
     } else {
       if (!this.isRoomsAdded) {
         alert('Заполните информацию о номерах отеля');
@@ -78,7 +76,7 @@ export class AddHotelPageComponent implements OnInit {
         alert('Заполните информцию об отеле');
         this.addMainInformationMessageBlock.nativeElement.setAttribute('class', 'alert alert-danger');
       }
-      if (! this.isPhotoLoaded) {
+      if (!this.isPhotoLoaded) {
         alert('Загрузите фотографию');
       }
     }
@@ -86,12 +84,6 @@ export class AddHotelPageComponent implements OnInit {
 
 
   deleteRoom(room: Room) {
-    // let indexRoomForDeleting;
-    // indexRoomForDeleting = this.rooms
-    //   .findIndex(c => c.countOfBed === room.countOfBed && c.typeOfBed === room.typeOfBed && c.price === room.price);
-    // let roomForDeleting: Room;
-    // roomForDeleting = this.rooms[indexRoomForDeleting];
-    // this.rooms.splice(indexRoomForDeleting, roomForDeleting);
     this.remove(this.rooms, room);
     if (this.rooms.length === 0) {
       this.isRoomsAdded = false;

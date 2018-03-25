@@ -1,0 +1,97 @@
+<section class="section">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bordered">
+          <div style="text-align: center;" class="header-block">
+            <span>Список отелей в системе</span>
+          </div>
+          <div class="form-inline pull-right m-r-2">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Поиск...">
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary dropdown-toggle ">
+                Параметр
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-block">
+          <table class="table table-hover table-bordered">
+            <thead>
+            <tr class="text-center">
+              <th width="110" height="60" class="text-center">Фотография</th>
+              <th width="110" height="60" class="text-center">Название</th>
+              <th width="110" height="60" class="text-center">Город</th>
+              <th width="110" height="60" class="text-center">Адрес</th>
+              <th width="110" height="60" class="text-center">Количество звёзд</th>
+              <th width="110" height="60" class="text-center">Описание</th>
+              <th width="110" height="60" class="text-center">Типы номеров</th>
+              <th width="110" height="60" class="text-center">Действие</th>
+            </tr>
+            </thead>
+          </table>
+          <table class="table table-hover table-bordered" *ngFor="let hotel of hotels">
+            <tbody>
+              <tr class="text-center text-md-center">
+                <td width="110" height="60" class="text-center text-md-center">
+                  <wfm-hotel-photo width="110" [fileUpload]='hotel.photoName'></wfm-hotel-photo>
+                </td>
+                <td width="110" height="60" class="text-center text-md-center">{{ hotel.name }}</td>
+                <td width="110" height="60" class="text-center text-md-center">{{ hotel.city }}</td>
+                <td width="110" height="60" class="text-center text-md-center">{{ hotel.address }}</td>
+                <td width="110" height="60" class="text-center text-md-center">{{ hotel.countOfStars }}</td>
+                <td width="110" height="60" class="text-center text-md-center">{{ hotel.description }}</td>
+                <td width="110" height="60" class="text-center text-md-center">
+                  <button type="button" [disabled]="hotel.isRoomButtonDisabled" (click)="hotel.isShownRooms = !hotel.isShownRooms; hotel.isDeleteHotelButtonDisabled = !hotel.isDeleteHotelButtonDisabled" class="btn btn-default btn"><i class="glyphicon glyphicon-align-justify"></i></button>
+                </td>
+                <td width="110" height="60" class="text-center text-md-center">
+                  <div class="btn-group">
+                    <button type="button" (click)="hotel.isShownAddInformation = !hotel.isShownAddInformation; hotel.isRoomButtonDisabled = !hotel.isRoomButtonDisabled; hotel.isDeleteHotelButtonDisabled = !hotel.isDeleteHotelButtonDisabled" class="btn btn-default btn"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button type="button" [disabled]="hotel.isDeleteHotelButtonDisabled" (click)="deleteHotel(hotel)" class="btn btn-default btn"><i class="glyphicon glyphicon-trash"></i></button>
+                  </div>
+                </td>
+                </tr>
+                <tr *ngIf="hotel.isShownAddInformation">
+                  <td width="110" height="60">
+                    <label class="btn btn-default"><input type="file" (change)="selectFile($event)"></label>
+                    <button
+                      class="btn btn-default"
+                      width="55"
+                      [disabled]="!selectedFiles"
+                      (click)="upload()"
+                    ><i class="glyphicon glyphicon-save"></i></button>
+                  </td>
+                  <td width="110" height="60"><input value="{{ hotel.name }}"></td>
+                  <td width="110" height="60"><input value="{{ hotel.city }}"></td>
+                  <td width="110" height="60"><input value="{{ hotel.address }}"></td>
+                  <td width="110" height="60"><input value="{{ hotel.countOfStars}}"></td>
+                  <td width="110" height="60"><input value="{{ hotel.description}}"></td>
+                  <td colspan="2" width="110" height="60" class="text-center text-md-center">
+                    <button type="button" class="btn btn-default btn"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+                  </td>
+                </tr>
+
+                <tr class="table table-hover table-bordered" *ngFor="let room of hotel.rooms">
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60"><input value="{{ room.countOfBed }}"></td>
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60"><input value="{{ room.typeOfBed }}"></td>
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60"><input value="{{ room.countOfChildBed }}"></td>
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60"><input value="{{ room.priceForChildBed }}"></td>
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60"><input value="{{ room.price }}"></td>
+                </tr>
+            </tbody>
+          </table>
+          <wfm-edit-hotel></wfm-edit-hotel>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
