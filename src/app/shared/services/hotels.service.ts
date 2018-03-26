@@ -8,9 +8,8 @@ export class HotelsService {
 
   constructor(private http: Http) {}
 
-  createNewHotel(hotel: Hotel): Observable<Hotel> {
-    return this.http.post('http://localhost:9094/api/v1/hotels', hotel)
-      .map((response: Response) => response.json());
+  createNewHotel(hotel: Hotel): Observable<any> {
+    return this.http.post('http://localhost:9094/api/v1/hotels', hotel);
   }
 
   getHotels(): Observable<Hotel[]> {
@@ -19,8 +18,7 @@ export class HotelsService {
   }
 
   deleteHotel(hotel: Hotel): Observable<any> {
-    return this.http.delete(`http://localhost:9094/api/v1/hotels/${hotel.id}`)
-        .map((response: Response) => response.json());
+    return this.http.delete(`http://localhost:9094/api/v1/hotels/${hotel.id}`);
   }
 
 }

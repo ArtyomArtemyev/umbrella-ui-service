@@ -60,36 +60,53 @@
                   </div>
                 </td>
                 </tr>
+
                 <tr *ngIf="hotel.isShownAddInformation">
                   <td width="110" height="60">
                     <label class="btn btn-default"><input type="file" (change)="selectFile($event)"></label>
                     <button
                       class="btn btn-default"
-                      width="55"
                       [disabled]="!selectedFiles"
                       (click)="upload()"
                     ><i class="glyphicon glyphicon-save"></i></button>
                   </td>
-                  <td width="110" height="60"><input value="{{ hotel.name }}"></td>
-                  <td width="110" height="60"><input value="{{ hotel.city }}"></td>
-                  <td width="110" height="60"><input value="{{ hotel.address }}"></td>
-                  <td width="110" height="60"><input value="{{ hotel.countOfStars}}"></td>
-                  <td width="110" height="60"><input value="{{ hotel.description}}"></td>
-                  <td colspan="2" width="110" height="60" class="text-center text-md-center">
+                  <td width="110" height="60"><input [(ngModel)]="hotel.name" type="text"></td>
+                  <td width="110" height="60"><input [(ngModel)]="hotel.city" type="text"></td>
+                  <td width="110" height="60"><input [(ngModel)]="hotel.address" type="text"></td>
+                  <td width="110" height="60"><input [(ngModel)]="hotel.countOfStars" type="number"></td>
+                  <td width="110" height="60"><input [(ngModel)]="hotel.description" type="text"></td>
+                  <td width="110" height="60" class="text-center text-md-center">
                     <button type="button" class="btn btn-default btn"><i class="glyphicon glyphicon-floppy-disk"></i></button>
                   </td>
                 </tr>
 
                 <tr class="table table-hover table-bordered" *ngFor="let room of hotel.rooms">
-                  <td *ngIf="hotel.isShownRooms" width="110" height="60"><input value="{{ room.countOfBed }}"></td>
-                  <td *ngIf="hotel.isShownRooms" width="110" height="60"><input value="{{ room.typeOfBed }}"></td>
-                  <td *ngIf="hotel.isShownRooms" width="110" height="60"><input value="{{ room.countOfChildBed }}"></td>
-                  <td *ngIf="hotel.isShownRooms" width="110" height="60"><input value="{{ room.priceForChildBed }}"></td>
-                  <td *ngIf="hotel.isShownRooms" width="110" height="60"><input value="{{ room.price }}"></td>
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60" class="text-center">
+                    <label for="editCountBedInRoomInput" class="control-label">Кроватей</label>
+                    <input id="editCountBedInRoomInput" class="form-control" [(ngModel)]="room.countOfBed" type="number">
+                  </td>
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60" class="text-center">
+                    <label for="editTypeBedInRoomInput" class="control-label">Тип кроватей</label>
+                    <input id="editTypeBedInRoomInput" class="form-control" [(ngModel)]="room.typeOfBed" type="number">
+                  </td>
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60" class="text-center">
+                    <label for="countChildBedInRoomInput" class="control-label">Детских кроватей</label>
+                    <input id="countChildBedInRoomInput" class="form-control" [(ngModel)]="room.countOfChildBed" type="number">
+                  </td>
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60" class="text-center">
+                    <label for="priceChildBedInRoomInput" class="control-label">Цена детской кровати</label>
+                    <input id="priceChildBedInRoomInput" class="form-control" [(ngModel)]="room.priceForChildBed" type="number">
+                  </td>
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60" class="text-center">
+                    <label for="priceRoomInput" class="control-label">Цена номера</label>
+                    <input id="priceRoomInput" class="form-control" [(ngModel)]="room.price" type="number">
+                  </td>
+                  <td *ngIf="hotel.isShownRooms" width="110" height="60" class="text-center text-md-center">
+                    <button type="button" class="btn btn-default btn"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+                  </td>
                 </tr>
             </tbody>
           </table>
-          <wfm-edit-hotel></wfm-edit-hotel>
         </div>
       </div>
     </div>

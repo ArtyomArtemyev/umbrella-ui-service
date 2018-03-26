@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Room} from '../shared/models/room.model';
 import {Hotel} from '../shared/models/hotel.model';
 import {HotelsService} from '../../shared/services/hotels.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'wfm-add-hotel-page',
@@ -29,7 +30,7 @@ export class AddHotelPageComponent implements OnInit {
   isPhotoLoaded: boolean;
   isRoomsAdded: boolean;
 
-  constructor(private hotelService: HotelsService) { }
+  constructor(private hotelService: HotelsService, private router: Router) { }
 
   ngOnInit() {
     this.isPhotoLoaded = false;
@@ -66,7 +67,9 @@ export class AddHotelPageComponent implements OnInit {
     if (this.isRoomsAdded === true && this.isMainInformationAdded === true && this.isPhotoLoaded === true) {
       const hotel = new Hotel(this.name, this.city, this.address, this.countOfStars, this.description, this.rooms, this.photoName);
       this.hotelService.createNewHotel(hotel)
-        .subscribe((hotel: Hotel) => {});
+        .subscribe((hotel: Hotel) => {
+          this.router.navigate(['/system', 'hotels']);
+        });
     } else {
       if (!this.isRoomsAdded) {
         alert('Заполните информацию о номерах отеля');

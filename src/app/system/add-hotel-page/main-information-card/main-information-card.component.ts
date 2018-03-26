@@ -52,6 +52,7 @@ export class MainInformationCardComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     let {addressInput, cityInput, countOfStarsInput, descriptionInput, nameInput} = form.value;
+    form.reset();
     this.informationEmitter.emit({name: nameInput, city: cityInput, address: addressInput, countOfStars: +countOfStarsInput, description: descriptionInput});
   }
 }

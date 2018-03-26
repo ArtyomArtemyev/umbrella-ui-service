@@ -39,6 +39,7 @@ export class RoomInformationCardComponent implements OnInit {
         typeOfBedInput = 2;
       }
       const room: Room = new Room(+countOfBedInput, +typeOfBedInput, +0, +0,  +priceInput);
+      form.reset();
       this.roomEmitter.emit(room);
     }
 
