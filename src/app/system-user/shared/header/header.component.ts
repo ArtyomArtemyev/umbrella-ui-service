@@ -3,8 +3,6 @@ import {Router} from '@angular/router';
 import {User} from '../../../shared/models/user.model';
 import {AuthService} from '../../../shared/services/auth.service';
 
-
-
 @Component({
   selector: 'wfm-header',
   templateUrl: './header.component.html',

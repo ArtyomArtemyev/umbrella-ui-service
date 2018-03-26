@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as $ from 'jquery';
 
 @Component({
-  selector: 'wfm-bill-page',
-  templateUrl: './bill-page.component.html',
-  styleUrls: ['./bill-page.component.scss']
+  selector: 'wfm-find-hotel-for-order-page',
+  templateUrl: './find-hotel-for-order-page.component.html',
+  styleUrls: ['./find-hotel-for-order-page.component.scss']
 })
-export class BillPageComponent implements OnInit {
+export class FindHotelForOrderPageComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
-    $(document).ready( () => {
-      $('.minus-button').click( (e) => {
+    $(document).ready(() => {
+      $('.minus-button').click((e) => {
 
         // change this to whatever minimum you'd like
         const minValue = 0;
@@ -22,7 +23,7 @@ export class BillPageComponent implements OnInit {
         let minusInputValue = $(currentInput).html();
 
         if (minusInputValue > minValue) {
-          minusInputValue --;
+          minusInputValue--;
           $($(e.currentTarget).next()).removeAttr('disabled');
           $(currentInput).html(minusInputValue);
 
@@ -32,7 +33,7 @@ export class BillPageComponent implements OnInit {
         }
       });
 
-      $('.plus-button').click( (e) => {
+      $('.plus-button').click((e) => {
 
         const maxValue = 10;
 
@@ -41,7 +42,7 @@ export class BillPageComponent implements OnInit {
         let plusInputValue = $(currentInput).html();
 
         if (plusInputValue < maxValue) {
-          plusInputValue ++;
+          plusInputValue++;
           $($(e.currentTarget).prev()[0]).removeAttr('disabled');
           $(currentInput).html(plusInputValue);
 
@@ -50,7 +51,7 @@ export class BillPageComponent implements OnInit {
           }
         }
       });
+
     });
   }
-
 }
