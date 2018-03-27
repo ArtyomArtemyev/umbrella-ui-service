@@ -1,56 +1,109 @@
 <div class="title-block">
+  <div #isCountOfMenValid class="alert alert-danger" *ngIf="!isCountOfMenValid">Количество взрослых должно быть больше 0</div>
 
-  <table class="table table-hover table-bordered">
-    <thead>
-    <tr>
-      <th class="text-center text-md-center">Город</th>
-      <th class="text-center text-md-center">Дата заезда</th>
-      <th class="text-center text-md-center">Дата выезда</th>
-      <th class="text-center text-md-center">Количество <br> взрослых</th>
-      <th class="text-center text-md-center">Количество <br> детей</th>
-      <th class="text-center text-md-center">Действие</th>
-    </tr>
-    </thead>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <table class="table table-hover table-bordered">
+      <thead>
+        <tr>
+          <th class="text-center text-md-center">Город</th>
+          <th class="text-center text-md-center">Дата заезда</th>
+          <th class="text-center text-md-center">Дата выезда</th>
+          <th class="text-center text-md-center">Количество <br> взрослых</th>
+          <th class="text-center text-md-center">Количество <br> детей</th>
+          <th class="text-center text-md-center">Действие</th>
+        </tr>
+      </thead>
     <tbody>
-    <tr>
-      <td class="text-center text-md-center">
-        <input class="form-control" type="text">
-      </td>
-      <td class="text-center text-md-center">
-        <input class="form-control" type="date">
-      </td>
-      <td class="text-center text-md-center">
-        <input class="form-control" type="date">
-      </td>
-      <td class="text-center text-md-center">
-        <div class="form-control input-sm center merge-bottom-input" name="second">0</div>
 
-        <div class="btn-group btn-block" role="group" aria-label="plus-minus">
-          <button type="button" class="btn btn-sm btn-danger minus-button merge-top-left-button" disabled="disabled"><span class="glyphicon glyphicon-minus"></span></button>
-          <button type="button" class="btn btn-sm btn-success plus-button merge-top-right-button"><span class="glyphicon glyphicon-plus"></span></button>
-        </div>
-      </td>
-      <td class="text-center text-md-center">
-        <div class="form-control input-sm center merge-bottom-input" name="second">0</div>
+      <tr
+        class="form-group"
+        [ngClass]="{'has-error': findHotelPageCityInput.invalid && findHotelPageCityInput.touched}">
+      </tr>
+      <tr>
+        <td class="text-center text-md-center">
+          <input
+            class="form-control"
+            type="text"
+            name="findHotelPageCityInput"
+            id="findHotelPageCityInput"
+            required
+            ngModel
+            #findHotelPageCityInput="ngModel"
+          >
+        </td>
 
-        <div class="btn-group btn-block" role="group" aria-label="plus-minus">
-          <button type="button" class="btn btn-sm btn-danger minus-button merge-top-left-button" disabled="disabled"><span class="glyphicon glyphicon-minus"></span></button>
-          <button type="button" class="btn btn-sm btn-success plus-button merge-top-right-button"><span class="glyphicon glyphicon-plus"></span></button>
-        </div>
-      </td>
-      <td class="text-center text-md-center">
-        <button type="button" class="btn btn-info btn-lg">Найти</button>
-      </td>
-    </tr>
+        <td class="text-center text-md-center">
+          <input
+            class="form-control"
+            type="date"
+            name="findHotelPageDateInput"
+            id="findHotelPageDateInput"
+            required
+            ngModel
+            #findHotelPageDateInput="ngModel"
+          >
+        </td>
+        <td class="text-center text-md-center">
+          <input
+            class="form-control"
+            type="date"
+            name="findHotelPageDateEndInput"
+            id="findHotelPageDateEndInput"
+            required
+            ngModel
+            #findHotelPageDateEndInput="ngModel"
+          >
+        </td>
+        <td class="text-center text-md-center">
+          <div
+            class="form-control input-sm center merge-bottom-input"
+            name="second"
+            #countMenDiv
+          >0</div>
+          <div class="btn-group btn-block" role="group" aria-label="plus-minus">
+            <button type="button" class="btn btn-sm btn-danger minus-button merge-top-left-button" disabled="disabled"><span class="glyphicon glyphicon-minus"></span></button>
+            <button type="button" class="btn btn-sm btn-success plus-button merge-top-right-button"><span class="glyphicon glyphicon-plus"></span></button>
+          </div>
+        </td>
+        <td class="text-center text-md-center">
+          <div
+            class="form-control input-sm center merge-bottom-input"
+            name="second"
+            #countChildDiv
+          >0</div>
+
+          <div class="btn-group btn-block" role="group" aria-label="plus-minus">
+            <button type="button" class="btn btn-sm btn-danger minus-button merge-top-left-button" disabled="disabled"><span class="glyphicon glyphicon-minus"></span></button>
+            <button type="button" class="btn btn-sm btn-success plus-button merge-top-right-button"><span class="glyphicon glyphicon-plus"></span></button>
+          </div>
+        </td>
+        <td class="text-center text-md-center">
+          <button
+            type="submit"
+            class="btn btn-info btn-lg"
+            [disabled]="f.invalid"
+          >Найти</button>
+        </td>
+      </tr>
+      <tr>
+        <td *ngIf="findHotelPageCityInput.invalid && findHotelPageCityInput.touched"
+            class="text-center form-help-text" style="background: #c40000; color: white">Город не может быть пустым</td>
+        <td *ngIf="findHotelPageDateInput.invalid && findHotelPageDateInput.touched"></td>
+        <td *ngIf="findHotelPageDateInput.invalid && findHotelPageDateInput.touched"
+            class="text-center form-help-text" style="background: #c40000; color: white">Выберите дату заезда</td>
+        <td *ngIf="findHotelPageDateEndInput.invalid && findHotelPageDateEndInput.touched" colspan="2"></td>
+        <td *ngIf="findHotelPageDateEndInput.invalid && findHotelPageDateEndInput.touched"
+            class="text-center form-help-text" style="background: #c40000; color: white">Выберите дату выезда</td>
+      </tr>
     </tbody>
   </table>
+  </form>
 
 </div>
 
 <section class="section">
 
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
-  <div class="list-group">
+  <div *ngIf="hotels.length != 0" class="list-group">
 
     <div class="row-fluid user-row">
 

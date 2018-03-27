@@ -49,12 +49,6 @@ export class AddHotelPageComponent implements OnInit {
     this.address = mainInformation.address;
     this.countOfStars = +mainInformation.countOfStars;
     this.description = mainInformation.description;
-
-    this.nameInput.nativeElement.value = mainInformation.name;
-    this.cityInput.nativeElement.value = mainInformation.city;
-    this.addressInput.nativeElement.value = mainInformation.address;
-    this.countOfStarsInput.nativeElement.value = +mainInformation.countOfStars;
-    this.descriptionInput.nativeElement.value = mainInformation.description;
     this.isMainInformationAdded = true;
   }
 

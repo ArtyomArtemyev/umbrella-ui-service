@@ -12,6 +12,7 @@ import {SystemUserModule} from './system-user/system-user.module';
 import {UploadFileService} from './shared/services/upload-file.service';
 import {HttpClientModule} from '@angular/common/http';
 import {HotelsService} from './shared/services/hotels.service';
+import {TypeRoomService} from './shared/services/type-room.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import {HotelsService} from './shared/services/hotels.service';
     SystemUserModule,
     HttpClientModule
   ],
-  providers: [UsersService, AuthService, UploadFileService, HotelsService],
+  providers: [UsersService, AuthService, UploadFileService, HotelsService, TypeRoomService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

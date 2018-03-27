@@ -1,5 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import * as $ from 'jquery';
+import {Hotel} from '../../system/shared/models/hotel.model';
+import {NgForm} from '@angular/forms';
+import {RequireHotel} from '../shared/models/require-hotel.model';
 
 @Component({
   selector: 'wfm-find-hotel-for-order-page',
@@ -7,11 +10,17 @@ import * as $ from 'jquery';
   styleUrls: ['./find-hotel-for-order-page.component.scss']
 })
 export class FindHotelForOrderPageComponent implements OnInit {
+  @ViewChild('countMenDiv') countMenDiv;
+  @ViewChild('countChildDiv') countChildDiv;
+
+  isCountOfMenValid: boolean;
+  hotels: Hotel [] = [];
 
   constructor() {
   }
 
   ngOnInit() {
+    this.isCountOfMenValid = true;
     $(document).ready(() => {
       $('.minus-button').click((e) => {
 
@@ -54,4 +63,17 @@ export class FindHotelForOrderPageComponent implements OnInit {
 
     });
   }
+
+  onSubmit(form: NgForm) {
+    if (+this.countMenDiv.nativeElement.innerHTML === 0) {
+      this.isCountOfMenValid = !this.isCountOfMenValid;
+      window.setTimeout(() => this.isCountOfMenValid = !this.isCountOfMenValid, 5000);
+    } else {
+      const {findHotelPageCityInput, findHotelPageDateEndInput, findHotelPageDateInput} = form.value;
+      const reqiuredHotel: RequireHotel = new RequireHotel(findHotelPageCityInput, new Date(findHotelPageDateEndInput), new Date(findHotelPageDateInput), +this.countMenDiv.nativeElement.innerHTML, +this.countChildDiv.nativeElement.innerHTML);
+      console.log(reqiuredHotel);
+    }
+
+  }
+
 }
