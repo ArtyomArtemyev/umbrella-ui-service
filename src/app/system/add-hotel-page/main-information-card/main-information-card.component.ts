@@ -9,17 +9,26 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./main-information-card.component.scss']
 })
 export class MainInformationCardComponent implements OnInit {
+  @ViewChild('addMainInformationMessageBlockError') addMainInformationMessageBlockError: ElementRef;
+
   @Output('onAddPhoto') photoEmitter = new EventEmitter<String>();
-  @Output('onAddMainInformation') informationEmitter = new EventEmitter<{name: string, city: string, address: string, countOfStars: number, description: string}>();
+  @Output('onAddMainInformation') informationEmitter = new EventEmitter<{ name: string, city: string, address: string, countOfStars: number, description: string }>();
 
   selectedFiles: FileList;
   currentFileUpload: File;
-  progress: { percentage: number } = { percentage: 0 };
+  progress: { percentage: number } = {percentage: 0};
   fileName: string;
+  isPhotoLoaded: boolean;
+  isShowNextPage: boolean;
+  isShowErorBlock: boolean;
 
-  constructor(private uploadService: UploadFileService) { }
+  constructor(private uploadService: UploadFileService) {
+  }
 
   ngOnInit() {
+    this.isShowErorBlock = false;
+    this.isPhotoLoaded = false;
+    this.isShowNextPage = false;
   }
 
   selectFile(event) {
@@ -40,10 +49,10 @@ export class MainInformationCardComponent implements OnInit {
     this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         this.progress.percentage = Math.round(100 * event.loaded / event.total);
-        console.log(this.fileName);
+        this.isPhotoLoaded = true;
+        this.isShowErorBlock = false;
         this.photoEmitter.emit(this.fileName);
       } else if (event instanceof HttpResponse) {
-        console.log('File is completely uploaded!');
       }
     });
 
@@ -51,8 +60,20 @@ export class MainInformationCardComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    let {addressInput, cityInput, countOfStarsInput, descriptionInput, nameInput} = form.value;
-    form.reset();
-    this.informationEmitter.emit({name: nameInput, city: cityInput, address: addressInput, countOfStars: +countOfStarsInput, description: descriptionInput});
+    if (this.isPhotoLoaded) {
+      let {addressInput, cityInput, countOfStarsInput, descriptionInput, nameInput} = form.value;
+      form.reset();
+      this.informationEmitter.emit({
+        name: nameInput,
+        city: cityInput,
+        address: addressInput,
+        countOfStars: +countOfStarsInput,
+        description: descriptionInput
+      });
+    } else if (!this.isPhotoLoaded) {
+      this.isShowErorBlock = true;
+    }
   }
+
 }
+

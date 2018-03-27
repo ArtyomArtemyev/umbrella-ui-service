@@ -4,9 +4,11 @@
       <span>Форма информации о номерах отеля</span>
     </div>
 
+    <hr>
+
     <div class="row row-sm stats-container">
       <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-        <div>
+        <div class="container">
 
           <div>
             <div class="form-group">
@@ -302,6 +304,7 @@
                 <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
                   <label class="checkbox-inline checbox-switch switch-success">
                     <input
+                      disabled
                       #WC
                       type="checkbox"
                       name="WC"
@@ -322,6 +325,7 @@
                 <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
                   <label class="checkbox-inline checbox-switch switch-success">
                     <input
+                      disabled
                       #additionalWC
                       type="checkbox"
                       name="additionalWC"
@@ -390,13 +394,13 @@
               </div>
             </div>
 
+            <hr>
+
             <div class="row">
               <div class="form-group col-md-6 pull-left" *ngIf="showDefaultTypeRoom.isVisible">
                 <div>
-                  <label class="control-label">Действие</label>
-                </div>
-                <div>
                   <button
+                    type="submit"
                     class="btn btn-success"
                     [disabled]="f.invalid"
                   >Добавить номер
@@ -404,11 +408,12 @@
                 </div>
               </div>
 
-              <div class="form-group col-md-6 pull-right" *ngIf="isRoomsAdded">
+              <div class="form-group col-md-6 pull-right" *ngIf="isRoomAdded">
                 <div>
                   <button
                     class="btn btn-success pull-right"
-                  >Дальше
+                    (click)="showLatestPage()"
+                  >Далee
                   </button>
                 </div>
               </div>

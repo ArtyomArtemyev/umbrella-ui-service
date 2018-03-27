@@ -1,8 +1,9 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Room} from '../shared/models/room.model';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Hotel} from '../shared/models/hotel.model';
 import {HotelsService} from '../../shared/services/hotels.service';
 import {Router} from '@angular/router';
+import {DefaultTypeRoom} from '../shared/models/default-type-room.model';
+import {ServicePrice} from '../shared/models/service-price.model';
 
 @Component({
   selector: 'wfm-add-hotel-page',
@@ -24,11 +25,14 @@ export class AddHotelPageComponent implements OnInit {
   address: string;
   countOfStars: number;
   description: string;
-  rooms: Room [] = [];
+  rooms: DefaultTypeRoom [] = [];
   photoName: string;
   isMainInformationAdded: boolean;
   isPhotoLoaded: boolean;
   isRoomsAdded: boolean;
+  isLatestPage: boolean;
+  isShowPricePage: boolean;
+  servicesPrices: ServicePrice [];
 
   constructor(private hotelService: HotelsService, private router: Router) { }
 
@@ -36,6 +40,8 @@ export class AddHotelPageComponent implements OnInit {
     this.isPhotoLoaded = false;
     this.isRoomsAdded = false;
     this.isMainInformationAdded = false;
+    this.isLatestPage = false;
+    this.isShowPricePage = false;
   }
 
   updatePhotoName(photoName: string) {
@@ -52,35 +58,24 @@ export class AddHotelPageComponent implements OnInit {
     this.isMainInformationAdded = true;
   }
 
-  updateRoomList(room: Room) {
+  updateRoomList(room: DefaultTypeRoom) {
+    console.log(room);
     this.rooms.push(room);
     this.isRoomsAdded = true;
   }
 
   addHotel() {
     if (this.isRoomsAdded === true && this.isMainInformationAdded === true && this.isPhotoLoaded === true) {
-      const hotel = new Hotel(this.name, this.city, this.address, this.countOfStars, this.description, this.rooms, this.photoName);
+      const hotel = new Hotel(this.name, this.city, this.address, this.countOfStars, this.description, this.rooms, this.photoName, this.servicesPrices);
       this.hotelService.createNewHotel(hotel)
         .subscribe((hotel: Hotel) => {
           this.router.navigate(['/system', 'hotels']);
         });
-    } else {
-      if (!this.isRoomsAdded) {
-        alert('Заполните информацию о номерах отеля');
-        this.addRoomInformationMessageBlock.nativeElement.setAttribute('class', 'alert alert-danger');
-      }
-      if (!this.isMainInformationAdded) {
-        alert('Заполните информцию об отеле');
-        this.addMainInformationMessageBlock.nativeElement.setAttribute('class', 'alert alert-danger');
-      }
-      if (!this.isPhotoLoaded) {
-        alert('Загрузите фотографию');
-      }
     }
   }
 
 
-  deleteRoom(room: Room) {
+  deleteRoom(room: DefaultTypeRoom) {
     this.remove(this.rooms, room);
     if (this.rooms.length === 0) {
       this.isRoomsAdded = false;
@@ -93,5 +88,14 @@ export class AddHotelPageComponent implements OnInit {
     if (index !== -1) {
       array.splice(index, 1);
     }
+  }
+
+  showPricePage($event: any) {
+    this.isShowPricePage = true;
+  }
+
+  updateSericePrice(listServicesPrices: ServicePrice[]) {
+    this.servicesPrices = listServicesPrices;
+    this.isLatestPage = true;
   }
 }

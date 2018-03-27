@@ -1,0 +1,57 @@
+<div #addMainInformationMessageBlock class="alert alert-info" style="text-align: center;">Заполните прейскурант отеля</div>
+<div class="card">
+  <div class="card-block">
+
+    <div style="text-align: center;" class="title-block">
+      <span>Форма прейскуранта отеля</span>
+    </div>
+
+    <div class="row row-sm container-fluid">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+       <div class="container-fluid">
+
+        <div *ngFor="let s of servicesPrices" class="row-sm stats-container">
+          <div class="form-group">
+            <div class="control-label">
+              {{s.service}}
+            </div>
+            <div>
+              <input
+                class="form-control"
+                type="number"
+                placeholder="Введите стоимость"
+                [(ngModel)]="s.price"
+                [ngModelOptions]="{standalone: true}"
+                required
+              >
+            </div>
+            <div class="row">
+              <div
+                *ngIf="s.price == null"
+                class="text-center form-help-text"
+                style="background: #c40000; color: white">Поле не может быть пустым
+              </div>
+              <div
+                *ngIf="s.price < 0"
+                class="text-center form-help-text"
+                style="background: #c40000; color: white">Значение не может быть отрицательным
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+        <div class="row">
+          <button
+            type="submit"
+            class="btn btn-success pull-right"
+          >Далee
+          </button>
+        </div>
+       </div>
+      </form>
+
+    </div>
+  </div>
+</div>

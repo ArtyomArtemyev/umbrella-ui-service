@@ -1,3 +1,5 @@
+<div #addMainInformationMessageBlockError *ngIf="isShowErorBlock" class="alert alert-danger" style="text-align: center;">Загрузите фотографию</div>
+<div #addMainInformationMessageBlock class="alert alert-info" style="text-align: center;">Заполните основную информацию об отеле</div>
 <div class="card">
   <div class="card-block">
 
@@ -5,69 +7,76 @@
       <span>Форма основной информации об отеле</span>
     </div>
 
+    <hr>
+
     <div class="row row-sm stats-container">
       <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-        <table class="table table-hover">
-          <tbody>
+        <div class="container-fluid">
 
-            <tr
-              class="form-group"
-              [ngClass]="{'has-error': nameInput.invalid && nameInput.touched}">
-            </tr>
-            <tr>
-              <td><label class="control-label" for="nameInput">Название</label></td>
-              <td colspan="2">
-                <input
-                  type="text"
-                  name="nameInput"
-                  id="nameInput"
-                  placeholder="Введите название отеля"
-                  class="form-control"
-                  required
-                  ngModel
-                  #nameInput="ngModel"
+            <div class="row">
+              <div
+                class="form-group"
+                [ngClass]="{'has-error': nameInput.invalid && nameInput.touched}">
+              </div>
+              <div class="col-md-6">
+                <div><label class="control-label" for="nameInput">Название</label></div>
+                <div>
+                  <input
+                    type="text"
+                    name="nameInput"
+                    id="nameInput"
+                    placeholder="Введите название отеля"
+                    class="form-control"
+                    required
+                    ngModel
+                    #nameInput="ngModel"
+                    >
+                </div>
+              </div>
+
+              <div
+                class="form-group"
+                [ngClass]="{'has-error': cityInput.invalid && cityInput.touched}">
+              </div>
+              <div class="col-md-6">
+                <div><label class="control-label" for="cityInput">Город</label></div>
+                <div>
+                  <input
+                    type="text"
+                    name="cityInput"
+                    id="cityInput"
+                    placeholder="Введите город"
+                    class="form-control"
+                    required
+                    ngModel
+                    #cityInput="ngModel"
                   >
-              </td>
-            </tr>
-            <tr
-              *ngIf="nameInput.invalid && nameInput.touched"
-              class="text-center form-help-text"
-            ><td colspan="3" style="background: #c40000; color: white">Название отеля не может быть пустым</td>
-            </tr>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div
+                *ngIf="nameInput.invalid && nameInput.touched"
+                class="text-center form-help-text col-md-6 pull-left"
+                style="background: #c40000; color: white">
+                Название отеля не может быть пустым
+              </div>
+              <div
+                *ngIf="cityInput.invalid && cityInput.touched"
+                class="text-center form-help-text col-md-6 pull-right"
+                style="background: #c40000; color: white">
+                Город не может быть пустым
+              </div>
+            </div>
 
-            <tr
-              class="form-group"
-              [ngClass]="{'has-error': cityInput.invalid && cityInput.touched}">
-            </tr>
-            <tr>
-            <tr>
-              <td><label class="control-label" for="cityInput">Город</label></td>
-              <td colspan="2">
-                <input
-                  type="text"
-                  name="cityInput"
-                  id="cityInput"
-                  placeholder="Введите город"
-                  class="form-control"
-                  required
-                  ngModel
-                  #cityInput="ngModel"
-                >
-              </td>
-            </tr>
-            <tr
-              *ngIf="cityInput.invalid && cityInput.touched"
-              class="text-center form-help-text"
-            ><td colspan="3" style="background: #c40000; color: white">Город не может быть пустым</td>
-            </tr>
-
-            <tr
+          <div class="row">
+            <div
               class="form-group"
               [ngClass]="{'has-error': addressInput.invalid && addressInput.touched}">
-            </tr>
-            <tr>
-              <td><label class="control-label" for="addressInput">Адрес</label></td>
-              <td colspan="2">
+            </div>
+            <div class="col-md-6">
+              <div><label class="control-label" for="addressInput">Адрес</label></div>
+              <div>
                 <input
                   type="text"
                   name="addressInput"
@@ -78,22 +87,19 @@
                   ngModel
                   #addressInput="ngModel"
                 >
-              </td>
-            </tr>
-            <tr
-              *ngIf="addressInput.invalid && addressInput.touched"
-              class="text-center form-help-text"
-            ><td colspan="3" style="background: #c40000; color: white">Адрес не может быть пустым</td>
-            </tr>
+              </div>
+            </div>
 
-            <tr
+            <div
               class="form-group"
               [ngClass]="{'has-error': countOfStarsInput.invalid && countOfStarsInput.touched}">
-            </tr>
-            <tr>
-              <td><label class="control-label" for="countOfStarsInput">Количество звёзд</label></td>
-              <td colspan="2">
+            </div>
+            <div class="col-md-6">
+              <div><label class="control-label" for="countOfStarsInput">Количество звёзд</label></div>
+              <div>
                 <input
+                  min="1"
+                  max="5"
                   type="number"
                   name="countOfStarsInput"
                   id="countOfStarsInput"
@@ -103,21 +109,33 @@
                   ngModel
                   #countOfStarsInput="ngModel"
                 >
-              </td>
-            </tr>
-            <tr
-              *ngIf="countOfStarsInput.invalid && countOfStarsInput.touched"
-              class="text-center form-help-text"
-            ><td colspan="3" style="background: #c40000; color: white">Количество звёзд не может быть пустым</td>
-            </tr>
+              </div>
+            </div>
+          </div>
 
-            <tr
+          <div class="row">
+            <div
+              *ngIf="addressInput.invalid && addressInput.touched"
+              class="text-center form-help-text col-md-6 pull-left"
+              style="background: #c40000; color: white">
+              Адрес не может быть пустым
+            </div>
+            <div
+              *ngIf="countOfStarsInput.invalid && countOfStarsInput.touched"
+              class="text-center form-help-text col-md-6 pull-right"
+              style="background: #c40000; color: white">
+              Количество звёзд не может быть пустым
+            </div>
+          </div>
+
+          <div class="row">
+            <div
               class="form-group"
               [ngClass]="{'has-error': descriptionInput.invalid && descriptionInput.touched}">
-            </tr>
-            <tr>
-              <td><label class="control-label" for="descriptionInput">Описание отеля</label></td>
-              <td colspan="2">
+            </div>
+            <div class="col-md-6">
+              <div><label class="control-label" for="descriptionInput">Описание отеля</label></div>
+              <div>
                 <textarea
                   name="descriptionInput"
                   id="descriptionInput"
@@ -128,17 +146,12 @@
                   ngModel
                   #descriptionInput="ngModel"
                 ></textarea>
-              </td>
-            </tr>
-            <tr
-              *ngIf="countOfStarsInput.invalid && countOfStarsInput.touched"
-              class="text-center form-help-text"
-            ><td colspan="3" style="background: #c40000; color: white">Описание отеля не может быть пустым</td>
-            </tr>
+              </div>
+            </div>
 
-            <tr>
-              <td><label class="control-label" for="loadPhotoButton">Загрузить фотографию</label></td>
-              <td>
+            <div class="col-md-6">
+              <div><label class="control-label" for="loadPhotoButton">Загрузить фотографию</label></div>
+              <div>
                 <div *ngIf="currentFileUpload" class="progress">
                   <div class="progress-bar progress-bar-info progress-bar-striped"
                        role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
@@ -147,31 +160,38 @@
                     {{progress.percentage}}%</div>
                 </div>
                 <label class="btn btn-default"><input type="file" (change)="selectFile($event)"></label>
-              </td>
-              <td>
+              </div>
+              <div>
                 <button
-                  class="btn btn-success pull-right"
+                  class="btn btn-success"
                   [disabled]="!selectedFiles"
                   (click)="upload()"
                   id="loadPhotoButton"
                 >Загрузить фотографию</button>
-              </td>
-            </tr>
+              </div>
+            </div>
+          </div>
 
-            <tr>
-              <td><label for="addMainInformationButton">Действие</label></td>
-              <td colspan="2">
-                <button
-                  type="submit"
-                  id="addMainInformationButton"
-                  class="btn btn-success pull-right"
-                  [disabled]="f.invalid"
-                >Далее</button>
-              </td>
-            </tr>
+          <div class="row">
+             <div
+               *ngIf="descriptionInput.invalid && descriptionInput.touched"
+               class="text-center form-help-text col-md-6 pull-left"
+               style="background: #c40000; color: white">Описание отеля не может быть пустым
+             </div>
+           </div>
 
-          </tbody>
-        </table>
+          <hr>
+
+          <div>
+            <button
+              type="submit"
+              id="addMainInformationButton"
+              class="btn btn-success pull-right"
+              [disabled]="!f.valid"
+            >Далее</button>
+          </div>
+
+          </div>
       </form>
     </div>
 

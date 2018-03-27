@@ -1,4 +1,5 @@
-import {Room} from './room.model';
+import {DefaultTypeRoom} from './default-type-room.model';
+import {ServicePrice} from './service-price.model';
 
 export class Hotel {
   constructor(
@@ -7,8 +8,9 @@ export class Hotel {
     public address: string,
     public countOfStars: number,
     public description: string,
-    public rooms: Room [],
+    public rooms: DefaultTypeRoom [],
     public photoName: string,
+    public servicesPrice?: ServicePrice[],
     public id?: string,
     public isShownAddInformation?: boolean,
     public isShownRooms?: boolean,

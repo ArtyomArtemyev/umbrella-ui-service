@@ -1,163 +1,323 @@
 <section class="section">
 
-  <div *ngIf="!isMainInformationAdded" class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">
-    <div #addMainInformationMessageBlock class="alert alert-info" style="text-align: center;">Заполните основную информацию об отеле</div>
+  <div *ngIf="!isMainInformationAdded && !isLatestPage" class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">
     <wfm-main-information-card (onAddPhoto)="updatePhotoName($event)" (onAddMainInformation)="updateMainInformation($event)"></wfm-main-information-card>
   </div>
 
-  <div *ngIf="isMainInformationAdded" class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">
-    <div #addRoomInformationMessageBlock class="alert alert-info" style="text-align: center;">Заполните информацию о номерах отеля</div>
-    <wfm-room-information-card (onAddRoom)="updateRoomList($event)"></wfm-room-information-card>
+  <div *ngIf="isLatestPage" class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">
 
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th>Количество<br>кроватей в номере</th>
-        <th>Количество<br>мест на кровате</th>
-        <th>Количество<br>детских кроватей</th>
-        <th>Стоимость<br>детской кровати</th>
-        <th>Стоимость<br>номера в сутки</th>
-        <th>Действие</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let room of rooms">
-        <td>{{room.countOfBed}}</td>
-        <td>{{room.typeOfBed}}</td>
-        <td>{{room.countOfChildBed}}</td>
-        <td>{{room.priceForChildBed}}</td>
-        <td>{{room.price}}</td>
-        <td>
-          <button type="button" class="btn btn-danger" (click)="deleteRoom(room)">Удалить</button>
-        </td>
-      </tr>
-      <tr *ngIf="!isRoomsAdded" class="text-center">
-        <td colspan="6" style="background: #40b726; color: white">Список типов номеров отеля пуст</td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="card">
+      <div class="card-block">
+        <div style="text-align: center;" class="title-block">
+          <span>Данный отель будет добавлен в систему</span>
+        </div>
+      <hr>
+
+      <div class="row text-center">
+        Основная информация об отеле
+      </div>
+
+      <hr>
+      <!-- CONTENT-->
+      <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6">
+                <div><label class="control-label" for="addPage-nameInput">Название</label></div>
+                <div>
+                  <input
+                    #addPagenameInput
+                    disabled
+                    name="addPage-nameInput"
+                    id="addPage-nameInput"
+                    class="form-control"
+                    [value]="name"
+                  >
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div><label class="control-label" for="addPage-cityInput">Город</label></div>
+                <div>
+                  <input
+                    #addPagecityInput
+                    disabled
+                    name="addPage-cityInput"
+                    id="addPage-cityInput"
+                    class="form-control"
+                    [value]="city"
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div><label class="control-label" for="addPage-addressInput">Адрес</label></div>
+                <div>
+                  <input
+                    #addPageaddressInput
+                    disabled
+                    name="addPage-addressInput"
+                    id="addPage-addressInput"
+                    class="form-control"
+                    [value]="address"
+                  >
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div><label class="control-label" for="addPage-countOfStarsInput">Количество звёзд</label></div>
+                <div>
+                  <input
+                    #addPagecountOfStarsInput
+                    disabled
+                    name="addPage-countOfStarsInput"
+                    id="addPage-countOfStarsInput"
+                    class="form-control"
+                    [value]="countOfStars"
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div><label class="control-label" for="addPage-descriptionInput">Описание отеля</label></div>
+                <div>
+                    <textarea
+                      #addPagedescriptionInput
+                      disabled
+                      rows="8"
+                      name="addPage-descriptionInput"
+                      id="addPage-descriptionInput"
+                      class="form-control">{{description}}</textarea>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div><label class="control-label" for="uploadPhotoCheckbox">Фотография отеля</label></div>
+                <div>
+                  <div class="form-group">
+                    <label class="checkbox-inline checbox-switch switch-success">
+                      <input
+                        #uploadPhotoCheckbox
+                        type="checkbox"
+                        name="uploadPhotoCheckbox"
+                        id="uploadPhotoCheckbox"
+                        [checked]="isPhotoLoaded"
+                        disabled
+                      />
+                      <span></span>
+                      Загружена
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+      <hr>
+
+      <div class="card-block">
+        <div style="text-align: center;" class="title-block">
+          <span>Номера отеля</span>
+        </div>
+        <hr>
+        <table *ngIf="isMainInformationAdded"  class="table table-flip-scroll table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>Категория номера</th>
+            <th>Тип кроватей</th>
+            <th>Детская кровать</th>
+            <th>Мини-бар</th>
+            <th>Телевизор</th>
+            <th>Балкон</th>
+            <th>Действие</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let room of rooms">
+            <td>
+              {{room.typeRoomName}}
+            </td>
+            <td>
+              {{room.typeOfMainBed}}
+            </td>
+            <td>
+              <label class="checkbox-inline checbox-switch switch-success">
+                <input
+                  disabled
+                  #addHotelPageChildBed
+                  type="checkbox"
+                  name="addHotelPageChildBed"
+                  [(checked)]="room.existChildBed"
+                />
+                <span></span>
+              </label>
+            </td>
+            <td>
+              <label class="checkbox-inline checbox-switch switch-success">
+                <input
+                  disabled
+                  #addHotelPageBar
+                  type="checkbox"
+                  name="addHotelPageBar"
+                  [(checked)]="room.existBar"
+                />
+                <span></span>
+              </label>
+            </td>
+            <td>
+              <label class="checkbox-inline checbox-switch switch-success">
+                <input
+                  disabled
+                  #addHotelPageTV
+                  type="checkbox"
+                  name="addHotelPageTV"
+                  [(checked)]="room.existTV"
+                />
+                <span></span>
+              </label>
+            </td>
+            <td>
+              <label class="checkbox-inline checbox-switch switch-success">
+                <input
+                  disabled
+                  #addHotelPageBalkony
+                  type="checkbox"
+                  name="addHotelPageBalkony"
+                  [(checked)]="room.existBalcony"
+                />
+                <span></span>
+              </label>
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger" (click)="deleteRoom(room)">Удалить</button>
+            </td>
+          </tr>
+          <tr *ngIf="!isRoomsAdded" class="text-center">
+            <td colspan="7" style="background: #40b726; color: white">Список типов номеров отеля пуст</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+         <hr>
+
+        <div class="row">
+
+            <button
+              id="addHotelButton"
+              class="btn btn-success pull-right"
+              (click)="addHotel()"
+            >Добавить отель в систему</button>
+
+      </div>
+      <!-- CONTENT-->
+      </div>
+    </div>
+
   </div>
 
-  <!--<div *ngIf="isMainInformationAdded && isRoomsAdded" class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">-->
+  <div *ngIf="isMainInformationAdded && !isShowPricePage" class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">
+    <div *ngIf="!isLatestPage && !isShowPricePage" #addRoomInformationMessageBlock class="alert alert-info" style="text-align: center;">Заполните информацию о номерах отеля</div>
+    <wfm-room-information-card *ngIf="!isLatestPage && !isShowPricePage" (onAddRoom)="updateRoomList($event)" (onShowPricePage)="showPricePage($event)"></wfm-room-information-card>
+  </div>
 
-    <!--<div class="card">-->
-      <!--<div class="card-block">-->
-        <!--<div style="text-align: center;" class="title-block">-->
-          <!--<span>Данный отель будет добавлен в систему</span>-->
-        <!--</div>-->
-      <!--</div>-->
+  <div *ngIf="isMainInformationAdded && !isShowPricePage" class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">
+    <div *ngIf="isMainInformationAdded && !isShowPricePage" class="card">
+      <div *ngIf="isMainInformationAdded && !isShowPricePage" class="card-block">
+        <div style="text-align: center;" class="title-block">
+          <span>Номера отеля</span>
+        </div>
+        <hr>
+        <table *ngIf="isMainInformationAdded"  class="table table-flip-scroll table-bordered table-hover">
+        <thead>
+        <tr>
+          <th>Категория номера</th>
+          <th>Тип кроватей</th>
+          <th>Детская кровать</th>
+          <th>Мини-бар</th>
+          <th>Телевизор</th>
+          <th>Балкон</th>
+          <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let room of rooms">
+          <td>
+            {{room.typeRoomName}}
+          </td>
+          <td>
+            {{room.typeOfMainBed}}
+          </td>
+          <td>
+            <label class="checkbox-inline checbox-switch switch-success">
+              <input
+                disabled
+                #addHotelPageChildBed
+                type="checkbox"
+                name="addHotelPageChildBed"
+                id="addHotelPageChildBed"
+                [(checked)]="room.existChildBed"
+              />
+              <span></span>
+            </label>
+          </td>
+          <td>
+            <label class="checkbox-inline checbox-switch switch-success">
+              <input
+                disabled
+                #addHotelPageBar
+                type="checkbox"
+                name="addHotelPageBar"
+                id="addHotelPageBar"
+                [(checked)]="room.existBar"
+              />
+              <span></span>
+            </label>
+          </td>
+          <td>
+            <label class="checkbox-inline checbox-switch switch-success">
+              <input
+                disabled
+                #addHotelPageTV
+                type="checkbox"
+                name="addHotelPageTV"
+                id="addHotelPageTV"
+                [(checked)]="room.existTV"
+              />
+              <span></span>
+            </label>
+          </td>
+          <td>
+            <label class="checkbox-inline checbox-switch switch-success">
+              <input
+                disabled
+                #addHotelPageBalkony
+                type="checkbox"
+                name="addHotelPageBalkony"
+                id="addHotelPageBalkony"
+                [(checked)]="room.existBalcony"
+              />
+              <span></span>
+            </label>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="deleteRoom(room)">Удалить</button>
+          </td>
+        </tr>
+        <tr *ngIf="!isRoomsAdded" class="text-center">
+          <td colspan="7" style="background: #40b726; color: white">Список типов номеров отеля пуст</td>
+        </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
 
-      <!--&lt;!&ndash; CONTENT&ndash;&gt;-->
-      <!--<table class="table table-hover">-->
-       <!--<tbody>-->
-          <!--<tr>-->
-            <!--&lt;!&ndash; MAIN INFORMATION CONTENT&ndash;&gt;-->
-            <!--<td width="45%">-->
-              <!--<table class="table table-hover">-->
-                <!--<tbody>-->
-                <!--<tr>-->
-                  <!--<td><label class="control-label" for="addPage-nameInput">Название</label></td>-->
-                  <!--<td>-->
-                    <!--<input-->
-                      <!--#addPagenameInput-->
-                      <!--disabled-->
-                      <!--name="addPage-nameInput"-->
-                      <!--id="addPage-nameInput"-->
-                      <!--class="form-control"-->
-                    <!--&gt;-->
-                  <!--</td>-->
-                <!--<tr>-->
-                  <!--<td><label class="control-label" for="addPage-cityInput">Город</label></td>-->
-                  <!--<td>-->
-                    <!--<input-->
-                      <!--#addPagecityInput-->
-                      <!--disabled-->
-                      <!--name="addPage-cityInput"-->
-                      <!--id="addPage-cityInput"-->
-                      <!--class="form-control"-->
-                    <!--&gt;-->
-                  <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td><label class="control-label" for="addPage-addressInput">Адрес</label></td>-->
-                  <!--<td>-->
-                    <!--<input-->
-                      <!--#addPageaddressInput-->
-                      <!--disabled-->
-                      <!--name="addPage-addressInput"-->
-                      <!--id="addPage-addressInput"-->
-                      <!--class="form-control">-->
-                  <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td><label class="control-label" for="addPage-countOfStarsInput">Количество звёзд</label></td>-->
-                  <!--<td>-->
-                    <!--<input-->
-                      <!--#addPagecountOfStarsInput-->
-                      <!--disabled-->
-                      <!--name="addPage-countOfStarsInput"-->
-                      <!--id="addPage-countOfStarsInput"-->
-                      <!--class="form-control"-->
-                    <!--&gt;-->
-                  <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td><label class="control-label" for="addPage-descriptionInput">Описание отеля</label></td>-->
-                  <!--<td>-->
-                    <!--<textarea-->
-                      <!--#addPagedescriptionInput-->
-                      <!--disabled-->
-                      <!--rows="8"-->
-                      <!--name="addPage-descriptionInput"-->
-                      <!--id="addPage-descriptionInput"-->
-                      <!--class="form-control"></textarea>-->
-                  <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td><label class="control-label" for="uploadPhotoCheckbox">Фотография отеля</label></td>-->
-                  <!--<td>-->
-                    <!--<div class="form-group">-->
-                      <!--<label class="checkbox-inline checbox-switch switch-success">-->
-                        <!--<input-->
-                          <!--#uploadPhotoCheckbox-->
-                          <!--type="checkbox"-->
-                          <!--name="uploadPhotoCheckbox"-->
-                          <!--id="uploadPhotoCheckbox"-->
-                          <!--[checked]="isPhotoLoaded"-->
-                          <!--disabled-->
-                        <!--/>-->
-                        <!--<span></span>-->
-                        <!--Загружена-->
-                      <!--</label>-->
-                    <!--</div>-->
-                  <!--</td>-->
-                <!--</tr>-->
-                <!--</tbody>-->
-              <!--</table>-->
-            <!--</td>-->
-          <!--</tr>-->
-
-          <!--&lt;!&ndash;ADD HOTEL ACTION&ndash;&gt;-->
-
-          <!--<tr style="background: #d7dde4;">-->
-            <!--<td><label for="addHotelButton">Действие</label></td>-->
-            <!--<td colspan="2">-->
-              <!--<button-->
-                <!--id="addHotelButton"-->
-                <!--class="btn btn-success pull-right"-->
-                <!--(click)="addHotel()"-->
-              <!--&gt;Добавить отель</button>-->
-            <!--</td>-->
-          <!--</tr>-->
-
-       <!--</tbody>-->
-      <!--</table>-->
-      <!--&lt;!&ndash; CONTENT&ndash;&gt;-->
-
-    <!--</div>-->
-
-  <!--</div>-->
-
-
+  <div *ngIf="isShowPricePage && !isLatestPage" class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">
+    <wfm-price-imformation-card [rooms]="rooms" (onAddServicePrice)="updateSericePrice($event)"></wfm-price-imformation-card>
+  </div>
 
 </section>
