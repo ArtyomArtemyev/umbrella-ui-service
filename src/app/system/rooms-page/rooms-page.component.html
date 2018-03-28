@@ -1,0 +1,513 @@
+<div
+  *ngIf="isShowMessageBlock"
+  #showMessageBlock
+  class="alert alert-success"
+  style="text-align: center;"
+>Изменения сохранены</div>
+<div class="alert alert-info" style="text-align: center;">Список отелей c их номерами в системе</div>
+<div class="card">
+  <div class="container-fluid">
+    <div *ngFor="let hotel of hotels" class="row container-fluid">
+      <div class="col-md-2 pull-left">Название отеля: {{ hotel.name }}</div>
+      <div class="col-md-2 pull-left">Город: {{ hotel.city }}</div>
+      <div class="col-md-2 pull-left">Адрес: {{ hotel.address }}</div>
+      <div class="col-md-6">
+        <button *ngIf="!hotel.isShownRooms" class="btn btn-success-outline pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Открыть номера</button>
+      </div>
+
+      <div *ngIf="hotel.isShownRooms">
+        <hr>
+        <table class="table table-flip-scroll table-bordered table-hover">
+          <thead>
+          <tr>
+            <th class="text-center">Категория номера</th>
+            <th class="text-center">Тип кроватей</th>
+            <th class="text-center">Детская кровать</th>
+            <th class="text-center">Мини-бар</th>
+            <th class="text-center">Телевизор</th>
+            <th class="text-center">Балкон</th>
+            <th class="text-center">Действие</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let room of hotel.rooms">
+            <td class="text-center">
+              {{room.typeRoomName}}
+            </td>
+            <td class="text-center">
+              {{room.typeOfMainBed}}
+            </td>
+            <td class="text-center" >
+              <label class="checkbox-inline checbox-switch switch-success">
+                <input
+                  #addHotelPageChildBed
+                  type="checkbox"
+                  name="addHotelPageChildBed"
+                  [(checked)]="room.existChildBed"
+                />
+                <span></span>
+              </label>
+            </td>
+            <td class="text-center">
+              <label class="checkbox-inline checbox-switch switch-success">
+                <input
+                  #addHotelPageBar
+                  type="checkbox"
+                  name="addHotelPageBar"
+                  [(checked)]="room.existBar"
+                />
+                <span></span>
+              </label>
+            </td>
+            <td class="text-center">
+              <label class="checkbox-inline checbox-switch switch-success">
+                <input
+                  #addHotelPageTV
+                  type="checkbox"
+                  name="addHotelPageTV"
+                  [(checked)]="room.existTV"
+                />
+                <span></span>
+              </label>
+            </td>
+            <td class="text-center">
+              <label class="checkbox-inline checbox-switch switch-success">
+                <input
+                  #addHotelPageBalkony
+                  type="checkbox"
+                  name="addHotelPageBalkony"
+                  [(checked)]="room.existBalcony"
+                />
+                <span></span>
+              </label>
+            </td>
+            <td class="text-center">
+              <button type="button" class="btn btn-danger" (click)="deleteRoom(room)">Удалить</button>
+            </td>
+          </tr>
+          <tr *ngIf="hotel.rooms.length === 0;" class="text-center">
+            <td colspan="7" style="background: #40b726; color: white">Список типов номеров отеля пуст</td>
+          </tr>
+          </tbody>
+        </table>
+        <button *ngIf="!isShowAddNewHotelPanel" class="btn btn-success pull-left" (click)="dropDownPanelAndCurrentHottel(hotel)">Добавить новый номер</button>
+        <button *ngIf="isShowAddNewHotelPanel" class="btn btn-success pull-left" (click)="isShowAddNewHotelPanel = !isShowAddNewHotelPanel">Скрыть панель</button>
+        <button *ngIf="hotel.isShownRooms" class="btn btn-primary pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Скрыть номера</button>
+        <hr>
+      </div>
+
+    </div>
+  </div>
+
+  <div *ngIf="isShowAddNewHotelPanel" class="container-fluid">
+    <div class="row row-sm stats-container">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <div class="container">
+
+          <div>
+            <div class="form-group">
+              <div>
+                <label class="control-label" for="typeRoom">Выберите категорию номера</label>
+              </div>
+              <div>
+                <select #defaultTypeOfRoomSelector class="form-control" id="typeRoom"
+                        (change)="getCurrentDefaultTypeOfRoom()">
+                  <option *ngFor="let defaultTypeRoom of defaultTypeRooms" [ngValue]="defaultTypeRoom">
+                    {{defaultTypeRoom.typeRoomName}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group table-bordered table-flip-scroll" *ngIf="showDefaultTypeRoom.isVisible">
+            <div class="row">
+              <div class="form-group col-md-4">
+                <div>
+                  <label
+                    class="control-label"
+                    for="typeRoom"
+                  >Международное название категории номера</label>
+                </div>
+                <div>{{showDefaultTypeRoom.typeRoomWorldName}}</div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="livingRoom"
+                  >Наличие в номере гостиной</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      disabled
+                      #livingRoom
+                      type="checkbox"
+                      name="livingRoom"
+                      id="livingRoom"
+                      [(checked)]="showDefaultTypeRoom.existLivingRoom"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="sleepingRoom">Наличие в номере спальни</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      disabled
+                      #sleepingRoom
+                      type="checkbox"
+                      name="sleepingRoom"
+                      id="sleepingRoom"
+                      [(checked)]="showDefaultTypeRoom.existSleepingRoom"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="cabinetRoom">Наличие кабинета</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      disabled
+                      #cabinetRoom
+                      type="checkbox"
+                      name="cabinetRoom"
+                      id="cabinetRoom"
+                      [(checked)]="showDefaultTypeRoom.existCabinet"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="meetingRoom">Наличие помещения для совещаний</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      disabled
+                      #meetingRoom
+                      type="checkbox"
+                      name="meetingRoom"
+                      id="meetingRoom"
+                      [(checked)]="showDefaultTypeRoom.existMeetingRoom"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="showingRoom">Наличие душа</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      disabled
+                      #showingRoom
+                      type="checkbox"
+                      name="showingRoom"
+                      id="showingRoom"
+                      [(checked)]="showDefaultTypeRoom.existShowingRoom"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="bathRoom">Наличие ванны</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      disabled
+                      #bathRoom
+                      type="checkbox"
+                      name="bathRoom"
+                      id="bathRoom"
+                      [(checked)]="showDefaultTypeRoom.existBathRoom"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="TV">Наличие телевизора</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      #TV
+                      type="checkbox"
+                      name="TV"
+                      id="TV"
+                      [(checked)]="showDefaultTypeRoom.existTV"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="bar">Наличие мини-бара</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      #bar
+                      type="checkbox"
+                      name="bar"
+                      id="bar"
+                      [(checked)]="showDefaultTypeRoom.existBar"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="wiFi">Наличие wi-fi</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      #wiFi
+                      type="checkbox"
+                      name="wiFi"
+                      id="wiFi"
+                      [(checked)]="showDefaultTypeRoom.existWiFi"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="balcony">Наличие балкона</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      #balcony
+                      type="checkbox"
+                      name="balcony"
+                      id="balcony"
+                      [(checked)]="showDefaultTypeRoom.existBalcony"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="kitchen">Наличие кухни</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      disabled
+                      #kitchen
+                      type="checkbox"
+                      name="kitchen"
+                      id="kitchen"
+                      [(checked)]="showDefaultTypeRoom.existKitchen"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="diningRoom">Наличие столовой</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      disabled
+                      #diningRoom
+                      type="checkbox"
+                      name="diningRoom"
+                      id="diningRoom"
+                      [(checked)]="showDefaultTypeRoom.existDiningRoom"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="WC">Наличие санузла</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      disabled
+                      #WC
+                      type="checkbox"
+                      name="WC"
+                      id="WC"
+                      [(checked)]="showDefaultTypeRoom.existWCRoom"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="additionalWC">Наличие дополнительного санузла</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      disabled
+                      #additionalWC
+                      type="checkbox"
+                      name="additionalWC"
+                      id="additionalWC"
+                      [(checked)]="showDefaultTypeRoom.existAdditionalWCRoom"
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="countOfMan">Число человек для проживания</label>
+                </div>
+                <div id="countOfMan" class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  {{showDefaultTypeRoom.countOfMan }}
+                </div>
+              </div>
+
+              <div class="form-group col-md-4" *ngIf="showDefaultTypeRoom.isVisible">
+                <div>
+                  <label
+                    class="control-label"
+                    for="typeOfBedInput">Тип кроватей</label>
+                </div>
+                <div class="form-group" *ngIf="showDefaultTypeRoom.isVisible">
+                  <select
+                    ngModel
+                    required
+                    #typeOfBedInput="ngModel"
+                    class="form-control"
+                    name="typeOfBedInput"
+                    id="typeOfBedInput">
+                    <option>Односпальная</option>
+                    <option>Двуспальная</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4">
+                <div>
+                  <label
+                    class="control-label"
+                    for="childBedInRoom">Детские кровати в номере</label>
+                </div>
+                <div>
+                  <div class="form-group"><label class="checkbox-inline checbox-switch switch-success">
+                    <input
+                      required
+                      #childBedInRoom
+                      type="checkbox"
+                      name="childBedInRoom"
+                      id="childBedInRoom"
+                      [checked]="existChildBedInRoom"
+                      (change)="existChildBedInRoom = !existChildBedInRoom"
+                    />
+                    <span></span>
+                  </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+              <div class="form-group col-md-6 pull-right">
+                <div>
+                  <button
+                    type="submit"
+                    class="btn btn-success pull-right"
+                    [disabled]="f.invalid"
+                  >Добавить номер
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

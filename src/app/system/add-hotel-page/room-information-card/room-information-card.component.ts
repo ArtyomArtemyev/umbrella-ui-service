@@ -33,7 +33,6 @@ export class RoomInformationCardComponent implements OnInit {
         }
         this.defaultTypeRooms = responseTypeRoom;
         this.showDefaultTypeRoom = this.defaultTypeRooms[0];
-        console.log(this.showDefaultTypeRoom);
       });
   }
 

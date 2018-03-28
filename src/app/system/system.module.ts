@@ -12,6 +12,7 @@ import {RoomInformationCardComponent} from './add-hotel-page/room-information-ca
 import {HotelsPageComponent} from './hotels-page/hotels-page.component';
 import {HotelPhotoComponent} from './hotels-page/hotel-photo/hotel-photo.component';
 import { PriceInformationCardComponent } from './add-hotel-page/price-information-card/price-information-card.component';
+import { RoomsPageComponent } from './rooms-page/rooms-page.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { PriceInformationCardComponent } from './add-hotel-page/price-informatio
     RoomInformationCardComponent,
     HotelsPageComponent,
     HotelPhotoComponent,
-    PriceInformationCardComponent
+    PriceInformationCardComponent,
+    RoomsPageComponent
   ]
 })
 export class SystemModule {
