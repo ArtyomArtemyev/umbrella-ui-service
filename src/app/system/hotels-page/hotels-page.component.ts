@@ -34,6 +34,7 @@ export class HotelsPageComponent implements OnInit {
          responseHotels[i].isEditHotelButtonDisabled = false;
        }
        this.hotels = responseHotels;
+       console.log(this.hotels);
       });
   }
 

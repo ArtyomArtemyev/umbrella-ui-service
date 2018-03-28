@@ -109,6 +109,7 @@
 
         <div *ngIf="hotel.isShownRooms">
           <hr>
+          <div class="text-center"><h4>Описание номеров отеля</h4></div><br>
           <table class="table table-flip-scroll table-bordered table-hover">
             <thead>
             <tr>
@@ -182,6 +183,20 @@
             </tr>
             </tbody>
           </table>
+          <hr>
+          <div class="row">
+            <div class="text-center"><h4>Прайс отеля</h4></div><br>
+          </div>
+          <div class="row">
+            <div *ngFor="let nameService of hotel.servicesPrices" class="col-md-1 text-center">
+              {{nameService.service}}
+            </div>
+          </div>
+          <div class="row">
+            <div *ngFor="let nameServicePrice of hotel.servicesPrices" class="col-md-1 text-center">
+              {{nameServicePrice.price}}
+            </div>
+          </div>
         </div>
 
       </div>
