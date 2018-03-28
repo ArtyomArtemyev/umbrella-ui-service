@@ -21,4 +21,8 @@ export class HotelsService {
     return this.http.delete(`http://localhost:9094/api/v1/hotels/${hotel.id}`);
   }
 
+  updateHotel(hotel: Hotel, id: string): Observable<any> {
+    return this.http.put(`http://localhost:9094/api/v1/hotels/${id}`, hotel);
+  }
+
 }
