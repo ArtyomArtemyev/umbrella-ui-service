@@ -11,36 +11,41 @@
     <div class="row text-center">Нет отелей в системе</div>
   </div>
 
-  <div class="container-fluid">
-    <div *ngFor="let hotel of hotels" class="row container-fluid">
-      <div class="col-md-2 pull-left">Название отеля: {{ hotel.name }}</div>
-      <div class="col-md-2 pull-left">Город: {{ hotel.city }}</div>
-      <div class="col-md-2 pull-left">Адрес: {{ hotel.address }}</div>
-      <div class="col-md-6">
-        <button *ngIf="!hotel.isShownRooms" class="btn btn-success-outline pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Открыть прайс</button>
-      </div>
+  <ul class="list-group">
+    <li *ngFor="let hotel of hotels" class="list-group-item">
+      <div class="container-fluid">
+        <div class="col-md-2 pull-left">Название отеля: {{ hotel.name }}</div>
+        <div class="col-md-2 pull-left">Город: {{ hotel.city }}</div>
+        <div class="col-md-2 pull-left">Адрес: {{ hotel.address }}</div>
+        <div class="col-md-6">
+          <button *ngIf="!hotel.isShownRooms" class="btn btn-success-outline pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Открыть прайс</button>
+        </div>
 
-      <div *ngIf="hotel.isShownRooms" class="container-fluid">
-        <hr>
-        <div class="row">
-          <div *ngFor="let nameService of hotel.servicesPrices" class="col-md-1 text-center">
-            {{nameService.service}}
+        <div *ngIf="hotel.isShownRooms" class="container-fluid">
+          <hr>
+          <div class="row">
+            <div *ngFor="let nameService of hotel.servicesPrices" class="col-md-1 text-center">
+              {{nameService.service}}
+            </div>
+          </div>
+          <div class="row">
+            <div *ngFor="let nameServicePrice of hotel.servicesPrices" class="col-md-1 text-center">
+              <input class="form-control text-center" [(ngModel)]="nameServicePrice.price"/>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div>
+              <button *ngIf="hotel.isShownRooms" class="btn btn-primary pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Скрыть прайс</button>
+            </div>
+            <div>
+              <button *ngIf="hotel.isShownRooms" class="btn btn-success pull-left" (click)="updateHotelPrice(hotel)" >Сохранить изменения</button>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div *ngFor="let nameServicePrice of hotel.servicesPrices" class="col-md-1 text-center">
-            <input class="form-control text-center" [(ngModel)]="nameServicePrice.price"/>
-          </div>
-        </div>
-        <div class="row">
-          <button *ngIf="hotel.isShownRooms" class="btn btn-primary pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Скрыть прайс</button>
-          <button *ngIf="hotel.isShownRooms" class="btn btn-success pull-right" (click)="updateHotelPrice(hotel)" >Сохранить изменения</button>
-        </div>
       </div>
-
-    </div>
-  </div>
-
+    </li>
+  </ul>
 </div>
 
 

@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms';
 import {Message} from '../../shared/models/message.models';
 import {HotelsService} from '../../shared/services/hotels.service';
 import {FindHotel} from '../../system/shared/models/find-hotel.model';
+import {HotelSuggestion} from '../shared/models/hotel-suggestion.model';
 
 @Component({
   selector: 'wfm-find-hotel-for-order-page',
@@ -14,6 +15,7 @@ export class FindHotelForOrderPageComponent implements OnInit {
   message: Message;
   isShowMessageBlock: boolean;
   hotels: Hotel [] = [];
+  hotelSuggestions: HotelSuggestion [] = [];
 
   @ViewChild('showMessageBlock') showMessageBlock: ElementRef;
   existChildBedInRoom: boolean;
@@ -37,8 +39,11 @@ export class FindHotelForOrderPageComponent implements OnInit {
       } else {
         const findHotelObject = new FindHotel(this.existChildBedInRoom, findHotelPageCityInput, +findHotelPageCountMenDiv, findHotelPageDateInput, findHotelPageDateEndInput);
         this.hotelService.findHotel(findHotelObject)
-          .subscribe((response: any) => {
-
+          .subscribe((response: HotelSuggestion []) => {
+            this.hotelSuggestions = response;
+            this.hotelSuggestions.map(c => c.isShowSuggestion = false);
+            this.hotelSuggestions.map( c => c.orderSuggestions.map( oc => oc.isShow = false));
+            console.log(this.hotelSuggestions);
           });
       }
     }

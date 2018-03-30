@@ -3,6 +3,7 @@ import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Hotel} from '../../system/shared/models/hotel.model';
 import {FindHotel} from '../../system/shared/models/find-hotel.model';
+import {HotelSuggestion} from '../../system-user/shared/models/hotel-suggestion.model';
 
 @Injectable()
 export class HotelsService {
@@ -26,8 +27,9 @@ export class HotelsService {
     return this.http.put(`http://localhost:9094/api/v1/hotels/${id}`, hotel);
   }
 
-  findHotel(findHotelObject: FindHotel): Observable<any> {
-    return this.http.post('http://localhost:9094/api/v1/hotels/find-hotel', findHotelObject);
+  findHotel(findHotelObject: FindHotel): Observable<HotelSuggestion []> {
+    return this.http.post('http://localhost:9094/api/v1/hotels/find-hotel', findHotelObject)
+      .map((response: Response) => response.json());
   }
 
 }

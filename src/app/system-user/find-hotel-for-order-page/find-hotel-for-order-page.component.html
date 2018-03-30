@@ -88,7 +88,6 @@
         <div class="text-center col-md-2">Детская кровать</div>
         <div class="text-center col-md-2">Действие</div>
     </div>
-
     <hr>
     <div class="row">
       <form #f="ngForm" (ngSubmit)="onSubmit(f)">
@@ -186,5 +185,122 @@
 
     </div>
     <hr>
+
+    <ul *ngIf="hotelSuggestions.length !== 0" class="list-group">
+      <li *ngFor="let hotelSuggestion of hotelSuggestions" class="list-group-item">
+        <div class="container-fluid">
+          <div class="col-md-2 pull-left"><strong>Название отеля:</strong> {{ hotelSuggestion.hotel.name }}</div>
+          <div class="col-md-4 pull-left"><strong>Количество вариантов для бронирования:</strong> {{ hotelSuggestion.orderSuggestions.length }}</div>
+          <div class="col-md-6">
+            <button *ngIf="!hotelSuggestion.isShowSuggestion" class="btn btn-success-outline pull-right" (click)="hotelSuggestion.isShowSuggestion = !hotelSuggestion.isShowSuggestion">Просмотреть варианты</button>
+            <button *ngIf="hotelSuggestion.isShowSuggestion" class="btn btn-success-outline pull-right" (click)="hotelSuggestion.isShowSuggestion = !hotelSuggestion.isShowSuggestion">Скрыть варианты</button>
+          </div>
+          <hr>
+          <ul *ngIf="hotelSuggestion.isShowSuggestion">
+            <li *ngFor="let orderSuggestion of hotelSuggestion.orderSuggestions" class="list-group-item">
+              <div class="container-fluid">
+                <div class="col-md-4 pull-left"><strong>Тип номера:</strong> {{ orderSuggestion.typeRoom.typeRoomName }}</div>
+                <div class="col-md-4 pull-left"><strong>Общая стоимость:</strong> {{orderSuggestion.fullPrice}}</div>
+                <div class="col-md-3">
+                  <button class="btn btn-primary pull-right">Забронировать</button>
+                </div>
+                <div class="col-md-1">
+                  <button *ngIf="!orderSuggestion.isShow" class="btn btn-success-outline pull-left" (click)="orderSuggestion.isShow = !orderSuggestion.isShow">Подробнее</button>
+                  <button  *ngIf="orderSuggestion.isShow" class="btn btn-success-outline pull-left" (click)="orderSuggestion.isShow = !orderSuggestion.isShow">Скрыть</button>
+                </div>
+                <div *ngIf="orderSuggestion.isShow">
+                  <hr>
+                  <table class="table table-flip-scroll table-bordered table-hover">
+                    <thead>
+                    <tr>
+                      <th class="text-center">Тип кроватей</th>
+                      <th class="text-center">Детская кровать</th>
+                      <th class="text-center">Мини-бар</th>
+                      <th class="text-center">Телевизор</th>
+                      <th class="text-center">Балкон</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td class="text-center">
+                        {{orderSuggestion.typeRoom.typeOfMainBed}}
+                      </td>
+                      <td class="text-center" >
+                        <label class="checkbox-inline checbox-switch switch-success">
+                          <input
+                            disabled
+                            type="checkbox"
+                            name="addHotelPageChildBed"
+                            [(checked)]="orderSuggestion.typeRoom.existChildBed"
+                          />
+                          <span></span>
+                        </label>
+                      </td>
+                      <td class="text-center">
+                        <label class="checkbox-inline checbox-switch switch-success">
+                          <input
+                            disabled
+                            type="checkbox"
+                            name="addHotelPageBar"
+                            [(checked)]="orderSuggestion.typeRoom.existBar"
+                          />
+                          <span></span>
+                        </label>
+                      </td>
+                      <td class="text-center">
+                        <label class="checkbox-inline checbox-switch switch-success">
+                          <input
+                            disabled
+                            type="checkbox"
+                            name="addHotelPageTV"
+                            [(checked)]="orderSuggestion.typeRoom.existTV"
+                          />
+                          <span></span>
+                        </label>
+                      </td>
+                      <td class="text-center">
+                        <label class="checkbox-inline checbox-switch switch-success">
+                          <input
+                            disabled
+                            type="checkbox"
+                            name="addHotelPageBalkony"
+                            [(checked)]="orderSuggestion.typeRoom.existBalcony"
+                          />
+                          <span></span>
+                        </label>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+      </li>
+    </ul>
+
   </div>
 </div>
+
+<!--<div class="row">-->
+<!--<div *ngFor="let nameService of hotel.servicesPrices" class="col-md-1 text-center">-->
+<!--{{nameService.service}}-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div *ngFor="let nameServicePrice of hotel.servicesPrices" class="col-md-1 text-center">-->
+<!--<input class="form-control text-center" [(ngModel)]="nameServicePrice.price"/>-->
+<!--</div>-->
+<!--</div>-->
+<!--<hr>-->
+<!--<div class="row">-->
+<!--<div>-->
+<!--<button *ngIf="hotel.isShownRooms" class="btn btn-primary pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Скрыть прайс</button>-->
+<!--</div>-->
+<!--<div>-->
+<!--<button *ngIf="hotel.isShownRooms" class="btn btn-success pull-left" (click)="updateHotelPrice(hotel)" >Сохранить изменения</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
