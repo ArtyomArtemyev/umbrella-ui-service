@@ -1,15 +1,20 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Hotel} from '../shared/models/hotel.model';
 import {HotelsService} from '../../shared/services/hotels.service';
 import {UploadFileService} from '../../shared/services/upload-file.service';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'wfm-hotels-page',
   templateUrl: './hotels-page.component.html',
   styleUrls: ['./hotels-page.component.scss']
 })
-export class HotelsPageComponent implements OnInit {
+export class HotelsPageComponent implements OnInit, OnDestroy {
+  sub1: Subscription;
+  sub2: Subscription;
+  sub3: Subscription;
+  sub4: Subscription;
 
   selectedFiles: FileList;
   currentFileUpload: File;
@@ -24,21 +29,21 @@ export class HotelsPageComponent implements OnInit {
 
   ngOnInit() {
     this.isShowMessageAboutEditBlock = false;
-    this.hotelService.getHotels()
+    this.sub1 = this.hotelService.getHotels()
       .subscribe((responseHotels: Hotel []) => {
-       for (let i = 0; i < responseHotels.length; i++) {
-         responseHotels[i].isShownAddInformation = false;
-         responseHotels[i].isShownRooms = false;
-         responseHotels[i].isDeleteHotelButtonDisabled = false;
-         responseHotels[i].isRoomButtonDisabled = false;
-         responseHotels[i].isEditHotelButtonDisabled = false;
-       }
-       this.hotels = responseHotels;
+        for (let i = 0; i < responseHotels.length; i++) {
+          responseHotels[i].isShownAddInformation = false;
+          responseHotels[i].isShownRooms = false;
+          responseHotels[i].isDeleteHotelButtonDisabled = false;
+          responseHotels[i].isRoomButtonDisabled = false;
+          responseHotels[i].isEditHotelButtonDisabled = false;
+        }
+        this.hotels = responseHotels;
       });
   }
 
   deleteHotel(hotel: Hotel) {
-    this.hotelService.deleteHotel(hotel)
+    this.sub2 = this.hotelService.deleteHotel(hotel)
       .subscribe((response: any) => {
         this.remove(this.hotels, hotel);
       });
@@ -67,7 +72,7 @@ export class HotelsPageComponent implements OnInit {
 
     this.currentFileUpload = this.selectedFiles.item(0);
     this.fileName = this.selectedFiles.item(0).name;
-    this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
+    this.sub3 = this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         this.progress.percentage = Math.round(100 * event.loaded / event.total);
         this.newFileName = this.fileName;
@@ -87,7 +92,7 @@ export class HotelsPageComponent implements OnInit {
         hotel.photoName = this.newFileName;
       }
     }
-    this.hotelService.updateHotel(hotel, hotel.id)
+    this.sub4 = this.hotelService.updateHotel(hotel, hotel.id)
       .subscribe((response: any) => {
         hotel.isShownAddInformation = false;
         this.showEditMessageBlock();
@@ -99,5 +104,20 @@ export class HotelsPageComponent implements OnInit {
     window.setTimeout(() => {
       this.isShowMessageAboutEditBlock = false;
     }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
+    if (this.sub2) {
+      this.sub1.unsubscribe();
+    }
+    if (this.sub3) {
+      this.sub1.unsubscribe();
+    }
+    if (this.sub4) {
+      this.sub1.unsubscribe();
+    }
   }
 }

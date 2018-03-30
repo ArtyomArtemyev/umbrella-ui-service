@@ -1,17 +1,20 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Hotel} from '../../system/shared/models/hotel.model';
 import {NgForm} from '@angular/forms';
 import {Message} from '../../shared/models/message.models';
 import {HotelsService} from '../../shared/services/hotels.service';
 import {FindHotel} from '../../system/shared/models/find-hotel.model';
 import {HotelSuggestion} from '../shared/models/hotel-suggestion.model';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'wfm-find-hotel-for-order-page',
   templateUrl: './find-hotel-for-order-page.component.html',
   styleUrls: ['./find-hotel-for-order-page.component.scss']
 })
-export class FindHotelForOrderPageComponent implements OnInit {
+export class FindHotelForOrderPageComponent implements OnInit, OnDestroy {
+  sub1: Subscription;
+
   message: Message;
   isShowMessageBlock: boolean;
   hotels: Hotel [] = [];
@@ -38,11 +41,11 @@ export class FindHotelForOrderPageComponent implements OnInit {
         this.showMessage(new Message('', 'Дата выезда не может быть раньше даты заезда'));
       } else {
         const findHotelObject = new FindHotel(this.existChildBedInRoom, findHotelPageCityInput, +findHotelPageCountMenDiv, findHotelPageDateInput, findHotelPageDateEndInput);
-        this.hotelService.findHotel(findHotelObject)
+        this.sub1 = this.hotelService.findHotel(findHotelObject)
           .subscribe((response: HotelSuggestion []) => {
             this.hotelSuggestions = response;
             this.hotelSuggestions.map(c => c.isShowSuggestion = false);
-            this.hotelSuggestions.map( c => c.orderSuggestions.map( oc => oc.isShow = false));
+            this.hotelSuggestions.map(c => c.orderSuggestions.map(oc => oc.isShow = false));
             console.log(this.hotelSuggestions);
           });
       }
@@ -67,6 +70,12 @@ export class FindHotelForOrderPageComponent implements OnInit {
       this.isShowMessageBlock = false;
       this.message.text = '';
     }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
   }
 
 }

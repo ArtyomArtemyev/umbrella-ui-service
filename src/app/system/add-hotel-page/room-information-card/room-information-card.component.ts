@@ -1,15 +1,18 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {DefaultTypeRoom} from '../../shared/models/default-type-room.model';
 import {TypeRoomService} from '../../../shared/services/type-room.service';
 import {Message} from '../../../shared/models/message.models';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'wfm-room-information-card',
   templateUrl: './room-information-card.component.html',
   styleUrls: ['./room-information-card.component.scss']
 })
-export class RoomInformationCardComponent implements OnInit {
+export class RoomInformationCardComponent implements OnInit, OnDestroy {
+  sub1: Subscription;
+
   @ViewChild('defaultTypeOfRoomSelector') defaultTypeOfRoomSelector: ElementRef;
 
   defaultTypeRooms: DefaultTypeRoom[];
@@ -17,14 +20,15 @@ export class RoomInformationCardComponent implements OnInit {
   existChildBedInRoom: boolean;
   isRoomAdded: boolean;
   action: any;
-  @Input() isDublicateRoom: boolean;
   message: Message;
   isShowMessageBlock: boolean;
 
+  @Input() isDublicateRoom: boolean;
   @Output('onAddRoom') roomEmitter = new EventEmitter<DefaultTypeRoom>();
   @Output('onShowPricePage') onShowPricePage = new EventEmitter<any>();
 
-  constructor(private defaultTypeRoomService: TypeRoomService) { }
+  constructor(private defaultTypeRoomService: TypeRoomService) {
+  }
 
   ngOnInit() {
     this.isDublicateRoom = false;
@@ -32,7 +36,7 @@ export class RoomInformationCardComponent implements OnInit {
     this.showDefaultTypeRoom.isVisible = false;
     this.existChildBedInRoom = true;
     this.isShowMessageBlock = false;
-    this.defaultTypeRoomService.getRooms()
+    this.sub1 = this.defaultTypeRoomService.getRooms()
       .subscribe((responseTypeRoom: DefaultTypeRoom[]) => {
         for (let i = 0; i < responseTypeRoom.length; i++) {
           responseTypeRoom[i].isVisible = false;
@@ -43,11 +47,11 @@ export class RoomInformationCardComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-      let {typeOfBedInput} = form.value;
-      this.showDefaultTypeRoom.typeOfMainBed = typeOfBedInput;
-      this.isRoomAdded = true;
-      this.roomEmitter.emit(this.showDefaultTypeRoom);
-      form.reset();
+    let {typeOfBedInput} = form.value;
+    this.showDefaultTypeRoom.typeOfMainBed = typeOfBedInput;
+    this.isRoomAdded = true;
+    this.roomEmitter.emit(this.showDefaultTypeRoom);
+    form.reset();
   }
 
   getCurrentDefaultTypeOfRoom() {
@@ -67,5 +71,11 @@ export class RoomInformationCardComponent implements OnInit {
       this.isShowMessageBlock = false;
       this.message.text = '';
     }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
   }
 }

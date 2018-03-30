@@ -10,10 +10,11 @@ import {ServicePrice} from '../../shared/models/service-price.model';
 })
 export class PriceInformationCardComponent implements OnInit {
   @Input() rooms: DefaultTypeRoom [];
-  @Output('onAddServicePrice') onAddServicePrice =  new EventEmitter<ServicePrice[]>();
+  @Output('onAddServicePrice') onAddServicePrice = new EventEmitter<ServicePrice[]>();
   servicesPrices: ServicePrice [] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
     this.servicesPrices.push(new ServicePrice('Телевизор', 0, false));

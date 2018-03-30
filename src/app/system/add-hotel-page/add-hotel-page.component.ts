@@ -1,16 +1,19 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Hotel} from '../shared/models/hotel.model';
 import {HotelsService} from '../../shared/services/hotels.service';
 import {Router} from '@angular/router';
 import {DefaultTypeRoom} from '../shared/models/default-type-room.model';
 import {ServicePrice} from '../shared/models/service-price.model';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'wfm-add-hotel-page',
   templateUrl: './add-hotel-page.component.html',
   styleUrls: ['./add-hotel-page.component.scss']
 })
-export class AddHotelPageComponent implements OnInit {
+export class AddHotelPageComponent implements OnInit, OnDestroy {
+  sub1: Subscription;
+
   @ViewChild('uploadPhotoCheckbox') uploadPhotoCheckbox: ElementRef;
   @ViewChild('addPagenameInput') nameInput: ElementRef;
   @ViewChild('addPagecityInput') cityInput: ElementRef;
@@ -76,7 +79,7 @@ export class AddHotelPageComponent implements OnInit {
   addHotel() {
     if (this.isRoomsAdded === true && this.isMainInformationAdded === true && this.isPhotoLoaded === true) {
       const hotel = new Hotel(this.name, this.city, this.address, this.countOfStars, this.description, this.rooms, this.photoName, this.servicesPrices);
-      this.hotelService.createNewHotel(hotel)
+      this.sub1 = this.hotelService.createNewHotel(hotel)
         .subscribe((hotel: Hotel) => {
           this.router.navigate(['/system', 'hotels']);
         });
@@ -106,5 +109,11 @@ export class AddHotelPageComponent implements OnInit {
   updateSericePrice(listServicesPrices: ServicePrice[]) {
     this.servicesPrices = listServicesPrices;
     this.isLatestPage = true;
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
   }
 }

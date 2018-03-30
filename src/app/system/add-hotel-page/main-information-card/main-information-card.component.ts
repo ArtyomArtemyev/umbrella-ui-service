@@ -1,15 +1,18 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {UploadFileService} from '../../../shared/services/upload-file.service';
 import {NgForm} from '@angular/forms';
 import {Message} from '../../../shared/models/message.models';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'wfm-main-information-card',
   templateUrl: './main-information-card.component.html',
   styleUrls: ['./main-information-card.component.scss']
 })
-export class MainInformationCardComponent implements OnInit {
+export class MainInformationCardComponent implements OnInit, OnDestroy {
+  sub1: Subscription;
+
   @ViewChild('addMainInformationMessageBlockError') addMainInformationMessageBlockError: ElementRef;
 
   @Output('onAddPhoto') photoEmitter = new EventEmitter<String>();
@@ -50,7 +53,7 @@ export class MainInformationCardComponent implements OnInit {
 
     this.currentFileUpload = this.selectedFiles.item(0);
     this.fileName = this.selectedFiles.item(0).name;
-    this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
+    this.sub1 = this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         this.progress.percentage = Math.round(100 * event.loaded / event.total);
         this.isPhotoLoaded = true;
@@ -91,6 +94,12 @@ export class MainInformationCardComponent implements OnInit {
       this.isShowMessageBlock = false;
       this.message.text = '';
     }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
   }
 
 }

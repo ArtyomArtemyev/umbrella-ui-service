@@ -1,17 +1,21 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HotelsService} from '../../shared/services/hotels.service';
 import {Hotel} from '../shared/models/hotel.model';
 import {DefaultTypeRoom} from '../shared/models/default-type-room.model';
 import {TypeRoomService} from '../../shared/services/type-room.service';
 import {NgForm} from '@angular/forms';
 import {ServicePrice} from '../shared/models/service-price.model';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'wfm-rooms-page',
   templateUrl: './rooms-page.component.html',
   styleUrls: ['./rooms-page.component.scss']
 })
-export class RoomsPageComponent implements OnInit {
+export class RoomsPageComponent implements OnInit, OnDestroy {
+  sub1: Subscription;
+  sub2: Subscription;
+
   @ViewChild('defaultTypeOfRoomSelector') defaultTypeOfRoomSelector: ElementRef;
 
   hotels: Hotel [] = [];
@@ -22,13 +26,14 @@ export class RoomsPageComponent implements OnInit {
   isShowMessageBlock: boolean;
   isDublicateRoom: boolean;
 
-  constructor(private hotelService: HotelsService, private defaultTypeRoomService: TypeRoomService) { }
+  constructor(private hotelService: HotelsService, private defaultTypeRoomService: TypeRoomService) {
+  }
 
   ngOnInit() {
     this.isDublicateRoom = false;
     this.isShowMessageBlock = false;
     this.isShowAddNewHotelPanel = false;
-    this.hotelService.getHotels()
+    this.sub1 = this.hotelService.getHotels()
       .subscribe((responseHotels: Hotel []) => {
         for (let i = 0; i < responseHotels.length; i++) {
           responseHotels[i].isShownAddInformation = false;
@@ -47,7 +52,7 @@ export class RoomsPageComponent implements OnInit {
             });
         }
         this.hotels = responseHotels;
-    });
+      });
   }
 
   getCurrentDefaultTypeOfRoom() {
@@ -77,13 +82,13 @@ export class RoomsPageComponent implements OnInit {
         form.reset();
       }, 4000);
     } else {
-      const checkPriceForRoom: DefaultTypeRoom = this.currentHotel.rooms.find(c =>  c.typeRoomName === this.showDefaultTypeRoom.typeRoomName);
+      const checkPriceForRoom: DefaultTypeRoom = this.currentHotel.rooms.find(c => c.typeRoomName === this.showDefaultTypeRoom.typeRoomName);
       if (checkPriceForRoom === undefined) {
         let singelServicePrice: ServicePrice = new ServicePrice(this.showDefaultTypeRoom.typeRoomName, newRoomsPrice, true);
         this.currentHotel.servicesPrice.push(singelServicePrice);
       }
       this.currentHotel.rooms.push(this.showDefaultTypeRoom);
-      this.hotelService.updateHotel(this.currentHotel, this.currentHotel.id)
+      this.sub2 = this.hotelService.updateHotel(this.currentHotel, this.currentHotel.id)
         .subscribe((response: any) => {
           this.showEditMessageBlock();
           form.reset();
@@ -119,5 +124,14 @@ export class RoomsPageComponent implements OnInit {
       .subscribe((response: any) => {
         this.showEditMessageBlock();
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
+    if (this.sub2) {
+      this.sub2.unsubscribe();
+    }
   }
 }
