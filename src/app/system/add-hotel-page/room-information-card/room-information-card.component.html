@@ -1,3 +1,9 @@
+<div
+  *ngIf="isDublicateRoom"
+  #showMessageBlock
+  class="alert alert-danger"
+  style="text-align: center;"
+>Такой тип номера уже есть в списке отелей</div>
 <div class="card">
   <div class="card-block">
     <div style="text-align: center;" class="title-block">
@@ -18,6 +24,7 @@
               <div>
                 <select #defaultTypeOfRoomSelector class="form-control" id="typeRoom"
                         (change)="getCurrentDefaultTypeOfRoom()">
+                  <option disabled> Выберите категорию </option>
                   <option *ngFor="let defaultTypeRoom of defaultTypeRooms" [ngValue]="defaultTypeRoom">
                     {{defaultTypeRoom.typeRoomName}}
                   </option>

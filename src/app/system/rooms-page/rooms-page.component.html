@@ -1,4 +1,10 @@
 <div
+  *ngIf="isDublicateRoom"
+  #showMessageBlock
+  class="alert alert-danger"
+  style="text-align: center;"
+>Такой тип номера уже есть в списке отелей</div>
+<div
   *ngIf="isShowMessageBlock"
   #showMessageBlock
   class="alert alert-success"
@@ -6,98 +12,114 @@
 >Изменения сохранены</div>
 <div class="alert alert-info" style="text-align: center;">Список отелей c их номерами в системе</div>
 <div class="card">
-  <div class="container-fluid">
-    <div *ngFor="let hotel of hotels" class="row container-fluid">
-      <div class="col-md-2 pull-left">Название отеля: {{ hotel.name }}</div>
-      <div class="col-md-2 pull-left">Город: {{ hotel.city }}</div>
-      <div class="col-md-2 pull-left">Адрес: {{ hotel.address }}</div>
-      <div class="col-md-6">
-        <button *ngIf="!hotel.isShownRooms" class="btn btn-success-outline pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Открыть номера</button>
-      </div>
 
-      <div *ngIf="hotel.isShownRooms">
-        <hr>
-        <table class="table table-flip-scroll table-bordered table-hover">
-          <thead>
-          <tr>
-            <th class="text-center">Категория номера</th>
-            <th class="text-center">Тип кроватей</th>
-            <th class="text-center">Детская кровать</th>
-            <th class="text-center">Мини-бар</th>
-            <th class="text-center">Телевизор</th>
-            <th class="text-center">Балкон</th>
-            <th class="text-center">Действие</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let room of hotel.rooms">
-            <td class="text-center">
-              {{room.typeRoomName}}
-            </td>
-            <td class="text-center">
-              {{room.typeOfMainBed}}
-            </td>
-            <td class="text-center" >
-              <label class="checkbox-inline checbox-switch switch-success">
-                <input
-                  #addHotelPageChildBed
-                  type="checkbox"
-                  name="addHotelPageChildBed"
-                  [(checked)]="room.existChildBed"
-                />
-                <span></span>
-              </label>
-            </td>
-            <td class="text-center">
-              <label class="checkbox-inline checbox-switch switch-success">
-                <input
-                  #addHotelPageBar
-                  type="checkbox"
-                  name="addHotelPageBar"
-                  [(checked)]="room.existBar"
-                />
-                <span></span>
-              </label>
-            </td>
-            <td class="text-center">
-              <label class="checkbox-inline checbox-switch switch-success">
-                <input
-                  #addHotelPageTV
-                  type="checkbox"
-                  name="addHotelPageTV"
-                  [(checked)]="room.existTV"
-                />
-                <span></span>
-              </label>
-            </td>
-            <td class="text-center">
-              <label class="checkbox-inline checbox-switch switch-success">
-                <input
-                  #addHotelPageBalkony
-                  type="checkbox"
-                  name="addHotelPageBalkony"
-                  [(checked)]="room.existBalcony"
-                />
-                <span></span>
-              </label>
-            </td>
-            <td class="text-center">
-              <button type="button" class="btn btn-danger" (click)="deleteRoom(room)">Удалить</button>
-            </td>
-          </tr>
-          <tr *ngIf="hotel.rooms.length === 0;" class="text-center">
-            <td colspan="7" style="background: #40b726; color: white">Список типов номеров отеля пуст</td>
-          </tr>
-          </tbody>
-        </table>
-        <button *ngIf="!isShowAddNewHotelPanel" class="btn btn-success pull-left" (click)="dropDownPanelAndCurrentHottel(hotel)">Добавить новый номер</button>
-        <button *ngIf="isShowAddNewHotelPanel" class="btn btn-success pull-left" (click)="isShowAddNewHotelPanel = !isShowAddNewHotelPanel">Скрыть панель</button>
-        <button *ngIf="hotel.isShownRooms" class="btn btn-primary pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Скрыть номера</button>
-        <hr>
-      </div>
-
-    </div>
+  <div *ngIf="hotels.length === 0;" class="card-block">
+    <div class="row text-center">Нет отелей в системе</div>
   </div>
+
+  <ul class="list-group">
+
+    <li *ngFor="let hotel of hotels" class="list-group-item">
+      <div class="container-fluid">
+        <div class="col-md-2 pull-left">Название отеля: {{ hotel.name }}</div>
+        <div class="col-md-2 pull-left">Город: {{ hotel.city }}</div>
+        <div class="col-md-2 pull-left">Адрес: {{ hotel.address }}</div>
+        <div class="col-md-6">
+          <button *ngIf="!hotel.isShownRooms" class="btn btn-success-outline pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Открыть номера</button>
+        </div>
+
+        <div *ngIf="hotel.isShownRooms">
+          <hr>
+          <table class="table table-flip-scroll table-bordered table-hover">
+            <thead>
+            <tr>
+              <th class="text-center">Категория номера</th>
+              <th class="text-center">Тип кроватей</th>
+              <th class="text-center">Детская кровать</th>
+              <th class="text-center">Мини-бар</th>
+              <th class="text-center">Телевизор</th>
+              <th class="text-center">Балкон</th>
+              <th class="text-center">Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let room of hotel.rooms">
+              <td class="text-center">
+                {{room.typeRoomName}}
+              </td>
+              <td class="text-center">
+                {{room.typeOfMainBed}}
+              </td>
+              <td class="text-center" >
+                <label class="checkbox-inline checbox-switch switch-success">
+                  <input
+                    #addHotelPageChildBed
+                    type="checkbox"
+                    name="addHotelPageChildBed"
+                    [(checked)]="room.existChildBed"
+                    (click)="room.existChildBed = !room.existChildBed; changeRoom(hotel)"
+                  />
+                  <span></span>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="checkbox-inline checbox-switch switch-success">
+                  <input
+                    #addHotelPageBar
+                    type="checkbox"
+                    name="addHotelPageBar"
+                    [(checked)]="room.existBar"
+                    (click)="room.existBar = !room.existBar; changeRoom(hotel)"
+                  />
+                  <span></span>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="checkbox-inline checbox-switch switch-success">
+                  <input
+                    #addHotelPageTV
+                    type="checkbox"
+                    name="addHotelPageTV"
+                    [(checked)]="room.existTV"
+                    (click)="room.existTV = !room.existTV; changeRoom(hotel)"
+                  />
+                  <span></span>
+                </label>
+              </td>
+              <td class="text-center">
+                <label class="checkbox-inline checbox-switch switch-success">
+                  <input
+                    #addHotelPageBalkony
+                    type="checkbox"
+                    name="addHotelPageBalkony"
+                    [(checked)]="room.existBalcony"
+                    (click)="room.existBalcony = !room.existBalcony; changeRoom(hotel)"
+                  />
+                  <span></span>
+                </label>
+              </td>
+              <td class="text-center">
+                <button type="button" class="btn btn-danger" (click)="deleteRoom(hotel, room)">Удалить</button>
+              </td>
+            </tr>
+            <tr *ngIf="hotel.rooms.length === 0;" class="text-center">
+              <td colspan="7" style="background: #40b726; color: white">Список типов номеров отеля пуст</td>
+            </tr>
+            </tbody>
+          </table>
+
+          <hr>
+
+          <button *ngIf="!isShowAddNewHotelPanel" class="btn btn-success pull-left" (click)="dropDownPanelAndCurrentHottel(hotel)">Добавить новый номер</button>
+          <button *ngIf="isShowAddNewHotelPanel" class="btn btn-success pull-left" (click)="isShowAddNewHotelPanel = !isShowAddNewHotelPanel">Скрыть панель</button>
+          <button *ngIf="hotel.isShownRooms" [disabled]="isShowAddNewHotelPanel" class="btn btn-primary pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Скрыть номера</button>
+
+
+        </div>
+      </div>
+    </li>
+
+  </ul>
 
   <div *ngIf="isShowAddNewHotelPanel" class="container-fluid">
     <div class="row row-sm stats-container">
@@ -112,6 +134,7 @@
               <div>
                 <select #defaultTypeOfRoomSelector class="form-control" id="typeRoom"
                         (change)="getCurrentDefaultTypeOfRoom()">
+                  <option disabled>Выберите категорию</option>
                   <option *ngFor="let defaultTypeRoom of defaultTypeRooms" [ngValue]="defaultTypeRoom">
                     {{defaultTypeRoom.typeRoomName}}
                   </option>
@@ -489,6 +512,24 @@
             </div>
 
             <hr>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="newRoomsPrice" class="control-label pull-right">Стоимость номера</label>
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="number"
+                  name="newRoomsPrice"
+                  id="newRoomsPrice"
+                  placeholder="Введите стоимость номера"
+                  class="form-control"
+                  required
+                  ngModel
+                  #newRoomsPrice="ngModel"
+                >
+              </div>
+            </div>
+            <hr>
 
             <div class="row">
               <div class="form-group col-md-6 pull-right">
@@ -511,3 +552,8 @@
     </div>
   </div>
 </div>
+
+
+
+
+

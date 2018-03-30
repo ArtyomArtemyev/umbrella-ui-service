@@ -218,7 +218,7 @@
 
   <div *ngIf="isMainInformationAdded && !isShowPricePage" class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">
     <div *ngIf="!isLatestPage && !isShowPricePage" #addRoomInformationMessageBlock class="alert alert-info" style="text-align: center;">Заполните информацию о номерах отеля</div>
-    <wfm-room-information-card *ngIf="!isLatestPage && !isShowPricePage" (onAddRoom)="updateRoomList($event)" (onShowPricePage)="showPricePage($event)"></wfm-room-information-card>
+    <wfm-room-information-card [isDublicateRoom]="isDublicateRoom" *ngIf="!isLatestPage && !isShowPricePage" (onAddRoom)="updateRoomList($event)" (onShowPricePage)="showPricePage($event)"></wfm-room-information-card>
   </div>
 
   <div *ngIf="isMainInformationAdded && !isShowPricePage" class="col col-xs-12 col-sm-12 col-md-12 col-xl-7 history-col">

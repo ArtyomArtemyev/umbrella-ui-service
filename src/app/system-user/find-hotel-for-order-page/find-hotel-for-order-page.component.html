@@ -1,175 +1,190 @@
-<div class="title-block">
-  <div #isCountOfMenValid class="alert alert-danger" *ngIf="!isCountOfMenValid">Количество взрослых должно быть больше 0</div>
+<!--<section class="section">-->
 
-  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-    <table class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <th class="text-center text-md-center">Город</th>
-          <th class="text-center text-md-center">Дата заезда</th>
-          <th class="text-center text-md-center">Дата выезда</th>
-          <th class="text-center text-md-center">Количество <br> взрослых</th>
-          <th class="text-center text-md-center">Количество <br> детей</th>
-          <th class="text-center text-md-center">Действие</th>
-        </tr>
-      </thead>
-    <tbody>
+  <!--<div *ngIf="hotels.length != 0" class="list-group">-->
 
-      <tr
-        class="form-group"
-        [ngClass]="{'has-error': findHotelPageCityInput.invalid && findHotelPageCityInput.touched}">
-      </tr>
-      <tr>
-        <td class="text-center text-md-center">
-          <input
-            class="form-control"
-            type="text"
-            name="findHotelPageCityInput"
-            id="findHotelPageCityInput"
-            required
-            ngModel
-            #findHotelPageCityInput="ngModel"
-          >
-        </td>
+    <!--<div class="row-fluid user-row">-->
 
-        <td class="text-center text-md-center">
-          <input
-            class="form-control"
-            type="date"
-            name="findHotelPageDateInput"
-            id="findHotelPageDateInput"
-            required
-            ngModel
-            #findHotelPageDateInput="ngModel"
-          >
-        </td>
-        <td class="text-center text-md-center">
-          <input
-            class="form-control"
-            type="date"
-            name="findHotelPageDateEndInput"
-            id="findHotelPageDateEndInput"
-            required
-            ngModel
-            #findHotelPageDateEndInput="ngModel"
-          >
-        </td>
-        <td class="text-center text-md-center">
-          <div
-            class="form-control input-sm center merge-bottom-input"
-            name="second"
-            #countMenDiv
-          >0</div>
-          <div class="btn-group btn-block" role="group" aria-label="plus-minus">
-            <button type="button" class="btn btn-sm btn-danger minus-button merge-top-left-button" disabled="disabled"><span class="glyphicon glyphicon-minus"></span></button>
-            <button type="button" class="btn btn-sm btn-success plus-button merge-top-right-button"><span class="glyphicon glyphicon-plus"></span></button>
+      <!--<div class="span1">-->
+        <!--<img class="img-circle"-->
+             <!--src="https://hotel-aleksandria.com/uploads/img/1280x620/main_1.jpg"-->
+             <!--alt="User Pic">-->
+      <!--</div>-->
+
+      <!--<div class="span10">-->
+        <!--<strong>HotelName</strong><br>-->
+        <!--<div class="rating">-->
+          <!--<span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="span1 dropdown-user" data-for=".cyruxx">-->
+        <!--<button class="btn btn-secondary" type="button"><i class="icon-chevron-down text-muted"></i></button>-->
+      <!--</div>-->
+
+    <!--</div>-->
+
+    <!--<div class="row-fluid user-infos cyruxx">-->
+      <!--<div class="span10 offset1">-->
+        <!--<div class="panel panel-primary">-->
+          <!--<div class="panel-heading">-->
+            <!--<h3 class="panel-title">Информация об отеле</h3>-->
+          <!--</div>-->
+          <!--<div class="panel-body">-->
+            <!--<div class="row-fluid">-->
+              <!--<div class="span3">-->
+                <!--<img class="img-circle"-->
+                     <!--src="https://hotel-aleksandria.com/uploads/img/1280x620/main_1.jpg"-->
+                     <!--alt="User Pic">-->
+              <!--</div>-->
+              <!--<div class="span6">-->
+                <!--<strong>HotelName</strong><br>-->
+                <!--<table class="table table-striped">-->
+                  <!--<tbody>-->
+                  <!--<tr>-->
+                    <!--<td>User level:</td>-->
+                    <!--<td>Administrator</td>-->
+                  <!--</tr>-->
+                  <!--<tr>-->
+                    <!--<td>Registered since:</td>-->
+                    <!--<td>11/12/2013</td>-->
+                  <!--</tr>-->
+                  <!--<tr>-->
+                    <!--<td>Topics</td>-->
+                    <!--<td>15</td>-->
+                  <!--</tr>-->
+                  <!--<tr>-->
+                    <!--<td>Warnings</td>-->
+                    <!--<td>0</td>-->
+                  <!--</tr>-->
+                  <!--</tbody>-->
+                <!--</table>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="panel-footer">-->
+              <!--<button class="btn btn-primary pull-right" type="button">Выбрать отель <i class="glyphicon glyphicon-ok"></i></button>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+  <!--</div>-->
+
+<!--</section>-->
+
+<div
+  *ngIf="isShowMessageBlock"
+  #showMessageBlock
+  class="alert alert-danger"
+  style="text-align: center;"
+>{{message.text}}</div>
+<div class="card">
+  <div class="card-block">
+
+    <div class="row">
+        <div class="text-center col-md-2">Город</div>
+        <div class="text-center col-md-2">Дата заезда</div>
+        <div class="text-center col-md-2">Дата выезда</div>
+        <div class="text-center col-md-2">Количество человек</div>
+        <div class="text-center col-md-2">Детская кровать</div>
+        <div class="text-center col-md-2">Действие</div>
+    </div>
+
+    <hr>
+    <div class="row">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+        <div class="col-md-2">
+          <div>
+            <input
+              class="form-control"
+              type="text"
+              name="findHotelPageCityInput"
+              id="findHotelPageCityInput"
+              required
+              ngModel
+              #findHotelPageCityInput="ngModel"
+              placeholder="Введите город"
+            >
           </div>
-        </td>
-        <td class="text-center text-md-center">
-          <div
-            class="form-control input-sm center merge-bottom-input"
-            name="second"
-            #countChildDiv
-          >0</div>
+          <div *ngIf="findHotelPageCityInput.invalid && findHotelPageCityInput.touched"
+               class="text-center" style="background: #c40000; color: white">Город не может быть пустым</div>
+        </div>
 
-          <div class="btn-group btn-block" role="group" aria-label="plus-minus">
-            <button type="button" class="btn btn-sm btn-danger minus-button merge-top-left-button" disabled="disabled"><span class="glyphicon glyphicon-minus"></span></button>
-            <button type="button" class="btn btn-sm btn-success plus-button merge-top-right-button"><span class="glyphicon glyphicon-plus"></span></button>
+        <div class="col-md-2">
+          <div>
+            <input
+              class="form-control"
+              type="date"
+              name="findHotelPageDateInput"
+              id="findHotelPageDateInput"
+              required
+              ngModel
+              #findHotelPageDateInput="ngModel"
+            >
           </div>
-        </td>
-        <td class="text-center text-md-center">
+          <div *ngIf="findHotelPageDateInput.invalid && findHotelPageDateInput.touched"
+             class="text-center" style="background: #c40000; color: white">Выберите дату заезда</div>
+        </div>
+
+        <div class="col-md-2">
+          <div>
+            <input
+              class="form-control"
+              type="date"
+              name="findHotelPageDateEndInput"
+              id="findHotelPageDateEndInput"
+              required
+              ngModel
+              #findHotelPageDateEndInput="ngModel"
+             >
+          </div>
+          <div *ngIf="findHotelPageDateEndInput.invalid && findHotelPageDateEndInput.touched"
+             class="text-center" style="background: #c40000; color: white">Выберите дату выезда</div>
+        </div>
+
+        <div class="col-md-2">
+          <div>
+            <input
+              type="number"
+              class="form-control"
+              min="0"
+              placeholder="Введите количество"
+              name="findHotelPageCountMenDiv"
+              id="findHotelPageCountMenDiv"
+              required
+              ngModel
+              #findHotelPageCountMenDiv="ngModel"
+            />
+          </div>
+          <div *ngIf="findHotelPageCountMenDiv.invalid && findHotelPageCountMenDiv.touched"
+             class="text-center" style="background: #c40000; color: white">Введите количество человек</div>
+        </div>
+
+        <div class="col-md-2">
+          <div>
+            <label class="checkbox-inline checbox-switch switch-success">
+              <input
+                type="checkbox"
+                name="childBedInRoom"
+                [checked]="existChildBedInRoom"
+                (change)="existChildBedInRoom = !existChildBedInRoom"
+              />
+              <span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="col-md-2">
           <button
             type="submit"
-            class="btn btn-info btn-lg"
+            class="btn btn-info center-block"
             [disabled]="f.invalid"
-          >Найти</button>
-        </td>
-      </tr>
-      <tr>
-        <td *ngIf="findHotelPageCityInput.invalid && findHotelPageCityInput.touched"
-            class="text-center form-help-text" style="background: #c40000; color: white">Город не может быть пустым</td>
-        <td *ngIf="findHotelPageDateInput.invalid && findHotelPageDateInput.touched"></td>
-        <td *ngIf="findHotelPageDateInput.invalid && findHotelPageDateInput.touched"
-            class="text-center form-help-text" style="background: #c40000; color: white">Выберите дату заезда</td>
-        <td *ngIf="findHotelPageDateEndInput.invalid && findHotelPageDateEndInput.touched" colspan="2"></td>
-        <td *ngIf="findHotelPageDateEndInput.invalid && findHotelPageDateEndInput.touched"
-            class="text-center form-help-text" style="background: #c40000; color: white">Выберите дату выезда</td>
-      </tr>
-    </tbody>
-  </table>
-  </form>
+          >Поиск</button>
+         </div>
 
-</div>
-
-<section class="section">
-
-  <div *ngIf="hotels.length != 0" class="list-group">
-
-    <div class="row-fluid user-row">
-
-      <div class="span1">
-        <img class="img-circle"
-             src="https://hotel-aleksandria.com/uploads/img/1280x620/main_1.jpg"
-             alt="User Pic">
-      </div>
-
-      <div class="span10">
-        <strong>HotelName</strong><br>
-        <div class="rating">
-          <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span>
-        </div>
-      </div>
-      <div class="span1 dropdown-user" data-for=".cyruxx">
-        <button class="btn btn-secondary" type="button"><i class="icon-chevron-down text-muted"></i></button>
-      </div>
+        </form>
 
     </div>
-
-    <div class="row-fluid user-infos cyruxx">
-      <div class="span10 offset1">
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">Информация об отеле</h3>
-          </div>
-          <div class="panel-body">
-            <div class="row-fluid">
-              <div class="span3">
-                <img class="img-circle"
-                     src="https://hotel-aleksandria.com/uploads/img/1280x620/main_1.jpg"
-                     alt="User Pic">
-              </div>
-              <div class="span6">
-                <strong>HotelName</strong><br>
-                <table class="table table-striped">
-                  <tbody>
-                  <tr>
-                    <td>User level:</td>
-                    <td>Administrator</td>
-                  </tr>
-                  <tr>
-                    <td>Registered since:</td>
-                    <td>11/12/2013</td>
-                  </tr>
-                  <tr>
-                    <td>Topics</td>
-                    <td>15</td>
-                  </tr>
-                  <tr>
-                    <td>Warnings</td>
-                    <td>0</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="panel-footer">
-              <button class="btn btn-primary pull-right" type="button">Выбрать отель <i class="glyphicon glyphicon-ok"></i></button>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <hr>
   </div>
-
-</section>
+</div>

@@ -1,0 +1,48 @@
+<div
+  *ngIf="isShowMessageBlock"
+  #showMessageBlock
+  class="alert alert-success"
+  style="text-align: center;"
+>Изменения сохранены</div>
+<div class="alert alert-info" style="text-align: center;">Список отелей c их прайсами в системе</div>
+<div class="card">
+
+  <div *ngIf="hotels.length === 0;" class="card-block">
+    <div class="row text-center">Нет отелей в системе</div>
+  </div>
+
+  <div class="container-fluid">
+    <div *ngFor="let hotel of hotels" class="row container-fluid">
+      <div class="col-md-2 pull-left">Название отеля: {{ hotel.name }}</div>
+      <div class="col-md-2 pull-left">Город: {{ hotel.city }}</div>
+      <div class="col-md-2 pull-left">Адрес: {{ hotel.address }}</div>
+      <div class="col-md-6">
+        <button *ngIf="!hotel.isShownRooms" class="btn btn-success-outline pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Открыть прайс</button>
+      </div>
+
+      <div *ngIf="hotel.isShownRooms" class="container-fluid">
+        <hr>
+        <div class="row">
+          <div *ngFor="let nameService of hotel.servicesPrices" class="col-md-1 text-center">
+            {{nameService.service}}
+          </div>
+        </div>
+        <div class="row">
+          <div *ngFor="let nameServicePrice of hotel.servicesPrices" class="col-md-1 text-center">
+            <input class="form-control text-center" [(ngModel)]="nameServicePrice.price"/>
+          </div>
+        </div>
+        <div class="row">
+          <button *ngIf="hotel.isShownRooms" class="btn btn-primary pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Скрыть прайс</button>
+          <button *ngIf="hotel.isShownRooms" class="btn btn-success pull-right" (click)="updateHotelPrice(hotel)" >Сохранить изменения</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+

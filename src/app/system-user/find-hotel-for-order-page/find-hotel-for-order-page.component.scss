@@ -1,89 +1,59 @@
-.panel {
-  background-color: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0);
-  border-radius: 4px 4px 4px 4px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
+.checkbox.checbox-switch {
+  padding-left: 0;
 }
 
-.panel-primary {
-  border-color: #428BCA;
+.checkbox.checbox-switch label,
+.checkbox-inline.checbox-switch {
+  display: inline-block;
+  position: relative;
+  padding-left: 0;
 }
-
-.panel-primary > .panel-heading {
-  background-color: #428BCA;
-  border-color: #428BCA;
-  color: #FFFFFF;
+.checkbox.checbox-switch label input,
+.checkbox-inline.checbox-switch input {
+  display: none;
 }
-
-.panel-heading {
-  border-bottom: 1px solid rgba(0, 0, 0, 0);
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  padding: 10px 15px;
+.checkbox.checbox-switch label span,
+.checkbox-inline.checbox-switch span {
+  width: 35px;
+  border-radius: 20px;
+  height: 18px;
+  border: 1px solid #dbdbdb;
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(223, 223, 223);
+  box-shadow: rgb(223, 223, 223) 0px 0px 0px 0px inset;
+  transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
 }
-
-.panel-title {
-  font-size: 16px;
-  margin-bottom: 0;
-  margin-top: 0;
-}
-
-.panel-body:before, .panel-body:after {
+.checkbox.checbox-switch label span:before,
+.checkbox-inline.checbox-switch span:before {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgb(255,255,255);
   content: " ";
-  display: table;
+  top: 0;
+  position: relative;
+  left: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
-
-.panel-body:before, .panel-body:after {
-  content: " ";
-  display: table;
+.checkbox.checbox-switch label > input:checked + span:before,
+.checkbox-inline.checbox-switch > input:checked + span:before {
+  left: 17px;
 }
-
-.panel-body:after {
-  clear: both;
+.checkbox.checbox-switch.switch-success label > input:checked + span,
+.checkbox-inline.checbox-switch.switch-success > input:checked + span {
+  background-color: rgb(40, 167, 69);
+  border-color: rgb(40, 167, 69);
+  box-shadow: rgb(40, 167, 69) 0px 0px 0px 8px inset;
+  transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
 }
-
-.panel-body {
-  padding: 15px;
-}
-
-.panel-footer {
-  background-color: #F5F5F5;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-top: 1px solid #DDDDDD;
-  padding: 10px 15px;
-  height: 50px;
-}
-
-//CSS from v3 snipp
-.user-row {
-  margin-bottom: 14px;
-}
-
-.user-row:last-child {
-  margin-bottom: 0;
-}
-
-.dropdown-user {
-  margin: 13px 0;
-  padding: 5px;
-  height: 100%;
-}
-
-.dropdown-user:hover {
-  cursor: pointer;
-}
-
-.table-user-information > tbody > tr {
-  border-top: 1px solid rgb(221, 221, 221);
-}
-
-.table-user-information > tbody > tr:first-child {
-  border-top: 0;
-}
-
-
-.table-user-information > tbody > tr > td {
-  border-top: 0;
+.checkbox.checbox-switch.switch-success label > input:checked:disabled + span,
+.checkbox-inline.checbox-switch.switch-success > input:checked:disabled + span {
+  background-color: rgb(153, 217, 168);
+  border-color: rgb(153, 217, 168);
+  box-shadow: rgb(153, 217, 168) 0px 0px 0px 8px inset;
 }

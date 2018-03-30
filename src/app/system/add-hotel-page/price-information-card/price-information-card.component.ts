@@ -16,15 +16,32 @@ export class PriceInformationCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    for (let i = 0; i < this.rooms.length; i++) {
-      let singelServicePrice: ServicePrice = new ServicePrice(this.rooms[i].typeRoomName, 0);
+    this.servicesPrices.push(new ServicePrice('Телевизор', 0, false));
+    this.servicesPrices.push(new ServicePrice('Бар', 0, false));
+    this.servicesPrices.push(new ServicePrice('Балкон', 0, false));
+    this.servicesPrices.push(new ServicePrice('Wi-fi', 0, false));
+    this.servicesPrices.push(new ServicePrice('Детская кровать', 0, false));
+    let typeRoomsWithFilter: DefaultTypeRoom [] = this.filterRooms(this.rooms);
+    for (let i = 0; i < typeRoomsWithFilter.length; i++) {
+      let singelServicePrice: ServicePrice = new ServicePrice(typeRoomsWithFilter[i].typeRoomName, 0, true);
       this.servicesPrices.push(singelServicePrice);
     }
-    this.servicesPrices.push(new ServicePrice('Телевизор', 0));
-    this.servicesPrices.push(new ServicePrice('Бар', 0));
-    this.servicesPrices.push(new ServicePrice('Балкон', 0));
-    this.servicesPrices.push(new ServicePrice('Wi-fi', 0));
-    this.servicesPrices.push(new ServicePrice('Детская кровать', 0));
+
+  }
+
+  filterRooms(inisialRooms: DefaultTypeRoom []): DefaultTypeRoom [] {
+    let filterTypeRooms: DefaultTypeRoom [] = [];
+    filterTypeRooms.push(inisialRooms[0]);
+    if (inisialRooms.length !== 1) {
+      for (let i = 1; i < inisialRooms.length; i++) {
+        for (let k = 0; k < filterTypeRooms.length; k++) {
+          if (filterTypeRooms[k] !== inisialRooms[i]) {
+            filterTypeRooms.push(inisialRooms[i]);
+          }
+        }
+      }
+    }
+    return filterTypeRooms;
   }
 
   onSubmit(form: NgForm) {

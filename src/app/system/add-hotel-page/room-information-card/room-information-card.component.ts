@@ -1,7 +1,8 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {DefaultTypeRoom} from '../../shared/models/default-type-room.model';
 import {TypeRoomService} from '../../../shared/services/type-room.service';
+import {Message} from '../../../shared/models/message.models';
 
 @Component({
   selector: 'wfm-room-information-card',
@@ -16,6 +17,9 @@ export class RoomInformationCardComponent implements OnInit {
   existChildBedInRoom: boolean;
   isRoomAdded: boolean;
   action: any;
+  @Input() isDublicateRoom: boolean;
+  message: Message;
+  isShowMessageBlock: boolean;
 
   @Output('onAddRoom') roomEmitter = new EventEmitter<DefaultTypeRoom>();
   @Output('onShowPricePage') onShowPricePage = new EventEmitter<any>();
@@ -23,9 +27,11 @@ export class RoomInformationCardComponent implements OnInit {
   constructor(private defaultTypeRoomService: TypeRoomService) { }
 
   ngOnInit() {
+    this.isDublicateRoom = false;
     this.isRoomAdded = false;
     this.showDefaultTypeRoom.isVisible = false;
     this.existChildBedInRoom = true;
+    this.isShowMessageBlock = false;
     this.defaultTypeRoomService.getRooms()
       .subscribe((responseTypeRoom: DefaultTypeRoom[]) => {
         for (let i = 0; i < responseTypeRoom.length; i++) {
@@ -51,5 +57,15 @@ export class RoomInformationCardComponent implements OnInit {
 
   showLatestPage() {
     this.onShowPricePage.emit(this.action);
+  }
+
+  private showMessage(message: Message) {
+    this.isShowMessageBlock = true;
+    this.message = message;
+
+    window.setTimeout(() => {
+      this.isShowMessageBlock = false;
+      this.message.text = '';
+    }, 3000);
   }
 }

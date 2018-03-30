@@ -33,6 +33,7 @@ export class AddHotelPageComponent implements OnInit {
   isLatestPage: boolean;
   isShowPricePage: boolean;
   servicesPrices: ServicePrice [];
+  isDublicateRoom: boolean;
 
   constructor(private hotelService: HotelsService, private router: Router) { }
 
@@ -59,9 +60,17 @@ export class AddHotelPageComponent implements OnInit {
   }
 
   updateRoomList(room: DefaultTypeRoom) {
-    console.log(room);
-    this.rooms.push(room);
-    this.isRoomsAdded = true;
+    const checkRoom: DefaultTypeRoom = this.rooms.find(c => c === room);
+    if (checkRoom !== undefined) {
+      this.isDublicateRoom = true;
+      window.setTimeout(() => {
+        this.isDublicateRoom = false;
+      }, 4000);
+    } else {
+      console.log(room);
+      this.rooms.push(room);
+      this.isRoomsAdded = true;
+    }
   }
 
   addHotel() {

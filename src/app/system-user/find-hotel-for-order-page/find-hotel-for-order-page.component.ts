@@ -1,8 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import * as $ from 'jquery';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Hotel} from '../../system/shared/models/hotel.model';
 import {NgForm} from '@angular/forms';
-import {RequireHotel} from '../shared/models/require-hotel.model';
+import {Message} from '../../shared/models/message.models';
+import {HotelsService} from '../../shared/services/hotels.service';
+import {FindHotel} from '../../system/shared/models/find-hotel.model';
 
 @Component({
   selector: 'wfm-find-hotel-for-order-page',
@@ -10,70 +11,57 @@ import {RequireHotel} from '../shared/models/require-hotel.model';
   styleUrls: ['./find-hotel-for-order-page.component.scss']
 })
 export class FindHotelForOrderPageComponent implements OnInit {
-  @ViewChild('countMenDiv') countMenDiv;
-  @ViewChild('countChildDiv') countChildDiv;
-
-  isCountOfMenValid: boolean;
+  message: Message;
+  isShowMessageBlock: boolean;
   hotels: Hotel [] = [];
 
-  constructor() {
+  @ViewChild('showMessageBlock') showMessageBlock: ElementRef;
+  existChildBedInRoom: boolean;
+
+  constructor(private hotelService: HotelsService) {
   }
 
   ngOnInit() {
-    this.isCountOfMenValid = true;
-    $(document).ready(() => {
-      $('.minus-button').click((e) => {
-
-        // change this to whatever minimum you'd like
-        const minValue = 0;
-
-        const currentInput = $(e.currentTarget).parent().prev()[0];
-
-        let minusInputValue = $(currentInput).html();
-
-        if (minusInputValue > minValue) {
-          minusInputValue--;
-          $($(e.currentTarget).next()).removeAttr('disabled');
-          $(currentInput).html(minusInputValue);
-
-          if (minusInputValue <= minValue) {
-            $(e.currentTarget).attr('disabled', 'disabled');
-          }
-        }
-      });
-
-      $('.plus-button').click((e) => {
-
-        const maxValue = 10;
-
-        const currentInput = $(e.currentTarget).parent().prev()[0];
-
-        let plusInputValue = $(currentInput).html();
-
-        if (plusInputValue < maxValue) {
-          plusInputValue++;
-          $($(e.currentTarget).prev()[0]).removeAttr('disabled');
-          $(currentInput).html(plusInputValue);
-
-          if (plusInputValue >= maxValue) {
-            $(e.currentTarget).attr('disabled', 'disabled');
-          }
-        }
-      });
-
-    });
+    this.existChildBedInRoom = false;
+    this.isShowMessageBlock = false;
   }
 
   onSubmit(form: NgForm) {
-    if (+this.countMenDiv.nativeElement.innerHTML === 0) {
-      this.isCountOfMenValid = !this.isCountOfMenValid;
-      window.setTimeout(() => this.isCountOfMenValid = !this.isCountOfMenValid, 5000);
+    console.log(form);
+    const {childBedInRoom, findHotelPageCityInput, findHotelPageCountMenDiv, findHotelPageDateEndInput, findHotelPageDateInput} = form.value;
+    if (findHotelPageCountMenDiv <= 0) {
+      this.showMessage(new Message('', 'Количество человек не может быть меньше нуля или равным нулю'));
     } else {
-      const {findHotelPageCityInput, findHotelPageDateEndInput, findHotelPageDateInput} = form.value;
-      const reqiuredHotel: RequireHotel = new RequireHotel(findHotelPageCityInput, new Date(findHotelPageDateEndInput), new Date(findHotelPageDateInput), +this.countMenDiv.nativeElement.innerHTML, +this.countChildDiv.nativeElement.innerHTML);
-      console.log(reqiuredHotel);
+      if (new Date(findHotelPageDateEndInput) < new Date(findHotelPageDateInput)) {
+        this.showMessage(new Message('', 'Дата выезда не может быть раньше даты заезда'));
+      } else {
+        const findHotelObject = new FindHotel(this.existChildBedInRoom, findHotelPageCityInput, +findHotelPageCountMenDiv, findHotelPageDateInput, findHotelPageDateEndInput);
+        this.hotelService.findHotel(findHotelObject)
+          .subscribe((response: any) => {
+
+          });
+      }
     }
 
+    // if (+this.countMenDiv.nativeElement.innerHTML === 0) {
+    //   this.isCountOfMenValid = !this.isCountOfMenValid;
+    //   window.setTimeout(() => this.isCountOfMenValid = !this.isCountOfMenValid, 5000);
+    // } else {
+    //   const {findHotelPageCityInput, findHotelPageDateEndInput, findHotelPageDateInput} = form.value;
+    //   const reqiuredHotel: RequireHotel = new RequireHotel(findHotelPageCityInput, new Date(findHotelPageDateEndInput), new Date(findHotelPageDateInput), +this.countMenDiv.nativeElement.innerHTML, +this.countChildDiv.nativeElement.innerHTML);
+    //   console.log(reqiuredHotel);
+    // }
+
+  }
+
+  private showMessage(message: Message) {
+    this.isShowMessageBlock = true;
+    this.message = message;
+
+    window.setTimeout(() => {
+      this.isShowMessageBlock = false;
+      this.message.text = '';
+    }, 3000);
   }
 
 }

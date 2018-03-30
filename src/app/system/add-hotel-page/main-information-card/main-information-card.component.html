@@ -1,3 +1,9 @@
+<div
+  *ngIf="isShowMessageBlock"
+  #showMessageBlock
+  class="alert alert-danger"
+  style="text-align: center;"
+>{{message.text}}</div>
 <div #addMainInformationMessageBlockError *ngIf="isShowErorBlock" class="alert alert-danger" style="text-align: center;">Загрузите фотографию</div>
 <div #addMainInformationMessageBlock class="alert alert-info" style="text-align: center;">Заполните основную информацию об отеле</div>
 <div class="card">

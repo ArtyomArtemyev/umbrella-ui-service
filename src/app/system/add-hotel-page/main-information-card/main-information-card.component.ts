@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@a
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {UploadFileService} from '../../../shared/services/upload-file.service';
 import {NgForm} from '@angular/forms';
+import {Message} from '../../../shared/models/message.models';
 
 @Component({
   selector: 'wfm-main-information-card',
@@ -21,6 +22,8 @@ export class MainInformationCardComponent implements OnInit {
   isPhotoLoaded: boolean;
   isShowNextPage: boolean;
   isShowErorBlock: boolean;
+  isShowMessageBlock: boolean;
+  message: Message;
 
   constructor(private uploadService: UploadFileService) {
   }
@@ -29,6 +32,7 @@ export class MainInformationCardComponent implements OnInit {
     this.isShowErorBlock = false;
     this.isPhotoLoaded = false;
     this.isShowNextPage = false;
+    this.isShowMessageBlock = false;
   }
 
   selectFile(event) {
@@ -62,17 +66,31 @@ export class MainInformationCardComponent implements OnInit {
   onSubmit(form: NgForm) {
     if (this.isPhotoLoaded) {
       let {addressInput, cityInput, countOfStarsInput, descriptionInput, nameInput} = form.value;
-      form.reset();
-      this.informationEmitter.emit({
-        name: nameInput,
-        city: cityInput,
-        address: addressInput,
-        countOfStars: +countOfStarsInput,
-        description: descriptionInput
-      });
+      if (countOfStarsInput < 0 || countOfStarsInput > 5) {
+        this.showMessage(new Message('', 'Количество звезд может быть от 0 до 5'));
+      } else {
+        form.reset();
+        this.informationEmitter.emit({
+          name: nameInput,
+          city: cityInput,
+          address: addressInput,
+          countOfStars: +countOfStarsInput,
+          description: descriptionInput
+        });
+      }
     } else if (!this.isPhotoLoaded) {
       this.isShowErorBlock = true;
     }
+  }
+
+  private showMessage(message: Message) {
+    this.isShowMessageBlock = true;
+    this.message = message;
+
+    window.setTimeout(() => {
+      this.isShowMessageBlock = false;
+      this.message.text = '';
+    }, 3000);
   }
 
 }

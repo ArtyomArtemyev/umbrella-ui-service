@@ -4,6 +4,7 @@ import {Hotel} from '../shared/models/hotel.model';
 import {DefaultTypeRoom} from '../shared/models/default-type-room.model';
 import {TypeRoomService} from '../../shared/services/type-room.service';
 import {NgForm} from '@angular/forms';
+import {ServicePrice} from '../shared/models/service-price.model';
 
 @Component({
   selector: 'wfm-rooms-page',
@@ -19,10 +20,12 @@ export class RoomsPageComponent implements OnInit {
   showDefaultTypeRoom: DefaultTypeRoom = new DefaultTypeRoom();
   currentHotel: Hotel;
   isShowMessageBlock: boolean;
+  isDublicateRoom: boolean;
 
   constructor(private hotelService: HotelsService, private defaultTypeRoomService: TypeRoomService) { }
 
   ngOnInit() {
+    this.isDublicateRoom = false;
     this.isShowMessageBlock = false;
     this.isShowAddNewHotelPanel = false;
     this.hotelService.getHotels()
@@ -63,13 +66,29 @@ export class RoomsPageComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    let {typeOfBedInput} = form.value;
+    let {newRoomsPrice, typeOfBedInput} = form.value;
     this.showDefaultTypeRoom.typeOfMainBed = typeOfBedInput;
-    this.currentHotel.rooms.push(this.showDefaultTypeRoom);
-    this.hotelService.updateHotel(this.currentHotel, this.currentHotel.id)
-      .subscribe((response: any) => {
-        this.showEditMessageBlock();
-      });
+    const checkRoom: DefaultTypeRoom = this.currentHotel.rooms.find(c =>
+      c.typeRoomName === this.showDefaultTypeRoom.typeRoomName && c.typeOfMainBed === this.showDefaultTypeRoom.typeOfMainBed && c.existBar === this.showDefaultTypeRoom.existBar && c.existBalcony === this.showDefaultTypeRoom.existBalcony && c.existTV === this.showDefaultTypeRoom.existTV);
+    if (checkRoom !== undefined) {
+      this.isDublicateRoom = true;
+      window.setTimeout(() => {
+        this.isDublicateRoom = false;
+        form.reset();
+      }, 4000);
+    } else {
+      const checkPriceForRoom: DefaultTypeRoom = this.currentHotel.rooms.find(c =>  c.typeRoomName === this.showDefaultTypeRoom.typeRoomName);
+      if (checkPriceForRoom === undefined) {
+        let singelServicePrice: ServicePrice = new ServicePrice(this.showDefaultTypeRoom.typeRoomName, newRoomsPrice, true);
+        this.currentHotel.servicesPrice.push(singelServicePrice);
+      }
+      this.currentHotel.rooms.push(this.showDefaultTypeRoom);
+      this.hotelService.updateHotel(this.currentHotel, this.currentHotel.id)
+        .subscribe((response: any) => {
+          this.showEditMessageBlock();
+          form.reset();
+        });
+    }
   }
 
   showEditMessageBlock() {
@@ -77,5 +96,28 @@ export class RoomsPageComponent implements OnInit {
     window.setTimeout(() => {
       this.isShowMessageBlock = false;
     }, 1000);
+  }
+
+  deleteRoom(hotel: Hotel, room: DefaultTypeRoom) {
+    this.remove(hotel.rooms, room);
+    this.hotelService.updateHotel(hotel, hotel.id)
+      .subscribe((response: any) => {
+        this.showEditMessageBlock();
+      });
+  }
+
+  remove(array, element) {
+    const index = array.indexOf(element);
+
+    if (index !== -1) {
+      array.splice(index, 1);
+    }
+  }
+
+  changeRoom(hotel: Hotel) {
+    this.hotelService.updateHotel(hotel, hotel.id)
+      .subscribe((response: any) => {
+        this.showEditMessageBlock();
+      });
   }
 }
