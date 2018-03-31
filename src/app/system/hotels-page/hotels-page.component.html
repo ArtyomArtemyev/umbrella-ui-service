@@ -15,21 +15,25 @@
           <div class="card-header bordered">
             <div class="form-inline pull-right m-r-2">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Поиск...">
+                <input
+                  type="text"
+                  class="form-control"
+                  [placeholder]="searchPlaceholder"
+                  [(ngModel)]="searchValue"
+                >
               </div>
 
-              <div class="btn-group">
+              <div class="btn-group" wfmDropdown>
                 <button
                   type="button"
                   class="btn btn-secondary dropdown-toggle">
                   Параметр
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Separated link</a>
+                  <a class="dropdown-item" (click)="changeCriteria('name')">Название</a>
+                  <a class="dropdown-item" (click)="changeCriteria('city')">Город</a>
+                  <a class="dropdown-item" (click)="changeCriteria('address')">Адрес</a>
+                  <a class="dropdown-item" (click)="changeCriteria('countOfStars')">Количество звёзд</a>
                 </div>
               </div>
             </div>
@@ -52,7 +56,7 @@
         </div>
       </div>
 
-      <div *ngFor="let hotel of hotels">
+      <div *ngFor="let hotel of hotels | wfmFilter: searchValue:searchField">
         <hr>
 
         <div class="row">

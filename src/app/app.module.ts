@@ -13,6 +13,8 @@ import {UploadFileService} from './shared/services/upload-file.service';
 import {HttpClientModule} from '@angular/common/http';
 import {HotelsService} from './shared/services/hotels.service';
 import {TypeRoomService} from './shared/services/type-room.service';
+import {TokenService} from './shared/services/token.service';
+import {OrderService} from './shared/services/order.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,7 @@ import {TypeRoomService} from './shared/services/type-room.service';
     SystemUserModule,
     HttpClientModule
   ],
-  providers: [UsersService, AuthService, UploadFileService, HotelsService, TypeRoomService],
+  providers: [UsersService, AuthService, UploadFileService, HotelsService, TypeRoomService, TokenService, OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

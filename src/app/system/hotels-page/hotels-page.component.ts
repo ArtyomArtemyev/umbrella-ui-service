@@ -23,6 +23,9 @@ export class HotelsPageComponent implements OnInit, OnDestroy {
   fileName: string;
   newFileName: string;
   isShowMessageAboutEditBlock: boolean;
+  searchValue = '';
+  searchPlaceholder = 'Название';
+  searchField = 'name';
 
   constructor(private hotelService: HotelsService, private uploadService: UploadFileService) {
   }
@@ -119,5 +122,16 @@ export class HotelsPageComponent implements OnInit, OnDestroy {
     if (this.sub4) {
       this.sub1.unsubscribe();
     }
+  }
+
+  changeCriteria(field: string) {
+    const namesMap = {
+      name: 'Название',
+      city: 'Город',
+      address: 'Адрес',
+      countOfStars: 'Количество звезд'
+    };
+    this.searchPlaceholder = namesMap[field];
+    this.searchField = field;
   }
 }

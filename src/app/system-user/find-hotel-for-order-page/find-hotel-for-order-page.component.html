@@ -74,7 +74,7 @@
 <div
   *ngIf="isShowMessageBlock"
   #showMessageBlock
-  class="alert alert-danger"
+  class="alert alert-{{message.type}}"
   style="text-align: center;"
 >{{message.text}}</div>
 <div class="card">
@@ -202,7 +202,7 @@
                 <div class="col-md-4 pull-left"><strong>Тип номера:</strong> {{ orderSuggestion.typeRoom.typeRoomName }}</div>
                 <div class="col-md-4 pull-left"><strong>Общая стоимость:</strong> {{orderSuggestion.fullPrice}}</div>
                 <div class="col-md-3">
-                  <button class="btn btn-primary pull-right">Забронировать</button>
+                  <button class="btn btn-primary pull-right" (click)="createOrder(hotelSuggestion, orderSuggestion);">Забронировать</button>
                 </div>
                 <div class="col-md-1">
                   <button *ngIf="!orderSuggestion.isShow" class="btn btn-success-outline pull-left" (click)="orderSuggestion.isShow = !orderSuggestion.isShow">Подробнее</button>

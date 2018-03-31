@@ -14,6 +14,7 @@ import {HotelPhotoComponent} from './hotels-page/hotel-photo/hotel-photo.compone
 import { PriceInformationCardComponent } from './add-hotel-page/price-information-card/price-information-card.component';
 import { RoomsPageComponent } from './rooms-page/rooms-page.component';
 import { PricePageComponent } from './price-page/price-page.component';
+import {SearchPipe} from '../shared/search.pipe';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { PricePageComponent } from './price-page/price-page.component';
     HotelPhotoComponent,
     PriceInformationCardComponent,
     RoomsPageComponent,
-    PricePageComponent
+    PricePageComponent,
+    SearchPipe
   ]
 })
 export class SystemModule {

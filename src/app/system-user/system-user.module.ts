@@ -7,6 +7,7 @@ import {SystemUserComponent} from './system-user.component';
 import {HeaderComponent} from './shared/header/header.component';
 import {DropdownDirective} from './shared/directives/dropdown.directives';
 import {FindHotelForOrderPageComponent} from './find-hotel-for-order-page/find-hotel-for-order-page.component';
+import { OrdersPageComponent } from './orders-page/orders-page.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import {FindHotelForOrderPageComponent} from './find-hotel-for-order-page/find-h
     SidebarComponent,
     HeaderComponent,
     DropdownDirective,
-    FindHotelForOrderPageComponent
+    FindHotelForOrderPageComponent,
+    OrdersPageComponent
   ]
 })
 export class SystemUserModule {
