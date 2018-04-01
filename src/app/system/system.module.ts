@@ -11,10 +11,11 @@ import {MainInformationCardComponent} from './add-hotel-page/main-information-ca
 import {RoomInformationCardComponent} from './add-hotel-page/room-information-card/room-information-card.component';
 import {HotelsPageComponent} from './hotels-page/hotels-page.component';
 import {HotelPhotoComponent} from './hotels-page/hotel-photo/hotel-photo.component';
-import { PriceInformationCardComponent } from './add-hotel-page/price-information-card/price-information-card.component';
-import { RoomsPageComponent } from './rooms-page/rooms-page.component';
-import { PricePageComponent } from './price-page/price-page.component';
+import {PriceInformationCardComponent} from './add-hotel-page/price-information-card/price-information-card.component';
+import {RoomsPageComponent} from './rooms-page/rooms-page.component';
+import {PricePageComponent} from './price-page/price-page.component';
 import {SearchPipe} from '../shared/search.pipe';
+import {UserOrdersComponent} from './user-orders/user-orders.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import {SearchPipe} from '../shared/search.pipe';
     PriceInformationCardComponent,
     RoomsPageComponent,
     PricePageComponent,
-    SearchPipe
+    SearchPipe,
+    UserOrdersComponent
   ]
 })
 export class SystemModule {

@@ -6,6 +6,7 @@ import {AddHotelPageComponent} from './add-hotel-page/add-hotel-page.component';
 import {HotelsPageComponent} from './hotels-page/hotels-page.component';
 import {RoomsPageComponent} from './rooms-page/rooms-page.component';
 import {PricePageComponent} from './price-page/price-page.component';
+import {UserOrdersComponent} from './user-orders/user-orders.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
       {path: 'add-hotel', component: AddHotelPageComponent},
       {path: 'hotels', component: HotelsPageComponent},
       {path: 'rooms', component: RoomsPageComponent},
-      {path: 'price', component: PricePageComponent}
+      {path: 'price', component: PricePageComponent},
+      {path: 'user-orders', component: UserOrdersComponent}
     ]
   }
 ];

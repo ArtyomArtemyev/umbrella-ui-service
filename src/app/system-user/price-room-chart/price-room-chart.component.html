@@ -1,0 +1,80 @@
+<div
+  *ngIf="isShowMessageBlock"
+  #showMessageBlock
+  class="alert alert-{{message.type}}"
+  style="text-align: center;"
+>{{message.text}}</div>
+<div class="card">
+  <div class="card-block">
+
+    <div class="row">
+      <div class="text-center col-md-2">Название отеля</div>
+      <div class="text-center col-md-2" *ngIf="isHotelDefine">Тип номера</div>
+    </div>
+    <hr>
+
+    <div class="row">
+
+        <div class="col-md-2">
+          <select
+            #hotelSelector
+            class="form-control"
+            id="hotelName"
+            (change)="getCurrentHotel()"
+          >
+            <option disabled> Выберите отель </option>
+            <option
+              *ngFor="let hotel of hotels"
+              [ngValue]="hotel"
+            >
+              {{hotel.name}}
+            </option>
+          </select>
+        </div>
+
+        <div *ngIf="isHotelDefine" class="col-md-2">
+          <select
+            #defaultTypeOfRoomSelector
+            class="form-control"
+            id="typeRoom"
+            (change)="getCurrentDefaultTypeOfRoom()"
+          >
+            <option disabled> Выберите категорию </option>
+            <option
+              *ngFor="let defaultTypeRoom of defaultTypeRooms"
+              [ngValue]="defaultTypeRoom"
+            >
+              {{defaultTypeRoom.typeRoomName}}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <button
+            type="submit"
+            class="btn btn-info center-block pull-left"
+            (click)="definePrice()"
+          >Определить стоимость</button>
+        </div>
+
+
+    </div>
+    <hr>
+  </div>
+
+  <section *ngIf="isShowChart" class="section">
+    <div class="row">
+      <div class="col-xs-12 text-center chart-center">
+        <ngx-charts-pie-chart
+          [view]="view"
+          [(results)]="data"
+          [legend]="false"
+          [explodeSlices]="false"
+          [labels]="true"
+          [doughnut]="true">
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
+  </section>
+
+</div>

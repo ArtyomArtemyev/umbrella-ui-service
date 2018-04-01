@@ -11,7 +11,7 @@ import {Token} from '../../shared/models/token.model';
 })
 export class OrdersPageComponent implements OnInit, OnDestroy {
   sub1: Subscription;
-  orders: Order [];
+  orders: Order [] = [];
 
   constructor(private orderService: OrderService) {
   }

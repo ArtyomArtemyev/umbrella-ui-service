@@ -17,6 +17,7 @@ export class Hotel {
     public photo?: String[],
     public isRoomButtonDisabled?: boolean,
     public isDeleteHotelButtonDisabled?: boolean,
-    public isEditHotelButtonDisabled?: boolean
+    public isEditHotelButtonDisabled?: boolean,
+    public servicesPrices?: ServicePrice[]
   ) {}
 }

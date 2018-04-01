@@ -10,6 +10,7 @@ import {OrderSuggestion} from '../shared/models/order-suggestion.model';
 import {Token} from '../../shared/models/token.model';
 import {Order} from '../../shared/models/order.model';
 import {OrderService} from '../../shared/services/order.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'wfm-find-hotel-for-order-page',
@@ -31,7 +32,7 @@ export class FindHotelForOrderPageComponent implements OnInit, OnDestroy {
   @ViewChild('showMessageBlock') showMessageBlock: ElementRef;
   existChildBedInRoom: boolean;
 
-  constructor(private hotelService: HotelsService, private orderService: OrderService) {
+  constructor(private hotelService: HotelsService, private orderService: OrderService, private router: Router) {
   }
 
   ngOnInit() {
@@ -94,10 +95,13 @@ export class FindHotelForOrderPageComponent implements OnInit, OnDestroy {
 
   createOrder(hotelSuggestion: HotelSuggestion, orderSuggestion: OrderSuggestion) {
     const token: Token = new Token(JSON.parse(window.localStorage.getItem('Bearer')));
-    const order: Order = new Order(hotelSuggestion.hotel, hotelSuggestion.hotel.city, this.startDate, this.endDate, this.countOfMan, orderSuggestion, token);
+    const order: Order = new Order(hotelSuggestion.hotel, hotelSuggestion.hotel.city, this.startDate, this.endDate, this.countOfMan, orderSuggestion, 'В ожидании обработки', token);
     this.sub2 = this.orderService.createOrder(order, token).subscribe((response: Order) => {
       if (response !== undefined) {
         this.showMessage(new Message('success', 'Заказ успешно оформлен. Следите за его статусом'));
+        window.setTimeout(() => {
+          this.router.navigate(['/system-user', 'orders']);
+        }, 2000);
       }
     });
   }

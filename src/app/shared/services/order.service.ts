@@ -18,4 +18,15 @@ export class OrderService {
     return this.http.post('http://localhost:9094/api/v1/orders/user', token)
       .map((response: Response) => response.json());
   }
+
+  getAllUserOrders(): Observable<Order[]> {
+    return this.http.get('http://localhost:9094/api/v1/orders')
+      .map((response: Response) => response.json());
+  }
+
+  getAllUnprocessedUserOrders(): Observable<Order[]> {
+    return this.http.get('http://localhost:9094/api/v1/orders/unprocessed')
+      .map((response: Response) => response.json());
+  }
+
 }

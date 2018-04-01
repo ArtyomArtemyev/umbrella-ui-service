@@ -8,9 +8,9 @@
       <li *ngFor="let order of orders" class="list-group-item">
         <div class="container-fluid">
           <div class="col-md-2 pull-left"><strong>Название отеля:</strong> {{ order.hotel.name }}</div>
-          <div class="col-md-4 pull-left"><strong>Город:</strong> {{ order.city }}</div>
-          <div class="col-md-2 pull-left"><strong>Статус:</strong> {{ order.status }}</div>
-          <div class="col-md-4">
+          <div class="col-md-2 pull-left"><strong>Город:</strong> {{ order.city }}</div>
+          <div class="col-md-2 pull-left"><strong>Имя пользователя: </strong> {{ order.user.name}}</div>
+          <div class="col-md-6">
             <button class="btn btn-success-outline pull-right">Подробнее</button>
           </div>
         </div>

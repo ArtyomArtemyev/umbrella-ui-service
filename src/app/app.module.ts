@@ -15,6 +15,7 @@ import {HotelsService} from './shared/services/hotels.service';
 import {TypeRoomService} from './shared/services/type-room.service';
 import {TokenService} from './shared/services/token.service';
 import {OrderService} from './shared/services/order.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {OrderService} from './shared/services/order.service';
     AppRoutingModule,
     SystemModule,
     SystemUserModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [UsersService, AuthService, UploadFileService, HotelsService, TypeRoomService, TokenService, OrderService],
   bootstrap: [AppComponent]
