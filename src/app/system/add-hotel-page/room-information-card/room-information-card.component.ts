@@ -4,6 +4,7 @@ import {DefaultTypeRoom} from '../../shared/models/default-type-room.model';
 import {TypeRoomService} from '../../../shared/services/type-room.service';
 import {Message} from '../../../shared/models/message.models';
 import {Subscription} from 'rxjs/Subscription';
+import {Room} from '../../shared/models/room.model';
 
 @Component({
   selector: 'wfm-room-information-card',
@@ -50,8 +51,9 @@ export class RoomInformationCardComponent implements OnInit, OnDestroy {
     let {typeOfBedInput} = form.value;
     this.showDefaultTypeRoom.typeOfMainBed = typeOfBedInput;
     this.isRoomAdded = true;
-    this.roomEmitter.emit(this.showDefaultTypeRoom);
-    form.reset();
+    const roomForAdding: DefaultTypeRoom = new DefaultTypeRoom(this.showDefaultTypeRoom.typeRoomName, this.showDefaultTypeRoom.typeRoomWorldName, this.showDefaultTypeRoom.existLivingRoom, this.showDefaultTypeRoom.existSleepingRoom, this.showDefaultTypeRoom.existCabinet, this.showDefaultTypeRoom.existMeetingRoom, this.showDefaultTypeRoom.existShowingRoom, this.showDefaultTypeRoom.existBathRoom, this.showDefaultTypeRoom.existTV, this.showDefaultTypeRoom.existBar, this.showDefaultTypeRoom.existWiFi, this.showDefaultTypeRoom.existBalcony, this.showDefaultTypeRoom.existKitchen, this.showDefaultTypeRoom.existDiningRoom, this.showDefaultTypeRoom.existWCRoom, this.showDefaultTypeRoom.existAdditionalWCRoom, this.showDefaultTypeRoom.countOfMan, this.showDefaultTypeRoom.typeOfMainBed, this.showDefaultTypeRoom.existChildBed, this.showDefaultTypeRoom.id, false);
+    this.roomEmitter.emit(roomForAdding);
+    form.resetForm();
   }
 
   getCurrentDefaultTypeOfRoom() {

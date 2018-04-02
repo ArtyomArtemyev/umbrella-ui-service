@@ -22,7 +22,8 @@ export class PriceInformationCardComponent implements OnInit {
     this.servicesPrices.push(new ServicePrice('Балкон', 0, false));
     this.servicesPrices.push(new ServicePrice('Wi-fi', 0, false));
     this.servicesPrices.push(new ServicePrice('Детская кровать', 0, false));
-    let typeRoomsWithFilter: DefaultTypeRoom [] = this.filterRooms(this.rooms);
+    let typeRoomsWithFilter: DefaultTypeRoom [] ;
+    typeRoomsWithFilter = this.filterRooms(this.rooms);
     for (let i = 0; i < typeRoomsWithFilter.length; i++) {
       let singelServicePrice: ServicePrice = new ServicePrice(typeRoomsWithFilter[i].typeRoomName, 0, true);
       this.servicesPrices.push(singelServicePrice);
@@ -32,16 +33,18 @@ export class PriceInformationCardComponent implements OnInit {
 
   filterRooms(inisialRooms: DefaultTypeRoom []): DefaultTypeRoom [] {
     let filterTypeRooms: DefaultTypeRoom [] = [];
+    console.log(inisialRooms);
     filterTypeRooms.push(inisialRooms[0]);
     if (inisialRooms.length !== 1) {
       for (let i = 1; i < inisialRooms.length; i++) {
         for (let k = 0; k < filterTypeRooms.length; k++) {
-          if (filterTypeRooms[k] !== inisialRooms[i]) {
+          if (filterTypeRooms[k].typeRoomName !== inisialRooms[i].typeRoomName) {
             filterTypeRooms.push(inisialRooms[i]);
           }
         }
       }
     }
+    console.log(filterTypeRooms);
     return filterTypeRooms;
   }
 
