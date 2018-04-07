@@ -46,8 +46,8 @@ export class FindHotelForOrderPageComponent implements OnInit, OnDestroy {
     if (findHotelPageCountMenDiv <= 0) {
       this.showMessage(new Message('danger', 'Количество человек не может быть меньше нуля или равным нулю'));
     } else {
-      if (new Date(findHotelPageDateEndInput) < new Date(findHotelPageDateInput)) {
-        this.showMessage(new Message('danger', 'Дата выезда не может быть раньше даты заезда'));
+      if (new Date(findHotelPageDateEndInput) <= new Date(findHotelPageDateInput)) {
+        this.showMessage(new Message('danger', 'Дата выезда не может быть раньше даты заезда или быть одинаковой'));
       } else {
         const findHotelObject = new FindHotel(this.existChildBedInRoom, findHotelPageCityInput, +findHotelPageCountMenDiv, findHotelPageDateInput, findHotelPageDateEndInput);
         this.sub1 = this.hotelService.findHotel(findHotelObject)
@@ -62,15 +62,6 @@ export class FindHotelForOrderPageComponent implements OnInit, OnDestroy {
           });
       }
     }
-
-    // if (+this.countMenDiv.nativeElement.innerHTML === 0) {
-    //   this.isCountOfMenValid = !this.isCountOfMenValid;
-    //   window.setTimeout(() => this.isCountOfMenValid = !this.isCountOfMenValid, 5000);
-    // } else {
-    //   const {findHotelPageCityInput, findHotelPageDateEndInput, findHotelPageDateInput} = form.value;
-    //   const reqiuredHotel: RequireHotel = new RequireHotel(findHotelPageCityInput, new Date(findHotelPageDateEndInput), new Date(findHotelPageDateInput), +this.countMenDiv.nativeElement.innerHTML, +this.countChildDiv.nativeElement.innerHTML);
-    //   console.log(reqiuredHotel);
-    // }
 
   }
 

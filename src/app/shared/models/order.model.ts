@@ -14,7 +14,8 @@ export class Order {
     public status: string,
     public token?: Token,
     public id?: number,
-    public user?: User
+    public user?: User,
+    public isShownAdditionalInformation?: boolean
   ) {
   }
 }

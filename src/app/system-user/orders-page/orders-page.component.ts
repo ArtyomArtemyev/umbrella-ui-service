@@ -20,6 +20,7 @@ export class OrdersPageComponent implements OnInit, OnDestroy {
     const token: Token = new Token(JSON.parse(window.localStorage.getItem('Bearer')));
     this.sub1 = this.orderService.getUserOrder(token)
       .subscribe((userOrdersResponse: Order[]) => {
+        userOrdersResponse.map(c => c.isShownAdditionalInformation = false);
         this.orders = userOrdersResponse;
       });
   }

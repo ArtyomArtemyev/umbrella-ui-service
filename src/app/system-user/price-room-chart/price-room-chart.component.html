@@ -1,80 +1,94 @@
+<script src="https://npmcdn.com/zone.js@0.8.5/dist/zone.js"></script>
+<script src="https://npmcdn.com/reflect-metadata@0.1.3/Reflect.js"></script>
+<script src="https://npmcdn.com/systemjs@0.19.31/dist/system.js"></script>
+<script src="https://npmcdn.com/typescript@2.1.1/lib/typescript.js"></script>
+<script src="config.js"></script>
 <div
   *ngIf="isShowMessageBlock"
   #showMessageBlock
   class="alert alert-{{message.type}}"
   style="text-align: center;"
->{{message.text}}</div>
+>{{message.text}}
+</div>
 <div class="card">
   <div class="card-block">
 
     <div class="row">
-      <div class="text-center col-md-2">Название отеля</div>
+      <div class="text-center col-md-2"><strong>Название отеля</strong></div>
       <div class="text-center col-md-2" *ngIf="isHotelDefine">Тип номера</div>
     </div>
     <hr>
 
     <div class="row">
 
-        <div class="col-md-2">
-          <select
-            #hotelSelector
-            class="form-control"
-            id="hotelName"
-            (change)="getCurrentHotel()"
+      <div class="col-md-2">
+        <select
+          #hotelSelector
+          class="form-control"
+          id="hotelName"
+          (change)="getCurrentHotel()"
+        >
+          <option disabled> Выберите отель</option>
+          <option
+            *ngFor="let hotel of hotels"
+            [ngValue]="hotel"
           >
-            <option disabled> Выберите отель </option>
-            <option
-              *ngFor="let hotel of hotels"
-              [ngValue]="hotel"
-            >
-              {{hotel.name}}
-            </option>
-          </select>
-        </div>
+            {{hotel.name}}
+          </option>
+        </select>
+      </div>
 
-        <div *ngIf="isHotelDefine" class="col-md-2">
-          <select
-            #defaultTypeOfRoomSelector
-            class="form-control"
-            id="typeRoom"
-            (change)="getCurrentDefaultTypeOfRoom()"
+      <div *ngIf="isHotelDefine" class="col-md-2">
+        <select
+          #defaultTypeOfRoomSelector
+          class="form-control"
+          id="typeRoom"
+          (change)="getCurrentDefaultTypeOfRoom()"
+        >
+          <option disabled> Выберите категорию</option>
+          <option
+            *ngFor="let defaultTypeRoom of defaultTypeRooms"
+            [ngValue]="defaultTypeRoom"
           >
-            <option disabled> Выберите категорию </option>
-            <option
-              *ngFor="let defaultTypeRoom of defaultTypeRooms"
-              [ngValue]="defaultTypeRoom"
-            >
-              {{defaultTypeRoom.typeRoomName}}
-            </option>
-          </select>
-        </div>
+            {{defaultTypeRoom.typeRoomName}}
+          </option>
+        </select>
+      </div>
 
-        <div class="col-md-2">
-          <button
-            type="submit"
-            class="btn btn-info center-block pull-left"
-            (click)="definePrice()"
-          >Определить стоимость</button>
-        </div>
+      <div class="col-md-2">
+        <button
+          type="submit"
+          class="btn btn-info center-block pull-left"
+          (click)="definePrice()"
+        >Определить стоимость
+        </button>
+      </div>
 
 
     </div>
     <hr>
-  </div>
 
-  <section *ngIf="isShowChart" class="section">
-    <div class="row">
-      <div class="col-xs-12 text-center chart-center">
+    <div *ngIf="isShowChart" class="container-fluid">
+      <div class="col-md-6 pull-left">
         <ngx-charts-pie-chart
           [view]="view"
           [(results)]="data"
           [legend]="false"
           [explodeSlices]="false"
           [labels]="true"
-          [doughnut]="true">
+          [doughnut]="true"
+        >
         </ngx-charts-pie-chart>
       </div>
+      <div class="col-md-6 pull-right">
+        <ngx-charts-pie-grid
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="single"
+        >
+        </ngx-charts-pie-grid>
+      </div>
     </div>
-  </section>
+  </div>
 
 </div>

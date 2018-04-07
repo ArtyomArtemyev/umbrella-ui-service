@@ -8,11 +8,32 @@
       <li *ngFor="let order of orders" class="list-group-item">
         <div class="container-fluid">
           <div class="col-md-2 pull-left"><strong>Название отеля:</strong> {{ order.hotel.name }}</div>
-          <div class="col-md-4 pull-left"><strong>Город:</strong> {{ order.city }}</div>
+          <div class="col-md-2 pull-left"><strong>Город:</strong> {{ order.city }}</div>
           <div class="col-md-2 pull-left"><strong>Статус:</strong> {{ order.status }}</div>
-          <div class="col-md-4">
-            <button class="btn btn-success-outline pull-right">Подробнее</button>
+          <div class="col-md-6">
+            <button *ngIf="!order.isShownAdditionalInformation" class="btn btn-success-outline pull-right"
+                    (click)="order.isShownAdditionalInformation = !order.isShownAdditionalInformation">Подробнее
+            </button>
+            <button *ngIf="order.isShownAdditionalInformation" class="btn btn-success-outline pull-right"
+                    (click)="order.isShownAdditionalInformation = !order.isShownAdditionalInformation">Скрыть
+            </button>
           </div>
+
+          <hr class="jumbotron-hr">
+
+          <div *ngIf="order.isShownAdditionalInformation">
+            <div class="col-md-2 pull-left"><strong>Дата заезда:</strong> {{order.startDate}}</div>
+            <div class="col-md-2 pull-left"><strong>Дата выезда:</strong> {{order.endDate}}</div>
+            <div class="col-md-2 pull-left"><strong>Количество человек:</strong> {{order.countOfMan}}</div>
+            <div class="col-md-2 pull-left"><strong>Тип номера:</strong>
+              {{order.orderSuggestion.typeRoom.typeRoomName}}
+            </div>
+            <div class="col-md-2 pull-left"><strong>Стоимость за день:</strong> {{order.orderSuggestion.priceForDay }}
+            </div>
+            <div class="col-md-2 pull-left"><strong>Общая стоимость:</strong> {{order.orderSuggestion.fullPrice}}
+            </div>
+          </div>
+
         </div>
       </li>
     </ul>

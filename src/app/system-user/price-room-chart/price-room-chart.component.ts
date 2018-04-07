@@ -25,10 +25,14 @@ export class PriceRoomChartComponent implements OnInit, OnDestroy {
   isShowMessageBlock: boolean;
   message: Message;
   isShowChart: boolean;
-  view: any[] = [850, 450];
+  view: any[] = [650, 450];
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  };
   data = [] = [];
   currentHotel: Hotel;
   isDefineCurrentHotel: boolean;
+  autoScale = true;
 
   constructor(private defaultTypeRoomService: TypeRoomService, private hotelService: HotelsService) {
   }
@@ -111,6 +115,9 @@ export class PriceRoomChartComponent implements OnInit, OnDestroy {
         "value": +priceWifi
       });
     }
+    let single: any[];
+    single = this.data;
+    Object.assign(this, {single});
     this.isShowChart = true;
   }
 
