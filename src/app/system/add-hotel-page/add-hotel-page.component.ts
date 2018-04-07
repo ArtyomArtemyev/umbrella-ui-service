@@ -63,7 +63,9 @@ export class AddHotelPageComponent implements OnInit, OnDestroy {
   }
 
   updateRoomList(room: DefaultTypeRoom) {
-    const checkRoom: DefaultTypeRoom = this.rooms.find(c => c === room);
+    console.log(this.rooms);
+    console.log(room);
+    const checkRoom: DefaultTypeRoom = this.rooms.find(c => c.typeRoomName === room.typeRoomName && c.typeOfMainBed === room.typeOfMainBed);
     if (checkRoom !== undefined) {
       this.isDublicateRoom = true;
       window.setTimeout(() => {
@@ -74,6 +76,7 @@ export class AddHotelPageComponent implements OnInit, OnDestroy {
       this.rooms.push(room);
       this.isRoomsAdded = true;
     }
+    console.log(this.rooms);
   }
 
   addHotel() {

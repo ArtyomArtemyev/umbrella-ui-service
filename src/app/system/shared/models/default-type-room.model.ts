@@ -21,6 +21,7 @@ export class DefaultTypeRoom {
     public existChildBed?: boolean,
     public id?: string,
     public isVisible?: boolean
-  ) {}
+  ) {
+  }
 
 }
