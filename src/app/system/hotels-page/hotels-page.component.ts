@@ -98,6 +98,8 @@ export class HotelsPageComponent implements OnInit, OnDestroy {
     this.sub4 = this.hotelService.updateHotel(hotel, hotel.id)
       .subscribe((response: any) => {
         hotel.isShownAddInformation = false;
+        hotel.isRoomButtonDisabled = !hotel.isRoomButtonDisabled;
+        hotel.isDeleteHotelButtonDisabled = !hotel.isDeleteHotelButtonDisabled
         this.showEditMessageBlock();
       });
   }
