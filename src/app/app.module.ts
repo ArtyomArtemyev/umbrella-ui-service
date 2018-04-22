@@ -16,6 +16,7 @@ import {TypeRoomService} from './shared/services/type-room.service';
 import {TokenService} from './shared/services/token.service';
 import {OrderService} from './shared/services/order.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TicketService} from './shared/services/ticktet.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [UsersService, AuthService, UploadFileService, HotelsService, TypeRoomService, TokenService, OrderService],
+  providers: [UsersService, AuthService, UploadFileService, HotelsService, TypeRoomService, TokenService, OrderService, TicketService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

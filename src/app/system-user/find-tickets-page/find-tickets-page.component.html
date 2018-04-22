@@ -1,0 +1,244 @@
+<div
+  *ngIf="isShowMessageBlock"
+  #showMessageBlock
+  class="alert alert-{{message.type}}"
+  style="text-align: center;"
+>{{message.text}}
+</div>
+<div class="card">
+  <div class="card-block ">
+
+    <div class="row">
+      <div class="text-center col-md-2"><strong>Тип транспорта</strong></div>
+      <div class="text-center col-md-2"><strong>Откуда</strong></div>
+      <div class="text-center col-md-2"><strong>Куда</strong></div>
+      <div class="text-center col-md-2"><strong>Дата выезда</strong></div>
+      <!--<div class="text-center col-md-2"><strong>Тип билета</strong></div>-->
+      <div class="text-center col-md-2"><strong>Количество билетов</strong></div>
+      <div class="text-center col-md-2"><strong>Действие</strong></div>
+    </div>
+    <hr>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+      <div class="row">
+
+        <div class="col-md-2">
+          <select
+            #typeOfTranspoartSelector
+            class="form-control"
+            id="typeOfTransport"
+            (change)="setTypeOfTickets()"
+          >
+            <option disabled>Выберите тип</option>
+            <option value="Air">
+              Самолёт
+            </option>
+            <option value="Train">
+              Поезд
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <div>
+            <input
+              class="form-control"
+              type="text"
+              name="fromWhenceInput"
+              id="fromWhenceInput"
+              required
+              ngModel
+              #fromWhenceInput="ngModel"
+              placeholder="Откуда едете?"
+            >
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div>
+            <input
+              class="form-control"
+              type="text"
+              name="whereToInput"
+              id="whereToInput"
+              required
+              ngModel
+              #whereToInput="ngModel"
+              placeholder="Куда едете?"
+            >
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div>
+            <input
+              type="date"
+              class="form-control"
+              name="dateOfVoyage"
+              id="dateOfVoyage"
+              required
+              ngModel
+              #dateOfVoyage="ngModel"
+            />
+          </div>
+        </div>
+
+        <!--<div class="col-md-2">-->
+        <!--<select-->
+        <!--#typeOfTranspoartTicketSelector-->
+        <!--class="form-control"-->
+        <!--id="typeOfTicket"-->
+        <!--&gt;-->
+        <!--<option disabled>Выберите тип билета</option>-->
+        <!--<option-->
+        <!--*ngFor="let typeOfTicket of typeOfTickets"-->
+        <!--[ngValue]="typeOfTicket"-->
+        <!--&gt;-->
+        <!--{{typeOfTicket}}-->
+        <!--</option>-->
+        <!--</select>-->
+        <!--</div>-->
+
+        <div class="col-md-2">
+          <input
+            class="form-control"
+            type="number"
+            name="countOfTicket"
+            id="countOfTicket"
+            required
+            ngModel
+            #countOfTicket="ngModel"
+            placeholder="Количество билетов"
+            min="1"
+          >
+        </div>
+
+        <div class="col-md-2">
+          <button
+            type="submit"
+            class="btn btn-info center-block"
+            [disabled]="f.invalid"
+          >Поиск
+          </button>
+        </div>
+
+
+      </div>
+
+    </form>
+    <hr>
+
+
+    <ul *ngIf="voyageSuggestions.length !== 0" class="list-group">
+      <li *ngFor="let voyageSuggestion of voyageSuggestions" class="list-group-item">
+        <div class="container-fluid">
+          <div class="col-md-2 pull-left"><strong>Название компании:</strong> {{ voyageSuggestion.company }}</div>
+          <div class="col-md-4 pull-left"><strong>Количество вариантов для бронирования:</strong> {{
+            voyageSuggestion.typeOfTickets.length }}
+          </div>
+          <div class="col-md-6">
+            <button *ngIf="!voyageSuggestion.isShowSuggestion" class="btn btn-success-outline pull-right"
+                    (click)="voyageSuggestion.isShowSuggestion = !voyageSuggestion.isShowSuggestion">Просмотреть
+              варианты
+            </button>
+            <button *ngIf="voyageSuggestion.isShowSuggestion" class="btn btn-success-outline pull-right"
+                    (click)="voyageSuggestion.isShowSuggestion = !voyageSuggestion.isShowSuggestion">Скрыть варианты
+            </button>
+          </div>
+          <hr>
+          <ul *ngIf="voyageSuggestion.isShowSuggestion">
+            <li *ngFor="let ticketSuggestion of voyageSuggestion.typeOfTickets" class="list-group-item">
+              <div class="container-fluid">
+                <div class="col-md-2 pull-left"><strong>Тип билета:</strong> {{ ticketSuggestion.type }}
+                </div>
+                <div class="col-md-2 pull-left"><strong>Стоимость одного билета:</strong> {{ticketSuggestion.price}}
+                </div>
+                <div class="col-md-2 pull-left"><strong>Общая стоимость:</strong> {{+ticketSuggestion.price *
+                  +countOfTicket.value}}
+                </div>
+                <div class="col-md-6">
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
+                          data-target="#exampleModal" (click)="setShowTicket(ticketSuggestion);">
+                    Забронировать
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                       aria-labelledby="exampleModalLabel"
+                       aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Оформление заявки на бронирование</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col-md-6 pull-left form-control-label">
+                              Имя
+                            </div>
+                            <div class="col-md-6 pull-right">
+                              {{user.name}}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 pull-left form-control-label">
+                              Email
+                            </div>
+                            <div class="col-md-6 pull-right">
+                              {{user.email}}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 pull-left form-control-label">
+                              Направление
+                            </div>
+                            <div class="col-md-6 pull-right">
+                              Из {{fromWhenceInput.value}} в {{whereToInput.value}}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 pull-left form-control-label">
+                              Тип билета
+                            </div>
+                            <div class="col-md-6 pull-right">
+                              {{ ticketSuggestion.type }}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 pull-left form-control-label">
+                              Стоимость одного билета
+                            </div>
+                            <div class="col-md-6 pull-right">
+                              {{showTicket.price}}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 pull-left form-control-label">
+                              Общая стоимость
+                            </div>
+                            <div class="col-md-6 pull-right">{{+showTicket.price *
+                              +countOfTicket.value}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" (click)="addOrderVoyage(voyageSuggestion, showTicket, fromWhenceInput.value, whereToInput.value, +countOfTicket.value);" data-dismiss="modal">Оформить</button>
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>

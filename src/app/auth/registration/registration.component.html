@@ -60,18 +60,20 @@
       Имя не может быть пустым.
     </span>
   </div>
-  <div class="form-group"
-       [ngClass]="{'has-error': form.get('agree').invalid && form.get('agree').touched}"
+  <div
+    class="form-group"
+    [ngClass]="{'has-error': form.get('agree').invalid && form.get('agree').touched}"
   >
     <label for="agree">
-      <input class="checkbox"
-             id="agree"
-             type="checkbox"
-             formControlName="agree"
-             [disabled]="form.invalid"
-      >
-      <span>Согласен с правилами</span>
+      <input
+        class="checkbox"
+        id="agree"
+        type="checkbox"
+        formControlName="agree"
+      >Согласен с правилами
     </label>
+
+
   </div>
   <div class="form-group">
     <button type="submit" class="btn btn-block btn-primary">Зарегистрироваться</button>
