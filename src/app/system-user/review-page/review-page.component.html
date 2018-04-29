@@ -1,0 +1,137 @@
+<div
+  *ngIf="isShowMessageBlock"
+  #showMessageBlock
+  class="alert alert-{{message.type}}"
+  style="text-align: center;"
+>{{message.text}}
+</div>
+<div class="card">
+  <div class="card-block ">
+
+    <div class="row">
+      <div class="text-center col-md-2"><strong>Критерий для поиска</strong></div>
+      <div class="text-center col-md-2"><strong>Значение критерия</strong></div>
+    </div>
+    <hr>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+      <div class="row">
+
+        <div class="col-md-2">
+          <select
+            #typeOfFindSelector
+            class="form-control"
+            id="typeOfFind"
+            (change)="setTypeOfFind()"
+          >
+            <option disabled>Выберите критерий</option>
+            <option value="HotelName">
+              Название отеля
+            </option>
+            <option value="HotelLocation">
+              Расположение
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <div>
+            <input
+              class="form-control"
+              type="text"
+              name="valueForFind"
+              id="valueForFindInput"
+              required
+              ngModel
+              #valueForFindInput="ngModel"
+              placeholder="Введите критерий"
+            >
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <button
+            type="submit"
+            class="btn btn-info center-block pull-left"
+            [disabled]="f.invalid"
+          >Поиск
+          </button>
+        </div>
+
+      </div>
+
+    </form>
+    <hr>
+
+
+    <ul *ngIf="hotels.length !== 0" class="list-group">
+      <li *ngFor="let hotel of hotels" class="list-group-item">
+        <div class="container-fluid">
+          <div class="col-md-2 pull-left"><strong>Название:</strong> {{ hotel.name }}</div>
+          <div class="col-md-2 pull-left"><strong>Расположение:</strong> {{ hotel.city}}</div>
+          <div class="col-md-2 pull-left"><strong>Количество звезд:</strong> {{ hotel.countOfStars}}</div>
+          <div class="col-md-6">
+            <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
+                    data-target="#exampleModal">
+              Добавить отзыв
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Отзыв об отеле</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-md-6 pull-left form-control-label">
+                       Название отеля
+                      </div>
+                      <div class="col-md-6 pull-right">
+                        {{hotel.name}}
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 pull-left form-control-label">
+                        Расположение
+                      </div>
+                      <div class="col-md-6 pull-right">
+                        {{hotel.city}}
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 pull-left form-control-label">
+                        Количество звёзд
+                      </div>
+                      <div class="col-md-6 pull-right">
+                          {{hotel.countOfStars}}
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 pull-left form-control-label">
+                        Отзыв
+                      </div>
+                      <div class="col-md-12 pull-right">
+                       <textarea id="review" #review class="form-control col-lg-10" style="height: 450px"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" (click)="addReview(hotel);" data-dismiss="modal">Добавить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>
