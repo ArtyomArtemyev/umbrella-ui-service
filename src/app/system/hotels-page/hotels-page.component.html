@@ -42,21 +42,21 @@
       </div>
 
       <div class="row">
-        <div>
-          <div class="row text-center">
-            <div class="text-center col-md-3">Фотография</div>
-            <div class="text-center col-md-1">Название</div>
-            <div class="text-center col-md-1">Город</div>
-            <div class="text-center col-md-1">Адрес</div>
-            <div class="text-center col-md-1">Количество звёзд</div>
-            <div class="text-center col-md-3">Описание</div>
-            <div class="text-center col-md-1">Описание номеров<br>Прайс</div>
-            <div class="text-center col-md-1">Действие</div>
+        <div class="panel-group container-fluid">
+          <div class="row text-center panel panel-default">
+            <div class="text-center col-md-3"><strong>Фотография</strong></div>
+            <div class="text-center col-md-1"><strong>Название</strong></div>
+            <div class="text-center col-md-1"><strong>Город</strong></div>
+            <div class="text-center col-md-1"><strong>Адрес</strong></div>
+            <div class="text-center col-md-1"><strong>Количество звёзд</strong></div>
+            <div class="text-center col-md-3"><strong>Описание</strong></div>
+            <div class="text-center col-md-1"><strong>Описание номеров</strong><br><strong>Прайс</strong></div>
+            <div class="text-center col-md-1"><strong>Действие</strong></div>
           </div>
         </div>
       </div>
 
-      <div *ngFor="let hotel of hotels | wfmFilter: searchValue:searchField">
+      <div *ngFor="let hotel of showHotels | wfmFilter: searchValue:searchField">
         <hr>
 
         <div class="row">
@@ -204,6 +204,17 @@
         </div>
 
       </div>
+
+      <nav *ngIf="hotels.length !== 0" aria-label="Page navigation example" class="text-center">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" [ngClass]="{'noclick': startIndex === 0}" (click)="minPage()">Предыдущая</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" [ngClass]="{'noclick': endIndex === hotels.length}" (click)="plusPage()">Следующая</a>
+          </li>
+        </ul>
+      </nav>
 
     </div>
 

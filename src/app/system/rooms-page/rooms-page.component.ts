@@ -19,12 +19,15 @@ export class RoomsPageComponent implements OnInit, OnDestroy {
   @ViewChild('defaultTypeOfRoomSelector') defaultTypeOfRoomSelector: ElementRef;
 
   hotels: Hotel [] = [];
+  showHotels: Hotel [] = [];
   isShowAddNewHotelPanel: boolean;
   defaultTypeRooms: DefaultTypeRoom[];
   showDefaultTypeRoom: DefaultTypeRoom = new DefaultTypeRoom();
   currentHotel: Hotel;
   isShowMessageBlock: boolean;
   isDublicateRoom: boolean;
+  private startIndex = 0;
+  private endIndex = 0;
 
   constructor(private hotelService: HotelsService, private defaultTypeRoomService: TypeRoomService) {
   }
@@ -52,6 +55,13 @@ export class RoomsPageComponent implements OnInit, OnDestroy {
             });
         }
         this.hotels = responseHotels;
+        if (+this.hotels.length <= 5) {
+          this.endIndex = +this.hotels.length;
+          this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+        } else {
+          this.endIndex = 5;
+          this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+        }
       });
   }
 
@@ -134,4 +144,23 @@ export class RoomsPageComponent implements OnInit, OnDestroy {
       this.sub2.unsubscribe();
     }
   }
+
+  plusPage() {
+    if (this.endIndex + 4 > +this.hotels.length) {
+      this.startIndex = this.endIndex;
+      this.endIndex = +this.hotels.length;
+      this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+    } else {
+      this.startIndex = this.endIndex;
+      this.endIndex = this.endIndex + 5;
+      this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+    }
+  }
+
+  minPage() {
+    this.endIndex = this.startIndex;
+    this.startIndex = this.startIndex - 5;
+    this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+  }
+
 }

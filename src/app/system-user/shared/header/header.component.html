@@ -23,11 +23,12 @@
 </header>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" #exampleModalCenter id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Управление учетной записью</h5>
+        <h5 style="color: white" *ngIf="showInfo">{{text}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -38,7 +39,7 @@
             Новый пароль
           </div>
           <div class="col-md-6">
-            <input type="text" class="form-control" #newPassword>
+            <input type="text" class="form-control" #newPassword required>
           </div>
         </div>
         <hr>
@@ -56,12 +57,12 @@
             Новый email
           </div>
           <div class="col-md-6">
-            <input type="text" class="form-control" #newEmail>
+            <input type="email" class="form-control" #newEmail minlength="6" required>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="saveAccountCahnges()">Сохранить изменения</button>
+        <button type="button" class="btn btn-primary" (click)="saveAccountCahnges(exampleModalCenter);">Сохранить изменения</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
       </div>
     </div>

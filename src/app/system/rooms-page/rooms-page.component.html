@@ -3,13 +3,15 @@
   #showMessageBlock
   class="alert alert-danger"
   style="text-align: center;"
->Такой тип номера уже есть в списке отелей</div>
+>Такой тип номера уже есть в списке отелей
+</div>
 <div
   *ngIf="isShowMessageBlock"
   #showMessageBlock
   class="alert alert-success"
   style="text-align: center;"
->Изменения сохранены</div>
+>Изменения сохранены
+</div>
 <div class="alert alert-info" style="text-align: center;">Список отелей c их номерами в системе</div>
 <div class="card">
 
@@ -19,13 +21,18 @@
 
   <ul class="list-group">
 
-    <li *ngFor="let hotel of hotels" class="list-group-item">
+    <li *ngFor="let hotel of showHotels" class="list-group-item">
       <div class="container-fluid">
-        <div class="col-md-2 pull-left">Название отеля: {{ hotel.name }}</div>
-        <div class="col-md-2 pull-left">Город: {{ hotel.city }}</div>
-        <div class="col-md-2 pull-left">Адрес: {{ hotel.address }}</div>
-        <div class="col-md-6">
-          <button *ngIf="!hotel.isShownRooms" class="btn btn-success-outline pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Открыть номера</button>
+        <div class="text-center col-md-3 pull-left">
+          <wfm-hotel-photo [fileUpload]='hotel.photoName'></wfm-hotel-photo>
+        </div>
+        <div class="col-md-2 pull-left"><strong>Название отеля:</strong> {{ hotel.name }}</div>
+        <div class="col-md-2 pull-left"><strong>Город:</strong> {{ hotel.city }}</div>
+        <div class="col-md-2 pull-left"><strong>Адрес:</strong> {{ hotel.address }}</div>
+        <div class="col-md-3">
+          <button *ngIf="!hotel.isShownRooms" class="btn btn-success-outline pull-right"
+                  (click)="hotel.isShownRooms = ! hotel.isShownRooms">Открыть номера
+          </button>
         </div>
 
         <div *ngIf="hotel.isShownRooms">
@@ -50,7 +57,7 @@
               <td class="text-center">
                 {{room.typeOfMainBed}}
               </td>
-              <td class="text-center" >
+              <td class="text-center">
                 <label class="checkbox-inline checbox-switch switch-success">
                   <input
                     #addHotelPageChildBed
@@ -110,9 +117,15 @@
 
           <hr>
 
-          <button *ngIf="!isShowAddNewHotelPanel" class="btn btn-success pull-left" (click)="dropDownPanelAndCurrentHottel(hotel)">Добавить новый номер</button>
-          <button *ngIf="isShowAddNewHotelPanel" class="btn btn-success pull-left" (click)="isShowAddNewHotelPanel = !isShowAddNewHotelPanel">Скрыть панель</button>
-          <button *ngIf="hotel.isShownRooms" [disabled]="isShowAddNewHotelPanel" class="btn btn-primary pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Скрыть номера</button>
+          <button *ngIf="!isShowAddNewHotelPanel" class="btn btn-success pull-left"
+                  (click)="dropDownPanelAndCurrentHottel(hotel)">Добавить новый номер
+          </button>
+          <button *ngIf="isShowAddNewHotelPanel" class="btn btn-success pull-left"
+                  (click)="isShowAddNewHotelPanel = !isShowAddNewHotelPanel">Скрыть панель
+          </button>
+          <button *ngIf="hotel.isShownRooms" [disabled]="isShowAddNewHotelPanel" class="btn btn-primary pull-right"
+                  (click)="hotel.isShownRooms = ! hotel.isShownRooms">Скрыть номера
+          </button>
 
 
         </div>
@@ -120,6 +133,17 @@
     </li>
 
   </ul>
+
+  <nav *ngIf="hotels.length !== 0" aria-label="Page navigation example" class="text-center">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <a class="page-link" [ngClass]="{'noclick': startIndex === 0}" (click)="minPage()">Предыдущая</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" [ngClass]="{'noclick': endIndex === hotels.length}" (click)="plusPage()">Следующая</a>
+      </li>
+    </ul>
+  </nav>
 
   <div *ngIf="isShowAddNewHotelPanel" class="container-fluid">
     <div class="row row-sm stats-container">

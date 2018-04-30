@@ -16,15 +16,23 @@ export class UserOrdersComponent implements OnInit, OnDestroy {
   message: Message;
   isShowMessageBlock: boolean;
   orders: Order[] = [];
+  showOrders: Order[] = [];
+  private startIndex = 0;
+  private endIndex = 0;
 
   constructor(private orderService: OrderService) {
   }
 
   ngOnInit() {
     this.sub1 = this.orderService.getAllUnprocessedUserOrders().subscribe((response: Order[]) => {
-      console.log(response);
       this.orders = response;
-      console.log(this.orders);
+      if (+this.orders.length <= 5) {
+        this.endIndex = +this.orders.length;
+        this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
+      } else {
+        this.endIndex = 5;
+        this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
+      }
     });
   }
 
@@ -56,6 +64,24 @@ export class UserOrdersComponent implements OnInit, OnDestroy {
       this.isShowMessageBlock = false;
       this.message.text = '';
     }, 500);
+  }
+
+  plusPage() {
+    if (this.endIndex + 4 > +this.orders.length) {
+      this.startIndex = this.endIndex;
+      this.endIndex = +this.orders.length;
+      this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
+    } else {
+      this.startIndex = this.endIndex;
+      this.endIndex = this.endIndex + 5;
+      this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
+    }
+  }
+
+  minPage() {
+    this.endIndex = this.startIndex;
+    this.startIndex = this.startIndex - 5;
+    this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
   }
 
 }

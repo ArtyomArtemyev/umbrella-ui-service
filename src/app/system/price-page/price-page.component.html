@@ -12,12 +12,15 @@
   </div>
 
   <ul class="list-group">
-    <li *ngFor="let hotel of hotels" class="list-group-item">
+    <li *ngFor="let hotel of showHotels" class="list-group-item">
       <div class="container-fluid">
-        <div class="col-md-2 pull-left">Название отеля: {{ hotel.name }}</div>
-        <div class="col-md-2 pull-left">Город: {{ hotel.city }}</div>
-        <div class="col-md-2 pull-left">Адрес: {{ hotel.address }}</div>
-        <div class="col-md-6">
+        <div class="text-center col-md-3 pull-left">
+          <wfm-hotel-photo [fileUpload]='hotel.photoName'></wfm-hotel-photo>
+        </div>
+        <div class="col-md-2 pull-left"><strong>Название отеля:</strong> {{ hotel.name }}</div>
+        <div class="col-md-2 pull-left"><strong>Город:</strong> {{ hotel.city }}</div>
+        <div class="col-md-2 pull-left"><strong>Адрес:</strong> {{ hotel.address }}</div>
+        <div class="col-md-3">
           <button *ngIf="!hotel.isShownRooms" class="btn btn-success-outline pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Открыть прайс</button>
         </div>
 
@@ -46,6 +49,16 @@
       </div>
     </li>
   </ul>
+  <nav *ngIf="hotels.length !== 0" aria-label="Page navigation example" class="text-center">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <a class="page-link" [ngClass]="{'noclick': startIndex === 0}" (click)="minPage()">Предыдущая</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" [ngClass]="{'noclick': endIndex === hotels.length}" (click)="plusPage()">Следующая</a>
+      </li>
+    </ul>
+  </nav>
 </div>
 
 

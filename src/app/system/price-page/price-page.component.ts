@@ -15,10 +15,13 @@ export class PricePageComponent implements OnInit, OnDestroy {
 
   isShowMessageBlock: boolean;
   hotels: Hotel [] = [];
+  showHotels: Hotel [] = [];
   isShowAddNewHotelPanel: boolean;
   defaultTypeRooms: DefaultTypeRoom[];
   showDefaultTypeRoom: DefaultTypeRoom = new DefaultTypeRoom();
   currentHotel: Hotel;
+  private startIndex = 0;
+  private endIndex = 0;
 
   constructor(private hotelService: HotelsService) {
   }
@@ -35,6 +38,13 @@ export class PricePageComponent implements OnInit, OnDestroy {
           responseHotels[i].isEditHotelButtonDisabled = false;
         }
         this.hotels = responseHotels;
+        if (+this.hotels.length <= 5) {
+          this.endIndex = +this.hotels.length;
+          this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+        } else {
+          this.endIndex = 5;
+          this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+        }
       });
   }
 
@@ -60,6 +70,24 @@ export class PricePageComponent implements OnInit, OnDestroy {
     if (this.sub2) {
       this.sub2.unsubscribe();
     }
+  }
+
+  plusPage() {
+    if (this.endIndex + 4 > +this.hotels.length) {
+      this.startIndex = this.endIndex;
+      this.endIndex = +this.hotels.length;
+      this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+    } else {
+      this.startIndex = this.endIndex;
+      this.endIndex = this.endIndex + 5;
+      this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+    }
+  }
+
+  minPage() {
+    this.endIndex = this.startIndex;
+    this.startIndex = this.startIndex - 5;
+    this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
   }
 
 }

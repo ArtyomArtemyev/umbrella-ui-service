@@ -19,6 +19,7 @@ export class HotelsPageComponent implements OnInit, OnDestroy {
   selectedFiles: FileList;
   currentFileUpload: File;
   hotels: Hotel [] = [];
+  showHotels: Hotel [] = [];
   progress: { percentage: number } = {percentage: 0};
   fileName: string;
   newFileName: string;
@@ -26,6 +27,8 @@ export class HotelsPageComponent implements OnInit, OnDestroy {
   searchValue = '';
   searchPlaceholder = 'Название';
   searchField = 'name';
+  private startIndex = 0;
+  private endIndex = 0;
 
   constructor(private hotelService: HotelsService, private uploadService: UploadFileService) {
   }
@@ -42,6 +45,13 @@ export class HotelsPageComponent implements OnInit, OnDestroy {
           responseHotels[i].isEditHotelButtonDisabled = false;
         }
         this.hotels = responseHotels;
+        if (+this.hotels.length <= 5) {
+          this.endIndex = +this.hotels.length;
+          this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+        } else {
+          this.endIndex = 5;
+          this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+        }
       });
   }
 
@@ -49,6 +59,7 @@ export class HotelsPageComponent implements OnInit, OnDestroy {
     this.sub2 = this.hotelService.deleteHotel(hotel)
       .subscribe((response: any) => {
         this.remove(this.hotels, hotel);
+        this.remove(this.showHotels, hotel);
       });
   }
 
@@ -99,7 +110,7 @@ export class HotelsPageComponent implements OnInit, OnDestroy {
       .subscribe((response: any) => {
         hotel.isShownAddInformation = false;
         hotel.isRoomButtonDisabled = !hotel.isRoomButtonDisabled;
-        hotel.isDeleteHotelButtonDisabled = !hotel.isDeleteHotelButtonDisabled
+        hotel.isDeleteHotelButtonDisabled = !hotel.isDeleteHotelButtonDisabled;
         this.showEditMessageBlock();
       });
   }
@@ -135,5 +146,23 @@ export class HotelsPageComponent implements OnInit, OnDestroy {
     };
     this.searchPlaceholder = namesMap[field];
     this.searchField = field;
+  }
+
+  plusPage() {
+    if (this.endIndex + 4 > +this.hotels.length) {
+      this.startIndex = this.endIndex;
+      this.endIndex = +this.hotels.length;
+      this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+    } else {
+      this.startIndex = this.endIndex;
+      this.endIndex = this.endIndex + 5;
+      this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
+    }
+  }
+
+  minPage() {
+    this.endIndex = this.startIndex;
+    this.startIndex = this.startIndex - 5;
+    this.showHotels = this.hotels.slice(this.startIndex, this.endIndex);
   }
 }

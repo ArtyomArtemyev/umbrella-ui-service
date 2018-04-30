@@ -11,7 +11,7 @@
   </div>
   <div *ngIf="orders.length !== 0;" class="card-block">
     <ul class="list-group list-group-flush">
-      <li *ngFor="let order of orders" [ngClass]="order.status === 'В ожидании обработки' ? 'list-group-item' : 'list-group-item list-group-item-success'">
+      <li *ngFor="let order of showOrders" [ngClass]="order.status === 'В ожидании обработки' ? 'list-group-item' : 'list-group-item list-group-item-success'">
         <div class="container-fluid">
           <div class="col-md-2 pull-left"><strong>Название отеля:</strong> {{ order.hotel.name }}</div>
           <div class="col-md-2 pull-left"><strong>Город:</strong> {{ order.city }}</div>
@@ -45,5 +45,16 @@
         </div>
       </li>
     </ul>
+
+    <nav *ngIf="orders.length !== 0" aria-label="Page navigation example" class="text-center">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" [ngClass]="{'noclick': startIndex === 0}" (click)="minPage()">Предыдущая</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" [ngClass]="{'noclick': endIndex === orders.length}" (click)="plusPage()">Следующая</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>

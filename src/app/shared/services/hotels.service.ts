@@ -56,4 +56,7 @@ export class HotelsService {
 
   }
 
+  deleteReview(review: Review) {
+    return this.http.delete(`http://localhost:9094/api/v1/reviews/${review.id}`);
+  }
 }
