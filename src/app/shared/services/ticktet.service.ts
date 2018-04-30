@@ -24,4 +24,14 @@ export class TicketService {
     return this.http.post('http://localhost:9096/api/v1/voyages/by-user', token)
       .map((response: Response) => response.json());
   }
+
+  getAllOrderVoyage(): Observable<OrderVoyage []> {
+    return this.http.get('http://localhost:9096/api/v1/voyages')
+      .map((response: Response) => response.json());
+  }
+
+  changeStatus(orderVoyage: OrderVoyage) {
+    return this.http.put(`http://localhost:9096/api/v1/voyages/${orderVoyage.id}/done`, orderVoyage)
+      .map((response: Response) => response.json());
+  }
 }

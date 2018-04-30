@@ -9,6 +9,7 @@ import {PricePageComponent} from './price-page/price-page.component';
 import {UserOrdersComponent} from './user-orders/user-orders.component';
 import {OrdersComponent} from './orders/orders.component';
 import {ReviewsComponent} from './reviews/reviews.component';
+import {TicketsComponent} from './tickets/tickets.component';
 
 const routes: Routes = [
   {
@@ -19,7 +20,8 @@ const routes: Routes = [
       {path: 'price', component: PricePageComponent},
       {path: 'user-orders', component: UserOrdersComponent},
       {path: 'process-orders', component: OrdersComponent},
-      {path: 'reviews', component: ReviewsComponent}
+      {path: 'reviews', component: ReviewsComponent},
+      {path: 'tickets', component: TicketsComponent}
     ]
   }
 ];

@@ -1,0 +1,72 @@
+<div
+  *ngIf="isShowMessageBlock"
+  #showMessageBlock
+  class="alert alert-{{message.type}}"
+  style="text-align: center;"
+>{{message.text}}
+</div>
+<div class="alert alert-info" style="text-align: center; background-color: #5cb85c; border-color: #5cb85c;">Заявки на билеты</div>
+<div class="card">
+  <div *ngIf="orderVoyages.length === 0;" class="card-block">
+    <div class="row text-center">Нет заявок на билеты</div>
+  </div>
+  <div *ngIf="orderVoyages.length !== 0;" class="card-block">
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let orderVoyage of showOrderVoyages" class="list-group-item"
+          [ngClass]="orderVoyage.voyage.typeOfTransport === 'Air' ? 'list-group-item-success' : 'list-group-item'">
+        <div class="row">
+          <div class="container-fluid">
+            <div class="col-md-2 pull-left" *ngIf="orderVoyage.voyage.typeOfTransport === 'Air'"><strong>Тип
+              транспорта</strong> <i class="fa fa-plane"></i></div>
+            <div class="col-md-2 pull-left" *ngIf="orderVoyage.voyage.typeOfTransport === 'Train'"><strong>Тип
+              транспорта</strong><i class="fa fa-train"></i></div>
+            <div class="col-md-3 pull-left"><strong>Из </strong>{{orderVoyage.voyage.fromWhence}} в {{
+              orderVoyage.voyage.whereTo}}
+            </div>
+            <div class="col-md-2 pull-left"><strong>Статус </strong>{{orderVoyage.status}}
+            </div>
+            <div class="col-md-2 pull-right">
+              <button class="btn btn-success-outline pull-left"
+                      (click)="updateOrderVoyageStatus(orderVoyage)">Обработать
+              </button>
+              <button *ngIf="!orderVoyage.isShow" class="btn btn-success-outline pull-right"
+                      (click)="orderVoyage.isShow = !orderVoyage.isShow">Подробнее
+              </button>
+              <button *ngIf="orderVoyage.isShow" class="btn btn-success-outline pull-right"
+                      (click)="orderVoyage.isShow = !orderVoyage.isShow">Скрыть
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="orderVoyage.isShow" class="row container-fluid">
+            <hr>
+            <div>
+              <div class="col-md-2 pull-left"><strong>Имя пользователя:</strong> {{orderVoyage.userDto.name}}</div>
+              <div class="col-md-2 pull-left"><strong>Email пользователя:</strong> {{orderVoyage.userDto.email}}</div>
+              <div class="col-md-2 pull-left"><strong>Дата заезда:</strong> {{orderVoyage.date}}</div>
+              <div class="col-md-2 pull-left"><strong>Количество билетов:</strong> {{+orderVoyage.countOfOrder}}</div>
+              <div class="col-md-1 pull-left"><strong>Тип билета:</strong> {{orderVoyage.ticket.type}}</div>
+              <div class="col-md-1 pull-left"><strong>Цена 1 билета:</strong>
+                {{orderVoyage.ticket.price | currency: 'BYN'}}
+              </div>
+              <div class="col-md-2 pull-left"><strong>Общая стоимость:</strong> {{+orderVoyage.ticket.price * +orderVoyage.countOfOrder | currency: 'BYN'}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+
+    <nav *ngIf="orderVoyages.length !== 0;" aria-label="Page navigation example" class="text-center">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" [ngClass]="{'noclick': startIndex === 0}" (click)="minPage()">Предыдущая</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" [ngClass]="{'noclick': endIndex === orderVoyages.length}" (click)="plusPage()">Следующая</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

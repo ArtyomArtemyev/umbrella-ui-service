@@ -18,6 +18,7 @@ import {SearchPipe} from '../shared/search.pipe';
 import {UserOrdersComponent} from './user-orders/user-orders.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ReviewsComponent } from './reviews/reviews.component';
+import { TicketsComponent } from './tickets/tickets.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { ReviewsComponent } from './reviews/reviews.component';
     SearchPipe,
     UserOrdersComponent,
     OrdersComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    TicketsComponent
   ]
 })
 export class SystemModule {

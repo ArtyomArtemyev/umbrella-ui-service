@@ -16,6 +16,7 @@ export class OrderVoyage {
     public token?: Token,
     public id?: string,
     public isShow?: boolean,
+    public status?: string
   ) {
   }
 }
