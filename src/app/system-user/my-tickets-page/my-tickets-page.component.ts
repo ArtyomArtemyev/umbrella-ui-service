@@ -12,6 +12,9 @@ import {Token} from '../../shared/models/token.model';
 export class MyTicketsPageComponent implements OnInit, OnDestroy {
   sub1: Subscription;
   orderVoyages: OrderVoyage[] = [];
+  showOrderVoyages: OrderVoyage[] = [];
+  private startIndex = 0;
+  private endIndex = 0;
 
   constructor(private ticketService: TicketService) {
   }
@@ -22,6 +25,13 @@ export class MyTicketsPageComponent implements OnInit, OnDestroy {
       .subscribe((response: OrderVoyage[]) => {
         response.map(c => c.isShow = false);
         this.orderVoyages = response;
+        if (+this.orderVoyages.length <= 5) {
+          this.endIndex = +this.orderVoyages.length;
+          this.showOrderVoyages = this.orderVoyages.slice(this.startIndex, this.endIndex);
+        } else {
+          this.endIndex = 5;
+          this.showOrderVoyages = this.orderVoyages.slice(this.startIndex, this.endIndex);
+        }
       });
   }
 
@@ -29,6 +39,24 @@ export class MyTicketsPageComponent implements OnInit, OnDestroy {
     if (this.sub1) {
       this.sub1.unsubscribe();
     }
+  }
+
+  plusPage() {
+    if (this.endIndex + 4 > +this.orderVoyages.length) {
+      this.startIndex = this.endIndex;
+      this.endIndex = +this.orderVoyages.length;
+      this.showOrderVoyages = this.orderVoyages.slice(this.startIndex, this.endIndex);
+    } else {
+      this.startIndex = this.endIndex;
+      this.endIndex = this.endIndex + 5;
+      this.showOrderVoyages = this.orderVoyages.slice(this.startIndex, this.endIndex);
+    }
+  }
+
+  minPage() {
+    this.endIndex = this.startIndex;
+    this.startIndex = this.startIndex - 5;
+    this.showOrderVoyages = this.orderVoyages.slice(this.startIndex, this.endIndex);
   }
 
 }

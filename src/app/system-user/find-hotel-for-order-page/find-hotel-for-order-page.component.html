@@ -1,82 +1,10 @@
-<!--<section class="section">-->
-
-  <!--<div *ngIf="hotels.length != 0" class="list-group">-->
-
-    <!--<div class="row-fluid user-row">-->
-
-      <!--<div class="span1">-->
-        <!--<img class="img-circle"-->
-             <!--src="https://hotel-aleksandria.com/uploads/img/1280x620/main_1.jpg"-->
-             <!--alt="User Pic">-->
-      <!--</div>-->
-
-      <!--<div class="span10">-->
-        <!--<strong>HotelName</strong><br>-->
-        <!--<div class="rating">-->
-          <!--<span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="span1 dropdown-user" data-for=".cyruxx">-->
-        <!--<button class="btn btn-secondary" type="button"><i class="icon-chevron-down text-muted"></i></button>-->
-      <!--</div>-->
-
-    <!--</div>-->
-
-    <!--<div class="row-fluid user-infos cyruxx">-->
-      <!--<div class="span10 offset1">-->
-        <!--<div class="panel panel-primary">-->
-          <!--<div class="panel-heading">-->
-            <!--<h3 class="panel-title">Информация об отеле</h3>-->
-          <!--</div>-->
-          <!--<div class="panel-body">-->
-            <!--<div class="row-fluid">-->
-              <!--<div class="span3">-->
-                <!--<img class="img-circle"-->
-                     <!--src="https://hotel-aleksandria.com/uploads/img/1280x620/main_1.jpg"-->
-                     <!--alt="User Pic">-->
-              <!--</div>-->
-              <!--<div class="span6">-->
-                <!--<strong>HotelName</strong><br>-->
-                <!--<table class="table table-striped">-->
-                  <!--<tbody>-->
-                  <!--<tr>-->
-                    <!--<td>User level:</td>-->
-                    <!--<td>Administrator</td>-->
-                  <!--</tr>-->
-                  <!--<tr>-->
-                    <!--<td>Registered since:</td>-->
-                    <!--<td>11/12/2013</td>-->
-                  <!--</tr>-->
-                  <!--<tr>-->
-                    <!--<td>Topics</td>-->
-                    <!--<td>15</td>-->
-                  <!--</tr>-->
-                  <!--<tr>-->
-                    <!--<td>Warnings</td>-->
-                    <!--<td>0</td>-->
-                  <!--</tr>-->
-                  <!--</tbody>-->
-                <!--</table>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="panel-footer">-->
-              <!--<button class="btn btn-primary pull-right" type="button">Выбрать отель <i class="glyphicon glyphicon-ok"></i></button>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-
-  <!--</div>-->
-
-<!--</section>-->
-
 <div
   *ngIf="isShowMessageBlock"
   #showMessageBlock
   class="alert alert-{{message.type}}"
   style="text-align: center;"
->{{message.text}}</div>
+>{{message.text}}
+</div>
 <div class="card">
   <div class="card-block">
 
@@ -106,7 +34,8 @@
             >
           </div>
           <div *ngIf="findHotelPageCityInput.invalid && findHotelPageCityInput.touched"
-               class="text-center" style="background: #c40000; color: white">Город не может быть пустым</div>
+               class="text-center" style="background: #c40000; color: white">Город не может быть пустым
+          </div>
         </div>
 
         <div class="col-md-2">
@@ -122,7 +51,8 @@
             >
           </div>
           <div *ngIf="findHotelPageDateInput.invalid && findHotelPageDateInput.touched"
-             class="text-center" style="background: #c40000; color: white">Выберите дату заезда</div>
+               class="text-center" style="background: #c40000; color: white">Выберите дату заезда
+          </div>
         </div>
 
         <div class="col-md-2">
@@ -135,10 +65,11 @@
               required
               ngModel
               #findHotelPageDateEndInput="ngModel"
-             >
+            >
           </div>
           <div *ngIf="findHotelPageDateEndInput.invalid && findHotelPageDateEndInput.touched"
-             class="text-center" style="background: #c40000; color: white">Выберите дату выезда</div>
+               class="text-center" style="background: #c40000; color: white">Выберите дату выезда
+          </div>
         </div>
 
         <div class="col-md-2">
@@ -156,20 +87,23 @@
             />
           </div>
           <div *ngIf="findHotelPageCountMenDiv.invalid && findHotelPageCountMenDiv.touched"
-             class="text-center" style="background: #c40000; color: white">Введите количество человек</div>
+               class="text-center" style="background: #c40000; color: white">Введите количество человек
+          </div>
         </div>
 
         <div class="col-md-2">
-          <div>
-            <label class="checkbox-inline checbox-switch switch-success">
-              <input
-                type="checkbox"
-                name="childBedInRoom"
-                [checked]="existChildBedInRoom"
-                (change)="existChildBedInRoom = !existChildBedInRoom"
-              />
-              <span></span>
-            </label>
+          <div class="row">
+            <div class="col-md-8 pull-right">
+              <label class="checkbox-inline checbox-switch switch-success">
+                <input
+                  type="checkbox"
+                  name="childBedInRoom"
+                  [checked]="existChildBedInRoom"
+                  (change)="existChildBedInRoom = !existChildBedInRoom"
+                />
+                <span></span>
+              </label>
+            </div>
           </div>
         </div>
 
@@ -178,35 +112,53 @@
             type="submit"
             class="btn btn-info center-block"
             [disabled]="f.invalid"
-          >Поиск</button>
-         </div>
+          >Поиск
+          </button>
+        </div>
 
-        </form>
+      </form>
 
     </div>
     <hr>
 
-    <ul *ngIf="hotelSuggestions.length !== 0" class="list-group">
-      <li *ngFor="let hotelSuggestion of hotelSuggestions" class="list-group-item">
+    <ul *ngIf="showHotelSuggestions.length !== 0" class="list-group">
+      <li *ngFor="let hotelSuggestion of showHotelSuggestions" class="list-group-item">
         <div class="container-fluid">
-          <div class="col-md-2 pull-left"><strong>Название отеля:</strong> {{ hotelSuggestion.hotel.name }}</div>
-          <div class="col-md-4 pull-left"><strong>Количество вариантов для бронирования:</strong> {{ hotelSuggestion.orderSuggestions.length }}</div>
-          <div class="col-md-6">
-            <button *ngIf="!hotelSuggestion.isShowSuggestion" class="btn btn-success-outline pull-right" (click)="hotelSuggestion.isShowSuggestion = !hotelSuggestion.isShowSuggestion">Просмотреть варианты</button>
-            <button *ngIf="hotelSuggestion.isShowSuggestion" class="btn btn-success-outline pull-right" (click)="hotelSuggestion.isShowSuggestion = !hotelSuggestion.isShowSuggestion">Скрыть варианты</button>
+          <div class="text-center col-md-3 pull-left">
+            <wfm-hotel-photo [fileUpload]='hotelSuggestion.hotel.photosIds[0]'></wfm-hotel-photo>
           </div>
+          <div class="col-md-2 pull-left"><strong>Название отеля:</strong> {{ hotelSuggestion.hotel.name }}</div>
+          <div class="col-md-3 pull-left"><strong>Количество вариантов для бронирования:</strong> {{
+            hotelSuggestion.orderSuggestions.length }}
+          </div>
+          <div class="col-md-4">
+            <button *ngIf="!hotelSuggestion.isShowSuggestion" class="btn btn-success-outline pull-right"
+                    (click)="hotelSuggestion.isShowSuggestion = !hotelSuggestion.isShowSuggestion">Просмотреть варианты
+            </button>
+            <button *ngIf="hotelSuggestion.isShowSuggestion" class="btn btn-success-outline pull-right"
+                    (click)="hotelSuggestion.isShowSuggestion = !hotelSuggestion.isShowSuggestion">Скрыть варианты
+            </button>
+          </div>
+          <hr>
           <hr>
           <ul *ngIf="hotelSuggestion.isShowSuggestion">
             <li *ngFor="let orderSuggestion of hotelSuggestion.orderSuggestions" class="list-group-item">
               <div class="container-fluid">
-                <div class="col-md-4 pull-left"><strong>Тип номера:</strong> {{ orderSuggestion.typeRoom.typeRoomName }}</div>
+                <div class="col-md-4 pull-left"><strong>Тип номера:</strong> {{ orderSuggestion.typeRoom.typeRoomName }}
+                </div>
                 <div class="col-md-4 pull-left"><strong>Общая стоимость:</strong> {{orderSuggestion.fullPrice}}</div>
                 <div class="col-md-3">
-                  <button class="btn btn-primary pull-right" (click)="createOrder(hotelSuggestion, orderSuggestion);">Забронировать</button>
+                  <button class="btn btn-primary pull-right" (click)="createOrder(hotelSuggestion, orderSuggestion);">
+                    Забронировать
+                  </button>
                 </div>
                 <div class="col-md-1">
-                  <button *ngIf="!orderSuggestion.isShow" class="btn btn-success-outline pull-left" (click)="orderSuggestion.isShow = !orderSuggestion.isShow">Подробнее</button>
-                  <button  *ngIf="orderSuggestion.isShow" class="btn btn-success-outline pull-left" (click)="orderSuggestion.isShow = !orderSuggestion.isShow">Скрыть</button>
+                  <button *ngIf="!orderSuggestion.isShow" class="btn btn-success-outline pull-left"
+                          (click)="orderSuggestion.isShow = !orderSuggestion.isShow">Подробнее
+                  </button>
+                  <button *ngIf="orderSuggestion.isShow" class="btn btn-success-outline pull-left"
+                          (click)="orderSuggestion.isShow = !orderSuggestion.isShow">Скрыть
+                  </button>
                 </div>
                 <div *ngIf="orderSuggestion.isShow">
                   <hr>
@@ -225,7 +177,7 @@
                       <td class="text-center">
                         {{orderSuggestion.typeRoom.typeOfMainBed}}
                       </td>
-                      <td class="text-center" >
+                      <td class="text-center">
                         <label class="checkbox-inline checbox-switch switch-success">
                           <input
                             disabled
@@ -281,26 +233,16 @@
       </li>
     </ul>
 
+    <nav *ngIf="hotelSuggestions.length !== 0" aria-label="Page navigation example" class="text-center">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" [ngClass]="{'noclick': startIndex === 0}" (click)="minPage()">Предыдущая</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" [ngClass]="{'noclick': endIndex === hotelSuggestions.length}" (click)="plusPage()">Следующая</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>
 
-<!--<div class="row">-->
-<!--<div *ngFor="let nameService of hotel.servicesPrices" class="col-md-1 text-center">-->
-<!--{{nameService.service}}-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div *ngFor="let nameServicePrice of hotel.servicesPrices" class="col-md-1 text-center">-->
-<!--<input class="form-control text-center" [(ngModel)]="nameServicePrice.price"/>-->
-<!--</div>-->
-<!--</div>-->
-<!--<hr>-->
-<!--<div class="row">-->
-<!--<div>-->
-<!--<button *ngIf="hotel.isShownRooms" class="btn btn-primary pull-right" (click)="hotel.isShownRooms = ! hotel.isShownRooms">Скрыть прайс</button>-->
-<!--</div>-->
-<!--<div>-->
-<!--<button *ngIf="hotel.isShownRooms" class="btn btn-success pull-left" (click)="updateHotelPrice(hotel)" >Сохранить изменения</button>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->

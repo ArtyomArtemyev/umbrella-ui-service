@@ -1,11 +1,11 @@
-<div class="alert alert-info" style="text-align: center;">Заявки на бронирование отеля</div>
+<div class="alert alert-info" style="text-align: center; background-color: #5cb85c; border-color: #5cb85c;">Заявки на билеты</div>
 <div class="card">
   <div *ngIf="orderVoyages.length === 0;" class="card-block">
-    <div class="row text-center">Нет заявок на бронирование</div>
+    <div class="row text-center">Нет заявок на билеты</div>
   </div>
   <div *ngIf="orderVoyages.length !== 0;" class="card-block">
     <ul class="list-group list-group-flush">
-      <li *ngFor="let orderVoyage of orderVoyages" class="list-group-item"
+      <li *ngFor="let orderVoyage of showOrderVoyages" class="list-group-item"
           [ngClass]="orderVoyage.voyage.typeOfTransport === 'Air' ? 'list-group-item-success' : 'list-group-item'">
         <div class="row">
           <div class="container-fluid">
@@ -42,5 +42,17 @@
         </div>
       </li>
     </ul>
+
+
+    <nav *ngIf="orderVoyages.length !== 0;" aria-label="Page navigation example" class="text-center">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" [ngClass]="{'noclick': startIndex === 0}" (click)="minPage()">Предыдущая</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" [ngClass]="{'noclick': endIndex === orderVoyages.length}" (click)="plusPage()">Следующая</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>

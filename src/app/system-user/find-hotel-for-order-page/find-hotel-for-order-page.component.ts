@@ -11,6 +11,7 @@ import {Token} from '../../shared/models/token.model';
 import {Order} from '../../shared/models/order.model';
 import {OrderService} from '../../shared/services/order.service';
 import {Router} from '@angular/router';
+import {UploadFileService} from '../../shared/services/upload-file.service';
 
 @Component({
   selector: 'wfm-find-hotel-for-order-page',
@@ -25,14 +26,17 @@ export class FindHotelForOrderPageComponent implements OnInit, OnDestroy {
   isShowMessageBlock: boolean;
   hotels: Hotel [] = [];
   hotelSuggestions: HotelSuggestion [] = [];
+  showHotelSuggestions: HotelSuggestion [] = [];
   startDate: Date = new Date();
   endDate: Date = new Date();
   countOfMan: number;
+  private startIndex = 0;
+  private endIndex = 0;
 
   @ViewChild('showMessageBlock') showMessageBlock: ElementRef;
   existChildBedInRoom: boolean;
 
-  constructor(private hotelService: HotelsService, private orderService: OrderService, private router: Router) {
+  constructor(private hotelService: HotelsService, private orderService: OrderService, private router: Router, private uploadService: UploadFileService) {
   }
 
   ngOnInit() {
@@ -41,7 +45,6 @@ export class FindHotelForOrderPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form);
     const {childBedInRoom, findHotelPageCityInput, findHotelPageCountMenDiv, findHotelPageDateEndInput, findHotelPageDateInput} = form.value;
     if (findHotelPageCountMenDiv <= 0) {
       this.showMessage(new Message('danger', 'Количество человек не может быть меньше нуля или равным нулю'));
@@ -58,7 +61,13 @@ export class FindHotelForOrderPageComponent implements OnInit, OnDestroy {
             this.startDate = findHotelPageDateInput;
             this.endDate = findHotelPageDateEndInput;
             this.countOfMan = findHotelPageCountMenDiv;
-            console.log(this.hotelSuggestions);
+            if (+this.hotelSuggestions.length <= 5) {
+              this.endIndex = +this.hotelSuggestions.length;
+              this.showHotelSuggestions = this.hotelSuggestions.slice(this.startIndex, this.endIndex);
+            } else {
+              this.endIndex = 5;
+              this.showHotelSuggestions = this.hotelSuggestions.slice(this.startIndex, this.endIndex);
+            }
           });
       }
     }
@@ -95,5 +104,23 @@ export class FindHotelForOrderPageComponent implements OnInit, OnDestroy {
         }, 2000);
       }
     });
+  }
+
+  plusPage() {
+    if (this.endIndex + 4 > +this.hotelSuggestions.length) {
+      this.startIndex = this.endIndex;
+      this.endIndex = +this.hotelSuggestions.length;
+      this.showHotelSuggestions = this.hotelSuggestions.slice(this.startIndex, this.endIndex);
+    } else {
+      this.startIndex = this.endIndex;
+      this.endIndex = this.endIndex + 5;
+      this.showHotelSuggestions = this.hotelSuggestions.slice(this.startIndex, this.endIndex);
+    }
+  }
+
+  minPage() {
+    this.endIndex = this.startIndex;
+    this.startIndex = this.startIndex - 5;
+    this.showHotelSuggestions = this.hotelSuggestions.slice(this.startIndex, this.endIndex);
   }
 }

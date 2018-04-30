@@ -7,6 +7,7 @@ import {User} from '../../shared/models/user.model';
 import {Ticket} from '../../shared/models/ticket.model';
 import {OrderVoyage} from '../../shared/models/order-voyage.model';
 import {Token} from '../../shared/models/token.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'wfm-find-tickets-page',
@@ -25,8 +26,10 @@ export class FindTicketsPageComponent implements OnInit {
   user: User;
   showTicket: Ticket = new Ticket(null, null, null);
   date: Date;
+  showNoFind: boolean;
 
-  constructor(private ticketService: TicketService) { }
+  constructor(private ticketService: TicketService, private router: Router) {
+  }
 
   ngOnInit() {
     this.user = JSON.parse(window.localStorage.getItem('user'));
@@ -38,6 +41,7 @@ export class FindTicketsPageComponent implements OnInit {
     this.typesOfTrainTickets.push('Плацкартный');
     this.typesOfTrainTickets.push('Купейный');
     this.typesOfTrainTickets.push('Вагон СВ');
+    this.showNoFind = false;
   }
 
   private showMessage(message: Message) {
@@ -69,10 +73,14 @@ export class FindTicketsPageComponent implements OnInit {
         const findTicket = new FindTicketModel(this.typeOfTranspoartSelector.nativeElement.value, f.value.fromWhenceInput, f.value.whereToInput, f.value.dateOfVoyage, +f.value.countOfTicket);
         this.ticketService.getTicketsForVoyuage(findTicket)
           .subscribe((response: Voyage []) => {
-            for (let i = 0; i < response.length; i++) {
-              response[i].isShowSuggestion = false;
+            if (response.length === 0) {
+              this.showNoFind = true;
+            } else {
+              for (let i = 0; i < response.length; i++) {
+                response[i].isShowSuggestion = false;
+              }
+              this.voyageSuggestions = response;
             }
-            this.voyageSuggestions = response;
           });
       }
     }
@@ -85,10 +93,10 @@ export class FindTicketsPageComponent implements OnInit {
 
   addOrderVoyage(voyageSuggestion: Voyage, showTicket: Ticket, value: string, value2: string, value3: string) {
     const token: Token = new Token(JSON.parse(window.localStorage.getItem('Bearer')));
-    const newOrderVoyage = new OrderVoyage(this.user, showTicket,  voyageSuggestion, this.date, value, value2, +value3, token);
+    const newOrderVoyage = new OrderVoyage(this.user, showTicket, voyageSuggestion, this.date, value, value2, +value3, token);
     this.ticketService.createOrderVoyage(newOrderVoyage).subscribe((response: any) => {
       this.showMessage(new Message('success', 'Успешное оформление заявки на бронирование билета'));
-      //redirect
+      this.router.navigate(['/system-user', 'my-tickets']);
     });
   }
 }
@@ -100,5 +108,6 @@ class FindTicketModel {
     public whereTo: string,
     public dateOfVoyage: Date,
     public countOfTicket: number
-  ) {}
+  ) {
+  }
 }

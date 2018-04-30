@@ -12,6 +12,9 @@ import {Token} from '../../shared/models/token.model';
 export class OrdersPageComponent implements OnInit, OnDestroy {
   sub1: Subscription;
   orders: Order [] = [];
+  showOrders: Order [] = [];
+  private startIndex = 0;
+  private endIndex = 0;
 
   constructor(private orderService: OrderService) {
   }
@@ -22,6 +25,13 @@ export class OrdersPageComponent implements OnInit, OnDestroy {
       .subscribe((userOrdersResponse: Order[]) => {
         userOrdersResponse.map(c => c.isShownAdditionalInformation = false);
         this.orders = userOrdersResponse;
+        if (+this.orders.length <= 5) {
+          this.endIndex = +this.orders.length;
+          this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
+        } else {
+          this.endIndex = 5;
+          this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
+        }
       });
   }
 
@@ -29,6 +39,24 @@ export class OrdersPageComponent implements OnInit, OnDestroy {
     if (this.sub1) {
       this.sub1.unsubscribe();
     }
+  }
+
+  plusPage() {
+    if (this.endIndex + 4 > +this.orders.length) {
+      this.startIndex = this.endIndex;
+      this.endIndex = +this.orders.length;
+      this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
+    } else {
+      this.startIndex = this.endIndex;
+      this.endIndex = this.endIndex + 5;
+      this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
+    }
+  }
+
+  minPage() {
+    this.endIndex = this.startIndex;
+    this.startIndex = this.startIndex - 5;
+    this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
   }
 
 }

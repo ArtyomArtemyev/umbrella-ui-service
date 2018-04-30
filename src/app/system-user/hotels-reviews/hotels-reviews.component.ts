@@ -2,7 +2,6 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {HotelReviews} from '../../shared/models/hotel-review.model';
 import {HotelsService} from '../../shared/services/hotels.service';
 import {Subscription} from 'rxjs/Subscription';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'wfm-hotels-reviews',
@@ -25,7 +24,6 @@ export class HotelsReviewsComponent implements OnInit, OnDestroy {
       .subscribe((response: HotelReviews []) => {
         response.map(c => c.isShowReviews = false);
         this.hotelReviews = response;
-        console.log(+this.hotelReviews.length);
         if (+this.hotelReviews.length <= 5) {
           this.endIndex = +this.hotelReviews.length;
           this.showHotelReviews = this.hotelReviews.slice(this.startIndex, this.endIndex);
@@ -43,15 +41,15 @@ export class HotelsReviewsComponent implements OnInit, OnDestroy {
   }
 
   plusPage() {
-      if (this.endIndex + 4 > +this.hotelReviews.length) {
-        this.startIndex = this.endIndex;
-        this.endIndex = +this.hotelReviews.length;
-        this.showHotelReviews = this.hotelReviews.slice(this.startIndex, this.endIndex);
-      } else {
-        this.startIndex = this.endIndex;
-        this.endIndex = this.endIndex + 5;
-        this.showHotelReviews = this.hotelReviews.slice(this.startIndex, this.endIndex);
-      }
+    if (this.endIndex + 4 > +this.hotelReviews.length) {
+      this.startIndex = this.endIndex;
+      this.endIndex = +this.hotelReviews.length;
+      this.showHotelReviews = this.hotelReviews.slice(this.startIndex, this.endIndex);
+    } else {
+      this.startIndex = this.endIndex;
+      this.endIndex = this.endIndex + 5;
+      this.showHotelReviews = this.hotelReviews.slice(this.startIndex, this.endIndex);
+    }
   }
 
   minPage() {

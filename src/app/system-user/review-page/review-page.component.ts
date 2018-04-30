@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {User} from '../../shared/models/user.model';
 import {Review} from '../../shared/models/review.model';
 import {Token} from '../../shared/models/token.model';
+import {Message} from '../../shared/models/message.models';
 
 @Component({
   selector: 'wfm-review-page',
@@ -21,11 +22,16 @@ export class ReviewPageComponent implements OnInit, OnDestroy {
   sub3: Subscription;
   @ViewChild('review') review: ElementRef;
   user: User;
+  message: Message;
+  isShowMessageBlock: boolean;
+  showNoFind: boolean;
 
   constructor(private hotelService: HotelsService) {
   }
 
   ngOnInit() {
+    this.isShowMessageBlock = false;
+    this.showNoFind = false;
   }
 
   setTypeOfFind() {
@@ -33,19 +39,30 @@ export class ReviewPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
+    if (this.showNoFind) {
+      this.showNoFind = false;
+    }
     if (this.typeOfFindSelector.nativeElement.value === 'HotelName') {
       this.sub1 = this.hotelService.findHotelsByHotelName(form.value)
         .subscribe((response: Hotel []) => {
-          response.map(c => c.isShownAddInformation = false);
-          this.hotels = [];
-          this.hotels = response;
+          if (response.length === 0) {
+            this.showNoFind = true;
+          } else {
+            response.map(c => c.isShownAddInformation = false);
+            this.hotels = [];
+            this.hotels = response;
+          }
         });
     } else {
       this.sub2 = this.hotelService.findHotelsByLocation(form.value)
         .subscribe((response: Hotel []) => {
-          response.map(c => c.isShownAddInformation = false);
-          this.hotels = [];
-          this.hotels = response;
+          if (response.length === 0) {
+            this.showNoFind = true;
+          } else {
+            response.map(c => c.isShownAddInformation = false);
+            this.hotels = [];
+            this.hotels = response;
+          }
         });
     }
   }
@@ -68,7 +85,19 @@ export class ReviewPageComponent implements OnInit, OnDestroy {
     const userReview: Review = new Review(this.user, hotel, this.review.nativeElement.value, new Date(), token);
     this.sub3 = this.hotelService.addReview(userReview)
       .subscribe((response: any) => {
-
+        this.showMessage(new Message('success', 'Успешное добавление отзыва'));
       });
   }
+
+  private showMessage(message: Message) {
+    this.isShowMessageBlock = true;
+    this.message = message;
+
+    window.setTimeout(() => {
+      this.isShowMessageBlock = false;
+      this.message.text = '';
+    }, 3000);
+  }
+
 }
+
