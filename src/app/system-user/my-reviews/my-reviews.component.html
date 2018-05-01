@@ -1,0 +1,73 @@
+<div
+  *ngIf="isShowMessageBlock"
+  #showMessageBlock
+  class="alert alert-{{message.type}}"
+  style="text-align: center;"
+>{{message.text}}
+</div>
+<div class="alert alert-info" style="text-align: center;">Отзывы об отелях</div>
+<div class="card">
+  <div *ngIf="reviews.length === 0;" class="card-block">
+    <div class="row text-center">Нет отзывов</div>
+  </div>
+  <div *ngIf="reviews.length !== 0;" class="card-block">
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let hotelReview of showReviews" class="list-group-item">
+        <div class="row">
+
+          <div class="container-fluid">
+            <div class="text-center col-md-2 pull-left">
+              <wfm-hotel-photo [fileUpload]='hotelReview.hotel.photosIds[0]'></wfm-hotel-photo>
+            </div>
+            <div class="col-md-2 pull-left"><strong>Название отеля:</strong> {{hotelReview.hotel.name }}</div>
+            <div class="col-md-2 pull-left"><strong>Город:</strong> {{ hotelReview.hotel.city }}</div>
+            <div class="col-md-2 pull-left"><strong>Дата:</strong> {{ hotelReview.date }}
+            </div>
+            <div class="col-md-4">
+              <button *ngIf="!hotelReview.isShowReviews" class="btn btn-success-outline pull-right"
+                      (click)="hotelReview.isShowReviews = !hotelReview.isShowReviews"
+                      [disabled]="hotelReview.isShowReviews">Просмотреть отзыв
+
+              </button>
+              <button *ngIf="hotelReview.isShowReviews" class="btn btn-success-outline pull-right"
+                      (click)="hotelReview.isShowReviews  = !hotelReview.isShowReviews"
+                      [disabled]="!hotelReview.isShowReviews">Скрыть
+              </button>
+            </div>
+
+            <hr>
+
+            <div *ngIf="hotelReview.isShowReviews" class="panel-group">
+
+              <hr>
+              <div class="row">
+                <div class="container-fluid panel-heading col-md-12">
+                  <div class="form-control"> {{hotelReview.comment}}</div>
+                </div>
+                <div class="col-md-12">
+                  <button class="btn btn-danger pull-right" (click)="deleteReview(showReviews, hotelReview)">Удалить
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </li>
+    </ul>
+
+    <nav aria-label="Page navigation example" class="text-center">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" [ngClass]="{'noclick': startIndex === 0}" (click)="minPage()">Предыдущая</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" [ngClass]="{'noclick': endIndex === reviews.length}"
+             (click)="plusPage()">Следующая</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

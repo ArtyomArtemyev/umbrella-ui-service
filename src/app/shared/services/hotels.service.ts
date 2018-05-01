@@ -6,6 +6,7 @@ import {FindHotel} from '../../system/shared/models/find-hotel.model';
 import {HotelSuggestion} from '../../system-user/shared/models/hotel-suggestion.model';
 import {Review} from '../models/review.model';
 import {HotelReviews} from '../models/hotel-review.model';
+import {Token} from '../models/token.model';
 
 @Injectable()
 export class HotelsService {
@@ -58,5 +59,10 @@ export class HotelsService {
 
   deleteReview(review: Review) {
     return this.http.delete(`http://localhost:9094/api/v1/reviews/${review.id}`);
+  }
+
+  getUserReviews(token: Token): Observable<Review []> {
+    return this.http.post('http://localhost:9094/api/v1/reviews/by-user', token)
+      .map((response: Response) => response.json());
   }
 }

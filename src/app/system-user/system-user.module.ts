@@ -14,6 +14,7 @@ import { MyTicketsPageComponent } from './my-tickets-page/my-tickets-page.compon
 import { ReviewPageComponent } from './review-page/review-page.component';
 import { HotelsReviewsComponent } from './hotels-reviews/hotels-reviews.component';
 import { HotelPhotoComponent } from './find-hotel-for-order-page/hotel-photo/hotel-photo.component';
+import { MyReviewsComponent } from './my-reviews/my-reviews.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { HotelPhotoComponent } from './find-hotel-for-order-page/hotel-photo/hot
     MyTicketsPageComponent,
     ReviewPageComponent,
     HotelsReviewsComponent,
-    HotelPhotoComponent
+    HotelPhotoComponent,
+    MyReviewsComponent
   ]
 })
 export class SystemUserModule {

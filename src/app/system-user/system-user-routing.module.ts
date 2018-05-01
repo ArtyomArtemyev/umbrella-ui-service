@@ -9,6 +9,7 @@ import {FindTicketsPageComponent} from './find-tickets-page/find-tickets-page.co
 import {MyTicketsPageComponent} from './my-tickets-page/my-tickets-page.component';
 import {ReviewPageComponent} from './review-page/review-page.component';
 import {HotelsReviewsComponent} from './hotels-reviews/hotels-reviews.component';
+import {MyReviewsComponent} from './my-reviews/my-reviews.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
       {path: 'tickets', component: FindTicketsPageComponent},
       {path: 'my-tickets', component: MyTicketsPageComponent},
       {path: 'reviews', component: ReviewPageComponent},
+      {path: 'my-reviews', component: MyReviewsComponent},
       {path: 'hotels-reviews', component: HotelsReviewsComponent}
     ]
   }

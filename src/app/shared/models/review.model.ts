@@ -9,7 +9,8 @@ export class Review {
     public review: string,
     public date: Date,
     public token?: Token,
-    public id?: string
+    public id?: string,
+    public isShowReviews?: boolean
   ) {
   }
 }
