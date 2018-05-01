@@ -27,7 +27,8 @@
             </div>
             <div class="col-md-2 pull-right">
               <button class="btn btn-success-outline pull-left"
-                      (click)="updateOrderVoyageStatus(orderVoyage)">Обработать
+                      (click)="updateOrderVoyageStatus(orderVoyage)"
+                      *ngIf="orderVoyage.status !== 'Обработана'">Обработать
               </button>
               <button *ngIf="!orderVoyage.isShow" class="btn btn-success-outline pull-right"
                       (click)="orderVoyage.isShow = !orderVoyage.isShow">Подробнее

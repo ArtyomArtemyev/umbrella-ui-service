@@ -48,10 +48,10 @@ export class UserOrdersComponent implements OnInit, OnDestroy {
   updateStatusToDone(order: Order) {
     const token: Token = new Token(JSON.parse(window.localStorage.getItem('Bearer')));
     order.token = token;
+    order.status = 'Обработана';
     this.sub2 = this.orderService.updateOrder(order, order.id)
       .subscribe((response: any) => {
         this.showMessage(new Message('success', 'Изменения сохранены'));
-        order.status = 'Обработана';
         order.isShownAdditionalInformation = !order.isShownAdditionalInformation;
       });
   }

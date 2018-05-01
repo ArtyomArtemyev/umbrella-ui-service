@@ -12,6 +12,7 @@ import {Message} from '../../shared/models/message.models';
 })
 export class OrdersComponent implements OnInit, OnDestroy {
   sub1: Subscription;
+  sub2: Subscription;
   message: Message;
   isShowMessageBlock: boolean;
   orders: Order[] = [];
@@ -43,6 +44,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
     if (this.sub1) {
       this.sub1.unsubscribe();
     }
+    if (this.sub2) {
+      this.sub2.unsubscribe();
+    }
   }
 
   private showMessage(message: Message) {
@@ -58,7 +62,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
   changeCriteria(field: string) {
     const namesMap = {
       countOfMan: 'Количество человек',
-      city: 'Город'
+      city: 'Город',
+      id: 'Номер'
     };
     this.searchPlaceholder = namesMap[field];
     this.searchField = field;
@@ -80,6 +85,18 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.endIndex = this.startIndex;
     this.startIndex = this.startIndex - 5;
     this.showOrders = this.orders.slice(this.startIndex, this.endIndex);
+  }
+
+  updateStatusToDone(order: Order) {
+    console.log(order);
+    const token: Token = new Token(JSON.parse(window.localStorage.getItem('Bearer')));
+    order.token = token;
+    order.status = 'Обработана';
+    this.sub2 = this.orderService.updateOrder(order, order.id)
+      .subscribe((response: any) => {
+        this.showMessage(new Message('success', 'Изменения сохранены'));
+        order.isShownAdditionalInformation = !order.isShownAdditionalInformation;
+      });
   }
 
 }
