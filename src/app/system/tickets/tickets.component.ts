@@ -64,10 +64,10 @@ export class TicketsComponent implements OnInit, OnDestroy {
   }
 
   updateOrderVoyageStatus(orderVoyage: OrderVoyage) {
+    orderVoyage.status = 'Обработана';
     this.sub2 = this.ticketService.changeStatus(orderVoyage)
       .subscribe((response: any) => {
         this.showMessage(new Message('success', 'Изменения сохранены'));
-        orderVoyage.status = 'Обработана';
       });
   }
 

@@ -34,4 +34,9 @@ export class OrderService {
     return this.http.put(`http://localhost:9094/api/v1/orders/${id}`, order);
   }
 
+  getOrderById(id: string): Observable<Order []> {
+    return this.http.get(`http://localhost:9094/api/v1/orders/${id}`)
+      .map((response: Response) => response.json());
+  }
+
 }

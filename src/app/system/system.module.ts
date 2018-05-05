@@ -19,6 +19,7 @@ import {UserOrdersComponent} from './user-orders/user-orders.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ReviewsComponent } from './reviews/reviews.component';
 import { TicketsComponent } from './tickets/tickets.component';
+import { FindOrderComponent } from './find-order/find-order.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { TicketsComponent } from './tickets/tickets.component';
     UserOrdersComponent,
     OrdersComponent,
     ReviewsComponent,
-    TicketsComponent
+    TicketsComponent,
+    FindOrderComponent
   ]
 })
 export class SystemModule {

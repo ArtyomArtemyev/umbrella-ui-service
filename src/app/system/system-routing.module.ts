@@ -10,6 +10,7 @@ import {UserOrdersComponent} from './user-orders/user-orders.component';
 import {OrdersComponent} from './orders/orders.component';
 import {ReviewsComponent} from './reviews/reviews.component';
 import {TicketsComponent} from './tickets/tickets.component';
+import {FindOrderComponent} from './find-order/find-order.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
       {path: 'user-orders', component: UserOrdersComponent},
       {path: 'process-orders', component: OrdersComponent},
       {path: 'reviews', component: ReviewsComponent},
-      {path: 'tickets', component: TicketsComponent}
+      {path: 'tickets', component: TicketsComponent},
+      {path: 'find-order', component: FindOrderComponent}
     ]
   }
 ];

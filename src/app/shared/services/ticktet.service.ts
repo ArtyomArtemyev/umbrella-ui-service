@@ -34,4 +34,9 @@ export class TicketService {
     return this.http.put(`http://localhost:9096/api/v1/voyages/${orderVoyage.id}/done`, orderVoyage)
       .map((response: Response) => response.json());
   }
+
+  getTicktetById(value: any): Observable<OrderVoyage []> {
+    return this.http.get(`http://localhost:9096/api/v1/voyages/${value}`)
+      .map((response: Response) => response.json());
+  }
 }

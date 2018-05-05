@@ -1,0 +1,170 @@
+<div
+  *ngIf="isShowMessageBlock"
+  #showMessageBlock
+  class="alert alert-{{message.type}}"
+  style="text-align: center;"
+>{{message.text}}
+</div>
+<div class="alert alert-info" style="text-align: center;">Поиск заявки по номеру</div>
+<div class="card">
+  <div class="card-block ">
+
+    <div class="row">
+      <div class="text-center col-md-2"><strong>Тип заявки</strong></div>
+      <div class="text-center col-md-2"><strong>Номер заявки</strong></div>
+    </div>
+    <hr>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+      <div class="row">
+
+        <div class="col-md-2">
+          <select
+            #typeOfFindSelector
+            class="form-control"
+            id="typeOfFind"
+            (change)="setTypeOfFind()"
+          >
+            <option disabled>Выберите тип заявки</option>
+            <option value="findOrder">
+              Бронирование отеля
+            </option>
+            <option value="findTicket">
+              Бронирование билета
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <div>
+            <input
+              class="form-control"
+              type="text"
+              name="valueForFind"
+              id="valueForFindInput"
+              required
+              ngModel
+              #valueForFindInput="ngModel"
+              placeholder="Введите критерий"
+            >
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <button
+            type="submit"
+            class="btn btn-info center-block pull-left"
+            [disabled]="f.invalid"
+          >Поиск
+          </button>
+        </div>
+
+      </div>
+
+    </form>
+    <hr>
+
+    <div *ngIf="(order || orderVoyage) && !showNoFind" class="card-block">
+
+      <ul *ngIf="order" class="list-group list-group-flush">
+        <li
+          [ngClass]="order.status === 'В ожидании обработки' ? 'list-group-item' : 'list-group-item list-group-item-success'">
+          <div class="container-fluid">
+            <div class="col-md-2 pull-left"><strong>Название отеля:</strong> {{ order.hotel.name }}</div>
+            <div class="col-md-2 pull-left"><strong>Город:</strong> {{ order.city }}</div>
+            <div class="col-md-2 pull-left"><strong>Имя пользователя: </strong> {{ order.user.name}}</div>
+            <div class="col-md-3 pull-left"><strong>Статус заявки: </strong> {{ order.status}}</div>
+            <div class="col-md-3">
+              <button *ngIf="!order.isShownAdditionalInformation" class="btn btn-success-outline pull-right"
+                      (click)="order.isShownAdditionalInformation = !order.isShownAdditionalInformation">Подробнее
+              </button>
+              <button *ngIf="order.isShownAdditionalInformation" class="btn btn-success-outline pull-right"
+                      (click)="order.isShownAdditionalInformation = !order.isShownAdditionalInformation">Скрыть
+              </button>
+            </div>
+            <hr>
+            <div class="row" *ngIf="order.isShownAdditionalInformation">
+              <hr>
+              <div class="col-md-1 pull-left"><strong>Дата заезда:</strong> {{order.startDate}}</div>
+              <div class="col-md-1 pull-left"><strong>Дата выезда:</strong> {{order.endDate}}</div>
+              <div class="col-md-2 pull-left"><strong>Количество человек:</strong> {{order.countOfMan}}</div>
+              <div class="col-md-2 pull-left"><strong>Тип номера:</strong>
+                {{order.orderSuggestion.typeRoom.typeRoomName}}
+              </div>
+              <div class="col-md-2 pull-left"><strong>Стоимость за день:</strong> {{order.orderSuggestion.priceForDay }}
+              </div>
+              <div class="col-md-2 pull-left"><strong>Общая стоимость:</strong> {{order.orderSuggestion.fullPrice}}
+              </div>
+              <button *ngIf="order.status === 'В ожидании обработки'" class="btn btn-primary pull-right"
+                      (click)="updateStatusToDone(order)">Обработать
+              </button>
+              <button *ngIf="order.status === 'Обработана'" class="btn btn-primary pull-right"
+                      (click)="order.status = 'В ожидании обработки'; order.isShownAdditionalInformation = !order.isShownAdditionalInformation;">
+                Перевести в ожидание
+              </button>
+            </div>
+
+          </div>
+        </li>
+      </ul>
+
+      <div *ngIf="orderVoyage" class="card-block">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"
+              [ngClass]="orderVoyage.voyage.typeOfTransport === 'Air' ? 'list-group-item-success' : 'list-group-item'">
+            <div class="row">
+              <div class="container-fluid">
+                <div class="col-md-2 pull-left" *ngIf="orderVoyage.voyage.typeOfTransport === 'Air'"><strong>Тип
+                  транспорта</strong> <i class="fa fa-plane"></i></div>
+                <div class="col-md-2 pull-left" *ngIf="orderVoyage.voyage.typeOfTransport === 'Train'"><strong>Тип
+                  транспорта</strong><i class="fa fa-train"></i></div>
+                <div class="col-md-3 pull-left"><strong>Из </strong>{{orderVoyage.voyage.fromWhence}} в {{
+                  orderVoyage.voyage.whereTo}}
+                </div>
+                <div class="col-md-2 pull-left"><strong>Статус </strong>{{orderVoyage.status}}
+                </div>
+                <div class="col-md-2 pull-right">
+                  <button class="btn btn-success-outline pull-left"
+                          (click)="updateOrderVoyageStatus(orderVoyage)"
+                          *ngIf="orderVoyage.status !== 'Обработана'">Обработать
+                  </button>
+                  <button *ngIf="!orderVoyage.isShow" class="btn btn-success-outline pull-right"
+                          (click)="orderVoyage.isShow = !orderVoyage.isShow">Подробнее
+                  </button>
+                  <button *ngIf="orderVoyage.isShow" class="btn btn-success-outline pull-right"
+                          (click)="orderVoyage.isShow = !orderVoyage.isShow">Скрыть
+                  </button>
+                </div>
+              </div>
+
+              <div *ngIf="orderVoyage.isShow" class="row container-fluid">
+                <hr>
+                <div>
+                  <div class="col-md-2 pull-left"><strong>Имя пользователя:</strong> {{orderVoyage.userDto.name}}</div>
+                  <div class="col-md-2 pull-left"><strong>Email пользователя:</strong> {{orderVoyage.userDto.email}}
+                  </div>
+                  <div class="col-md-2 pull-left"><strong>Дата заезда:</strong> {{orderVoyage.date}}</div>
+                  <div class="col-md-2 pull-left"><strong>Количество билетов:</strong> {{+orderVoyage.countOfOrder}}
+                  </div>
+                  <div class="col-md-1 pull-left"><strong>Тип билета:</strong> {{orderVoyage.ticket.type}}</div>
+                  <div class="col-md-1 pull-left"><strong>Цена 1 билета:</strong>
+                    {{orderVoyage.ticket.price | currency: 'BYN'}}
+                  </div>
+                  <div class="col-md-2 pull-left"><strong>Общая стоимость:</strong> {{+orderVoyage.ticket.price *
+                    +orderVoyage.countOfOrder | currency: 'BYN'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div *ngIf="showNoFind" class="card-block">
+      <div class="row text-center">Ничего не найдено</div>
+    </div>
+
+  </div>
+</div>
