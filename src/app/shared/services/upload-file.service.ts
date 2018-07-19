@@ -5,7 +5,8 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class UploadFileService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
     let formdata: FormData = new FormData();

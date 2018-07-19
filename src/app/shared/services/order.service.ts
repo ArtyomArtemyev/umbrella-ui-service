@@ -1,33 +1,31 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
+import {Http, Response} from '@angular/http';
 import {Order} from '../models/order.model';
 import {Token} from '../models/token.model';
 import {Observable} from 'rxjs/Observable';
-import {Hotel} from '../../system/shared/models/hotel.model';
+import {BaseApi} from '../core/base-api';
 
 @Injectable()
-export class OrderService {
-  constructor(private http: Http) {
+export class OrderService extends BaseApi {
+
+  constructor(public http: Http) {
+    super(http, 'http://localhost:9094/api/v1/');
   }
 
   createOrder(order: Order, token: Token): Observable<Order> {
-    return this.http.post('http://localhost:9094/api/v1/orders', order)
-      .map((response: Response) => response.json());
+    return this.post('orders', order);
   }
 
   getUserOrder(token: Token): Observable<Order[]> {
-    return this.http.post('http://localhost:9094/api/v1/orders/user', token)
-      .map((response: Response) => response.json());
+    return this.post('orders/user', token);
   }
 
   getAllUserOrders(): Observable<Order[]> {
-    return this.http.get('http://localhost:9094/api/v1/orders')
-      .map((response: Response) => response.json());
+    return this.get('orders');
   }
 
   getAllUnprocessedUserOrders(): Observable<Order[]> {
-    return this.http.get('http://localhost:9094/api/v1/orders/unprocessed')
-      .map((response: Response) => response.json());
+    return this.get('orders/unprocessed');
   }
 
   updateOrder(order: Order, id: number): Observable<any> {
